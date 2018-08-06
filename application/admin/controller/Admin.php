@@ -10,9 +10,9 @@ class Admin extends Controller
 {
     public function index()
     {
-        $AdminList = AdminModel::select();
+        $AdminList = AdminModel::paginate(5);
         $this->assign("adminlist",$AdminList);
-        
+
         return $this->fetch();
     }
 

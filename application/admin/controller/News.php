@@ -4,14 +4,46 @@ use think\Controller;
 use think\Db;
 use \think\Request;
 use \app\admin\model\Addonarticle; //查表addonarticle
-use \app\admin\model\Archives; //查表archives
-use \app\admin\model\Admin; //查表admin
+use \app\admin\model\Arctype; //查表Arctype
+use \app\admin\model\Archives; //查表Archives
 #use think\facede\Env;
+
 
 class News extends Controller
 {
-    public function index()
+    
+    //显示首页
+    public function company()
     {
+        $Company = Addonarticle::alias('a')
+                                ->join('sh_archives s','a.aid = s.id')
+                                ->join('sh_arctype t','a.typeid = t.id')
+                                ->order('senddate','desc')
+                                ->where('a.typeid','12')
+                                ->select();
+        $count = count($Company);
+        $this->assign("count",$count);
+        $this->assign("company",$Company);
+        return $this->fetch();
+    }
+
+
+    //展示新闻详情
+    public function article($id)
+    {
+        // $news = Addonarticle::alias('a')
+        //                         ->field(array('a.typeid'=>'atypeid'))
+        //                         ->join('sh_archives s','a.aid = s.id')
+        //                         ->join('sh_arctype t','a.typeid = t.id')
+        //                         ->where('a.aid',$id)
+        //                         ->find();
+        $news = Addonarticle::view('sh_addonarticle','typeid,body')
+                                ->view('sh_archives','*','sh_addonarticle.aid=sh_archives.id')
+                                ->view('sh_arctype','typename','sh_addonarticle.typeid = sh_arctype.id')
+                                ->where('sh_addonarticle.aid',$id)
+                                ->find();
+        $this->assign("news",$news);
         
+        return $this->fetch();
     }
 }
