@@ -32,7 +32,9 @@ class News extends Controller
 
     //增加一条新闻
     public function add(){
+        $weight = (Archives::max('weight'))+1;
         $arcatt = Arcatt::select();
+        $this->assign("weight",$weight);
         $this->assign("arcatt",$arcatt);
         return $this->fetch();
     }
@@ -47,26 +49,34 @@ class News extends Controller
         //         "$k"=>$v
         //     }
         // }
-        $res = Archives::insert([
-            
-                            'title'=>input('post.title'),
-                            'flag'=>implode(",",input('post.flag')),
-                            'weight'=>input('post.weight'),
-                            'click'=>input('post.click'),
-                            'keywords'=>input('post.keywords'),
-                            'description'=>input('post.description'),
-                            'writer'=>input('post.writer'),
-                            'source'=>input('post.source'),
-                            'litpic'=>input('post.litpic')
-                            ]);
+        if(input('post.flag')){
+            $flag = implode(",",input('post.flag'));
+        }else{
+            $flag = '';
+        }
+        $res = Archives::strict(false)->insertGetId([
+                                            'title'=>input('post.title'),
+                                            'flag'=>$flag,
+                                            'weight'=>input('post.weight'),
+                                            'click'=>input('post.click'),
+                                            'keywords'=>input('post.keywords'),
+                                            'description'=>input('post.description'),
+                                            'writer'=>input('post.writer'),
+                                            'source'=>input('post.source'),
+                                            'litpic'=>input('post.litpic'),
+                                            'senddate'=>time(),
+                                            'filename'=>input('post.filename'),
+                                            'typeid'=>"12"
+                                            ]);
         $res1 = Addonarticle::insert([
+                                'aid'=>$res,
                                 'body'=>input('post.editorValue'),
-                                'typeid'=>"12"
+                                
                             ]);
         if($res!=0 && $res1!=0){
-            return '修改成功！';
+            return '添加成功！';
         }else{
-            return '修改失败！您未修改任何项目';
+            return '添加失败！';
         }
     }
     //展示新闻详情
