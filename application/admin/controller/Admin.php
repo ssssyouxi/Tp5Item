@@ -15,6 +15,8 @@ class Admin extends Controller
 
         return $this->fetch();
     }
-
-    
+    public function _empty(){
+        header("HTTP/1.0 404 Not Found");
+        $this -> display("admin:404");
+    }
 }

@@ -80,12 +80,12 @@ class News extends Controller
         }
     }
     //展示新闻详情
-    public function article($id)
+    public function article(Request $request)
     {
         $news = Addonarticle::view('sh_addonarticle','typeid,body')
                                 ->view('sh_archives','*','sh_addonarticle.aid=sh_archives.id')
                                 ->view('sh_arctype','typename','sh_addonarticle.typeid = sh_arctype.id')
-                                ->where('sh_addonarticle.aid',$id)
+                                ->where('sh_addonarticle.aid',input('get.id'))
                                 ->find();
         $type = Arctype::view('Arctype','id,reid,topid,typename')->select()->toArray();
         $arcatt = Arcatt::select();
