@@ -1,0 +1,64 @@
+<!--_meta 公共模版-->
+{include file="/common/_meta" /} 
+<!--/meta 公共模版-->
+
+<title>新增文章 - 资讯管理 - H-ui.admin v3.0</title>
+<meta name="keywords" content="H-ui.admin v3.0,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+<meta name="description" content="H-ui.admin v3.0，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+</head>
+<body>
+<article class="page-container">
+	<form class="form form-horizontal" id="form-article-add" action="http://127.0.0.1:8000/admin/category/addcate/" method="post">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类名称：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="请填写分类名称" id="" name="typename">
+			</div>
+		</div>
+		<!-- 这里需要循环显示flag -->
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>移动到哪个栏目下：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<input type="hidden" id="sele" value="{$wxj}">
+				<select name="reid" class="select">
+					<option value="请选择">请选择</option>
+					{$wxj}
+				</select>
+				</span> </div>
+		</div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+				<button class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 提交</button>
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版-->
+{include file="/common/_footer" /} 
+<!--/_footer /作为公共模版-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="/lib/jquery.validation/1.14.0/messages_zh.js"></script>   
+<script type="text/javascript" src="/lib/webuploader/0.1.5/webuploader.min.js"></script> 
+<script>
+	$(".select").append($("#sele").val());
+</script>
+<!-- <script>
+	$(function(){
+		var options = {
+			success:function(res){
+				
+			}
+		}
+		$("#form-article-add").submit(function(){
+			$(this).ajaxSubmit(options);
+		})
+	})
+</script> -->
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

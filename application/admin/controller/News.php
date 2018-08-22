@@ -14,23 +14,42 @@ use \app\admin\model\Arcatt; //查表Arcatt
 
 class News extends Controller
 {
-    
+    public function index(){
+        $type = Arctype::view('Arctype','id,reid,topid,typename')->select()->toArray();
+        $this->assign('type',$type);
+        return $this->fetch();
+    }
     //显示首页
-    public function company()
+    public function artlist()
     {
-        $Company = Addonarticle::alias('a')
-                                ->join('sh_archives s','a.aid = s.id')
-                                ->join('sh_arctype t','a.typeid = t.id')
-                                ->order('s.sortrank','desc')
-                                ->where(['a.typeid'=>'12','delete_time'=>null])
-                                ->select();
-        $count = count($Company);
+        // $artlist = Addonarticle::alias('a')
+        //                         ->join('sh_archives s','a.aid = s.id')
+        //                         ->join('sh_arctype t','a.typeid = t.id')
+        //                         ->order('s.sortrank','desc')
+        //                         ->where(['a.typeid'=>input('get.id'),'delete_time'=>null])
+        //                         ->select();
+        $channeltype = Db::name("arctype")
+                            ->field("channeltype")
+                            ->where("id",input("get.id"))
+                            ->find();
+        $addtable = Db::name("channeltype")
+                            ->field("addtable")
+                            ->where("id",$channeltype['channeltype'])
+                            ->find();
+        $artlist = Db::table($addtable['addtable'])
+                        ->alias('a')
+                        ->join('sh_archives s','a.aid = s.id')
+                        ->join('sh_arctype t','a.typeid = t.id')
+                        ->order('s.sortrank','desc')
+                        ->where(['a.typeid'=>input('get.id'),'delete_time'=>null])
+                        ->select();
+        $count = count($artlist);
         $this->assign("count",$count);
-        $this->assign("company",$Company);
+        $this->assign("artlist",$artlist);
         return $this->fetch();
     }
 
-    //增加一条新闻
+    //增加新闻-新文档
     public function add(){
         $weight = (Archives::max('weight'))+1;
         $arcatt = Arcatt::select();
@@ -38,6 +57,7 @@ class News extends Controller
         $this->assign("arcatt",$arcatt);
         return $this->fetch();
     }
+    //增加新闻-接收
     public function addNews(Request $request){
         if($request ==''){
             return "未接收到任何数据！";
@@ -66,7 +86,7 @@ class News extends Controller
                                             'litpic'=>input('post.litpic'),
                                             'senddate'=>time(),
                                             'filename'=>input('post.filename'),
-                                            'typeid'=>"12"
+                                            'typeid'=>input('post.typeid')
                                             ]);
         $res1 = Addonarticle::insert([
                                 'aid'=>$res,
@@ -82,11 +102,22 @@ class News extends Controller
     //展示新闻详情
     public function article(Request $request)
     {
-        $news = Addonarticle::view('sh_addonarticle','typeid,body')
-                                ->view('sh_archives','*','sh_addonarticle.aid=sh_archives.id')
-                                ->view('sh_arctype','typename','sh_addonarticle.typeid = sh_arctype.id')
-                                ->where('sh_addonarticle.aid',input('get.id'))
+        // $news = Addonarticle::view('sh_addonarticle','typeid,body')
+        //                         ->view('sh_archives','*','sh_addonarticle.aid=sh_archives.id')
+        //                         ->view('sh_arctype','typename','sh_addonarticle.typeid = sh_arctype.id')
+        //                         ->where('sh_addonarticle.aid',input('get.id'))
+        //                         ->find();
+        $channel = Db::name("archives")->field("channel")->where("id",input("get.id"))->find();
+        $addtable = Db::name("channeltype")->field("addtable")->where("id",$channel['channel'])->find();
+        $news = Db::table($addtable['addtable'])
+                                ->alias('a')
+                                ->view($addtable['addtable'],'typeid,body')
+                                ->view('sh_archives','*','a.aid=sh_archives.id')
+                                ->view('sh_arctype','typename','a.typeid = sh_arctype.id')
+                                ->where("a.aid",input('get.id'))
                                 ->find();
+
+
         $type = Arctype::view('Arctype','id,reid,topid,typename')->select()->toArray();
         $arcatt = Arcatt::select();
         
@@ -95,10 +126,37 @@ class News extends Controller
         // dump($arcatt[4]['att']);
         // dump($news['flag']);
         // dump((strpos( $news['flag'],$arcatt[4]['att'])) !== false ? true : false);
+        $list = $this->getTree($type);
+        $wxj= '';
+        foreach($list as $value){
+            $select = $news['typeid'] == $value['id']? 'selected': '';
+            $wxj.= "<option value='".$value['id']."'".$select.">".str_repeat('——', $value['level']).$value['typename']."</option>";
+        }
         $this->assign("arcatt",$arcatt);
-        $this->assign("type",$type);
+        $this->assign("wxj",html_entity_decode($wxj));
         $this->assign("news",$news);
         return $this->fetch();
+        
+    }
+    function getTree($array, $reid =0, $level = 0){
+
+        //声明静态数组,避免递归调用时,多次声明导致数组覆盖
+        static $list = [];
+        foreach ($array as $key => $value){
+            //第一次遍历,找到父节点为根节点的节点 也就是pid=0的节点
+            if ($value['reid'] == $reid){
+                //父节点为根节点的节点,级别为0，也就是第一级
+                $value['level'] = $level;
+                //把数组放到list中
+                $list[] = $value;
+                //把这个节点从数组中移除,减少后续递归消耗
+                unset($array[$key]);
+                //开始递归,查找父ID为该节点ID的节点,级别则为原级别+1
+                $this->getTree($array, $value['id'], $level+1);
+
+            }
+        }
+        return $list;
     }
     // private function getCate($arr){
     //     $arr_top = [];
@@ -143,6 +201,7 @@ class News extends Controller
                         ->update([
                             'title'=>input('post.title'),
                             'flag'=>implode(",",input('post.flag')),
+                            'typeid'=>input('post.typeid'),
                             'weight'=>input('post.weight'),
                             'click'=>input('post.click'),
                             'keywords'=>input('post.keywords'),

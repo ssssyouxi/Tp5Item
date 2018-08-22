@@ -43,7 +43,7 @@ Class login extends Controller{
                 Cache::set('check',$arr[$str],3600*24*10);
             }
             session("userid",input("post.userid"));
-            return $this->redirect('/admin/index');
+            $this->success('登陆成功，即将进入管理首页', '/admin/index');
         }else{
             $this->error('账号/密码错误，请重新登录');
         }
