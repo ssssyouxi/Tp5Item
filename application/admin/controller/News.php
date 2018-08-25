@@ -85,6 +85,7 @@ class News extends Controller
                                             'source'=>input('post.source'),
                                             'litpic'=>input('post.litpic'),
                                             'senddate'=>time(),
+                                            'pubtime'=>time(),
                                             'filename'=>input('post.filename'),
                                             'typeid'=>input('post.typeid')
                                             ]);
@@ -208,7 +209,8 @@ class News extends Controller
                             'description'=>input('post.description'),
                             'writer'=>input('post.writer'),
                             'source'=>input('post.source'),
-                            'litpic'=>input('post.litpic')
+                            'litpic'=>input('post.litpic'),
+                            'pubtime'=>time()
                             ]);
         $res1 = Addonarticle::where('aid',input('post.id'))
                             ->update([

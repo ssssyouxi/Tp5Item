@@ -5,81 +5,61 @@
 <title>新闻管理 - 企业新闻 - H-ui.admin v3.0</title>
 <meta name="keywords" content="H-ui.admin v3.0,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
 <meta name="description" content="H-ui.admin v3.0，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
-<style>
-#nnnnn .Hui-article-box,#nnnnn .Hui-article{
-	position: static;
 
-}
-</style>
 </head>
 
 <body id="nnnnn">
+<!--_header 公共模版-->
+{include file="/common/_header" /} 
+<!--/_header 公共模版-->
 
+<!--_menu 公共模版-->
+{include file="/common/_menu" /} 
+<!--/_menu 公共模版-->
 	<section class="Hui-article-box">
-		
+		<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+			<span class="c-gray en">&gt;</span>
+			管理员管理
+			<span class="c-gray en">&gt;</span>
+			管理员列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a> </nav>
 		<div class="Hui-article">
-			<article class="cl ">
-				<!-- <div class="text-c">
-					<span class="select-box inline">
-						<select name="" class="select">
-							<option value="0">全部分类</option>
-							<option value="1">分类一</option>
-							<option value="2">分类二</option>
-						</select>
-					</span>
-					<input type="text" name="" id="" placeholder=" 资讯名称" style="width:250px" class="input-text">
-					<button name="" id="" class="btn btn-success" type="submit">
-						<i class="Hui-iconfont">&#xe665;</i> 搜资讯</button>
-				</div> -->
+			<article class="cl pd-20">
+
 				<div class="cl pd-5 bg-1 bk-gray">
 					<span class="l">
-						<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
-							<i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
+						
 						<a class="btn btn-primary radius" data-title="添加资讯" _href="article-add.html" onclick="article_add('添加资讯','article-add.html')"
 						    href="javascript:;">
 							<i class="Hui-iconfont">&#xe600;</i> 添加文档</a>
 					</span>
-					<span class="r">共有数据：
-						<strong>{$count}</strong> 条</span>
 				</div>
 				<div class="mt-20">
 					<table class="table table-border table-bordered table-bg table-hover table-sort">
 						<thead>
 							<tr class="text-c">
-								<th width="25">
-									<input type="checkbox" name="" value="">
-								</th>
-								<th width="80">ID</th>
-								<th>标题</th>
-								<th width="80">分类</th>
-								<th width="80">作者</th>
-								<th width="120">更新时间</th>
-								<th width="75">浏览次数</th>
-								
+								<th width="80">id号</th>
+								<th width="120">频道名称</th>
+								<th width="80">识别id</th>
+								<th width="80">附加表</th>								
 								<th width="120">操作</th>
 							</tr>
 						</thead>
 						<tbody>
-							{volist name="artlist" id="list"}
+							{volist name="channeltype" id="channel"}
 							<tr class="text-c">
-								<td>
-									<input type="checkbox" value="{$list.aid}" name="list[]">
+								<td>{$channel.id}</td>
+								<td >
+									<u style="cursor:pointer" class="text-primary" onClick="article_edit('查看','article.html?id={$channel.id}')" title="查看">{$channel.typename}</u>
 								</td>
-								<td>{$list.aid}</td>
-								<td class="text-l">
-									<u style="cursor:pointer" class="text-primary" onClick="article_edit('查看','article.html?id={$list.aid}')" title="查看">{$list.title}</u>
-								</td>
-								<td>{$list.typename}</td>
-								<td>{$list.writer}</td>
-								<td>{$list.senddate|date="Y:m:d H:i:s"}</td>
-								<td>{$list.click}</td>
+								<td>{$channel.nid}</td>
+								<td>{$channel.addtable}</td>
 								
 								<td class="f-14 td-manage">
-									<a style="text-decoration:none" class="ml-5" onClick="article_edit('查看','article.html?id={$list.aid}')" href="javascript:;"
+									<a style="text-decoration:none" class="ml-5" onClick="article_edit('查看','article.html?id={$channel.id}')" href="javascript:;"
 									    title="编辑">
 										<i class="Hui-iconfont">&#xe6df;</i>
 									</a>
-									<a style="text-decoration:none" class="ml-5" onClick="article_del(this,'{$list.aid}')" href="javascript:;" title="删除">
+									<a style="text-decoration:none" class="ml-5" onClick="article_del(this,'{$channel.id}')" href="javascript:;" title="删除">
 										<i class="Hui-iconfont">&#xe6e2;</i>
 									</a>
 								</td>
@@ -111,7 +91,7 @@
 				//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
 				{
 					"orderable": false,
-					"aTargets": [0, 7]
+					"aTargets": [ 4]
 				} // 不参与排序的列
 			]
 		});
