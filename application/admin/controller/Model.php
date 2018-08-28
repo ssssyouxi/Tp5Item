@@ -22,6 +22,7 @@ class Model extends Controller
         $arr = explode("\n",$res['fieldset']);
         dump($arr);
         $res_arr = [];
+        $list=$this->type();
         foreach ($arr as $key => $value) {
             preg_match('/<field:(\w+)\s.*itemname="(\S+)"\s.*type="(\S+)"/i',$value,$r);
             // dump($r);
@@ -29,8 +30,10 @@ class Model extends Controller
                 $res_arr[] = [
                     'field'=>$r[1],
                     'itemname'=>$r[2],
-                    'type'=>$r[3]
+                    'type'=>$r[3],
+                    'list'=>$list
                 ];
+                // $res_arr['list'] = $list;
             }
         }
         
@@ -68,5 +71,23 @@ class Model extends Controller
                 $this->error("修改失败");
             }
         }
+    }
+    public function type(){
+        return [
+            'htmltext',
+            'text',
+            'imgfile',
+            'multitext',
+            'number',
+            'img',
+            'addon',
+            'float',
+            'stepselect',
+            'datetime',
+            'int',
+            'softlinks',
+            'checkbox',
+            'textdata'
+        ];
     }
 }
