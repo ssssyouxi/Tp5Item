@@ -16,10 +16,10 @@ class Index extends Controller
 
         
         $ArtCount = Addonarticle::where('typeid','>',11)->count('aid'); //文章总数
-        $todayArt =  Archives::whereBetweenTime('pubdate','today')->count(); //今日文章
-        $yesterdayArt =  Archives::whereBetweenTime('pubdate','yesterday')->count(); //昨日文章
-        $weekArt =  Archives::whereBetweenTime('pubdate','week')->count(); //本周文章
-        $monthArt =  Archives::whereBetweenTime('pubdate','month')->count(); //本月文章
+        $todayArt =  Archives::whereTime('pubdate','today')->count(); //今日文章
+        $yesterdayArt =  Archives::whereTime('pubdate','yesterday')->count(); //昨日文章
+        $weekArt =  Archives::whereTime('pubdate','week')->count(); //本周文章
+        $monthArt =  Archives::whereTime('pubdate','month')->count(); //本月文章
         
         $ProCount = Addonarticle::where('typeid','<=',11)->count('aid'); //产品总数
 
