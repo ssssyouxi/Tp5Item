@@ -42,13 +42,8 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类栏目：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select name="" class="select">
-					
-					<option value="0">全部栏目</option>
-					<option value="1">新闻资讯</option>
-					<option value="11">├行业动态</option>
-					<option value="12">├行业资讯</option>
-					<option value="13">├行业新闻</option>
+				<select name="typeid" class="select">
+					{$wxj|raw}
 				</select>
 				</span> </div>
 		</div>
@@ -115,6 +110,7 @@
 			</div>
 			<input type="hidden" id="editValue" name="body" value=""/>
 		</div>
+		{$res|raw}
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">自定义文件名：</label>
 			<div class="formControls col-xs-8 col-sm-9"> 

@@ -19,56 +19,26 @@ class News extends Controller
         $this->assign('type',$type);
         return $this->fetch();
     }
+    public function listall(){
+        $artlist = Db::name("archives")
+                            ->alias('a')
+                            ->field('a.id,title,typeid,writer,senddate,click')
+                            ->join('sh_arctype t',' t.id = a.typeid')
+                            ->field('typename')
+                            ->order('a.id','desc')
+                            ->where(['delete_time'=>null])
+                            ->paginate(10);
+        $count = $artlist->total();
+        $this->assign("count",$count);
+        $this->assign("artlist",$artlist);
+        return $this->fetch();
+    }
     //显示首页
     public function artlist()
     {
-        if(input('get.id')==-1){
-            $artlist =[];
-            $a = Db::name("channeltype")->field('addtable')->where('id','neq','-1')->select();
-            // foreach($a as $k=>$v){
-            //     $channeltype = Db::name("arctype")
-            //                 ->field("channeltype")
-            //                 ->where("id",$v['id'])
-            //                 ->find();
-            //     dump($channeltype);
-            //     $addtable = Db::name("channeltype")
-            //                 ->field("addtable")
-            //                 ->where("id",$channeltype['channeltype'])
-            //                 ->find();
-               
-            //     $arr= Db::table($addtable['addtable'])
-            //                 ->field('aid')
-            //                 ->alias('a')
-            //                 ->join('sh_archives s','a.aid = s.id')
-            //                 ->field('title,writer,senddate,click')
-            //                 ->join('sh_arctype t','a.typeid = t.id')
-            //                 ->field('typename')
-            //                 ->order('s.sortrank','desc')
-            //                 ->where(['a.typeid'=>$v['id'],'delete_time'=>null])
-            //                 ->select();
-            //     dump($addtable['addtable']);
-            //     dump($arr);
-            //     $artlist =array_merge($artlist,$arr);
-            // }
-            foreach($a as $k => $v){
-                $arr = Db::table($v['addtable'])
-                            ->field('aid')
-                            ->alias('a')
-                            ->join('sh_archives s','a.aid = s.id')
-                            ->field('s.title,writer,s.senddate,s.click')
-                            ->join('sh_arctype t','a.typeid = t.id')
-                            ->field('typename')
-                            ->order('s.sortrank','desc')
-                            ->where(['delete_time'=>null])
-                            ->select();
-                            dump($arr);
-                $artlist =array_merge($artlist,$arr);
-            }
-        }else{
-
-        
+   
         $channeltype = Db::name("arctype")
-                            ->field("channeltype")
+                            ->field("typename,channeltype")
                             ->where("id",input("get.id"))
                             ->find();
         $addtable = Db::name("channeltype")
@@ -82,26 +52,87 @@ class News extends Controller
                         ->field('title,writer,senddate,click')
                         ->join('sh_arctype t','a.typeid = t.id')
                         ->field('typename')
-                        ->order('s.sortrank','desc')
+                        ->order('s.id','desc')
                         ->where(['a.typeid'=>input('get.id'),'delete_time'=>null])
-                        ->select();
-        }
-        $count = count($artlist);
+                        ->paginate(10,false,['query'=>['id'=>input("get.id")]]);
+
+        $count = $artlist->total();
+        $this->assign("arctype",input("get.id"));
+        $this->assign("typename",$channeltype['typename']);
         $this->assign("count",$count);
         $this->assign("artlist",$artlist);
         return $this->fetch();
     }
 
     //增加新闻-新文档
-    public function add(){
+    public function add($typeid){
         $weight = (Archives::max('weight'))+1;
         $arcatt = Arcatt::select();
+
+
+
+
+
+
+
+        $channeltype = Arctype::field("channeltype")->where("id",$typeid)->find();
+        $fieldset = Db::name("channeltype")->field("fieldset")->where("id",$channeltype["channeltype"])->find();
+
+        $arr = explode("\n",$fieldset['fieldset']);
+        $res_arr = [];
+        foreach ($arr as $key => $value) {
+            preg_match('/<field:(\w+)\s.*itemname="(\S+)"\s.*type="(\S+)"/i',$value,$r);
+            // dump($r);
+            if($r){
+                $res_arr[] = [
+                    'field'=>$r[1],
+                    'itemname'=>$r[2],
+                    'type'=>$r[3],
+                ];
+            }
+        }
+        $res = $this->gettype($res_arr);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $type = Arctype::view('Arctype','id,reid,topid,typename,channeltype')->select()->toArray();
+        $list = $this->getTree($type);
+        $wxj= '';
+        foreach($list as $value){
+            if($value['channeltype']==$channeltype["channeltype"]){
+                $select = $typeid == $value['id']? 'selected': '';
+                $wxj.= "<option value='".$value['id']."'".$select.">".str_repeat('—', $value['level']).$value['typename']."</option>";}
+        }
+        $this->assign("wxj",html_entity_decode($wxj));
+
+
+
+
+
+        $this->assign("res",$res);
         $this->assign("weight",$weight);
         $this->assign("arcatt",$arcatt);
         return $this->fetch();
     }
     //增加新闻-接收
     public function addNews(Request $request){
+        // dump(input('post.'));
+        // exit;
         if($request ==''){
             return "未接收到任何数据！";
             exit();
@@ -132,15 +163,26 @@ class News extends Controller
                                             'filename'=>input('post.filename'),
                                             'typeid'=>input('post.typeid')
                                             ]);
-        $res1 = Addonarticle::insert([
-                                'aid'=>$res,
-                                'body'=>input('post.editorValue'),
-                                
-                            ]);
+        $data = input("post.");
+        $data['aid']=$res;
+        $data['body'] = input('post.editorValue');
+
+        $channel = Db::name("arctype")
+                            ->field("channeltype")
+                            ->where("id",input('post.typeid'))
+                            ->find();
+        $table = Db::name("channeltype")
+                            ->field("addtable")
+                            ->where("id",$channel['channeltype'])
+                            ->find();
+        dump($data);
+        $res1 = Db::table($table['addtable'])
+                        ->strict(false)
+                        ->insert($data);
         if($res!=0 && $res1!=0){
-            return '添加成功！';
+            $this->success( '添加成功！');
         }else{
-            return '添加失败！';
+            $this->error( '添加失败！');
         }
     }
 
@@ -177,7 +219,7 @@ class News extends Controller
         }
         $res = $this->gettype($res_arr,$news);
         /////////////
-        $type = Arctype::view('Arctype','id,reid,topid,typename')->select()->toArray();
+        $type = Arctype::view('Arctype','id,reid,topid,typename,channeltype')->select()->toArray();
         $arcatt = Arcatt::select();
         
         // dump($type);
@@ -188,8 +230,10 @@ class News extends Controller
         $list = $this->getTree($type);
         $wxj= '';
         foreach($list as $value){
-            $select = $news['typeid'] == $value['id']? 'selected': '';
-            $wxj.= "<option value='".$value['id']."'".$select.">".str_repeat('——', $value['level']).$value['typename']."</option>";
+            if($value['channeltype'] == $news['channel']){
+                $select = $news['typeid'] == $value['id']? 'selected': '';
+                $wxj.= "<option value='".$value['id']."'".$select.">".str_repeat('—', $value['level']).$value['typename']."</option>";
+            }
         }
         $news['body'] = htmlspecialchars_decode(html_entity_decode($news['body']));
         $this->assign("arcatt",$arcatt);
@@ -295,11 +339,10 @@ class News extends Controller
     }
 
     //获得当前类型的样式
-    public function gettype($arr,$news){
+    public function gettype($arr,$news = ""){
         $res="";
-        dump($arr);
-        dump($news);
         foreach($arr as $k => $v){
+            $a = isset($news[$v['field']]) ? $news[$v['field']] : '';
             switch($v['type']){
                 case 'htmltext':
                     $res .= 
@@ -309,7 +352,7 @@ class News extends Controller
                             <div class='formControls col-xs-8 col-sm-9'> 
                                 <script id='editor_".$v['field']."' type='text/plain' name='".$v['field']."'  style='width:100%;height:400px;'></script> 
                         </div>
-                        <input type='hidden' id='".$v['field']."'  value='".$news[$v['field']]."'/>
+                        <input type='hidden' id='".$v['field']."'  value='".$a."'/>
                         </div>
                         <script>
                             var ue_".$v['field']." = UE.getEditor('editor_".$v['field']."');
@@ -324,13 +367,59 @@ class News extends Controller
                     <div class='row cl'>
 			            <label class='form-label col-xs-4 col-sm-2'>".$v['itemname']."：</label>
 			            <div class='formControls col-xs-8 col-sm-9'>
-				            <input type='text' class='input-text' value='".$news[$v['field']]."' placeholder='' id='' name='".$v['field']."'>
+				            <input type='text' class='input-text' value='".$a."' placeholder='' id='' name='".$v['field']."'>
 			            </div>
 		            </div>
                     ";
                     break;
+                case 'number':
+                    $res.=
+                    "
+                    <div class='row cl'>
+			            <label class='form-label col-xs-4 col-sm-2'>".$v['itemname']."：</label>
+			            <div class='formControls col-xs-8 col-sm-9'>
+				            <input type='text' class='input-text' value='".$a."' placeholder='' id='' name='".$v['field']."'>
+			            </div>
+		            </div>
+                    ";
+                    break;
+                //img项仅供参考
+                case 'img':
+                $res.=
+                "
+                <div class='row cl'>
+                    <label class='form-label col-xs-4 col-sm-2'>".$v['itemname']."：</label>
+                    <div class='formControls col-xs-8 col-sm-9'>
+                        <textarea  class='textarea' placeholder='说点什么...最少输入10个字符'  placeholder='' id='' name='".$v['field']."'>".$a."</textarea>
+                    </div>
+                </div>
+                ";
+                    break;
+                //以上仅供参考
+                case 'addon':
+                $res.=
+                "
+                <div class='row cl'>
+                    <label class='form-label col-xs-4 col-sm-2'>".$v['itemname']."：</label>
+                    <div class='formControls col-xs-8 col-sm-9'>
+                        <input type='text' class='input-text' value='".$a."' placeholder='' id='' name='".$v['field']."'>
+                    </div>
+                </div>
+                ";
+                    break;
+                case 'multitext':
+                $res.=
+                "
+                <div class='row cl'>
+                    <label class='form-label col-xs-4 col-sm-2'>".$v['itemname']."：</label>
+                    <div class='formControls col-xs-8 col-sm-9'>
+                        <textarea  class='textarea' placeholder='说点什么...最少输入10个字符'  placeholder='' id='' name='".$v['field']."'>".$a."</textarea>
+                    </div>
+                </div>
+                ";
+                    break;
                 default :
-                    $res.=2;
+                    $res.=$v['itemname'];
             // 'text',
             // 'imgfile',
             // 'multitext',

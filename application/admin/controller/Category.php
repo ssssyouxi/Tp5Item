@@ -96,4 +96,22 @@ class Category extends Controller
             }
         }
     }
+
+    //栏目-删除（及文章软删除）
+    public function catedel(Request $request){
+        if($request){
+            Arctype::where('id',input('post.id'))->delete();
+            $channel = Arctype::where('id',input('post.id'))->field('channeltype')->find();
+            $db = Db::name('channeltype')->where('id',$channel['channeltype'])->field('addtable')->find();
+            $res = Db::table($db['addtable'])->where('typeid',input('post.id'))->update(["delete_time"=>time()]);
+            $res1 = Arctype::where('id',input('post.id'))->delete();
+            if($res && $res1){
+                $this->success("删除成功");
+            }else{
+                $this->error("删除失败");
+            }
+        }else{
+            $this->error("删除失败");
+        }
+    }
 }

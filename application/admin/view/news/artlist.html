@@ -35,7 +35,7 @@
 					<span class="l">
 						<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
 							<i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
-						<a class="btn btn-primary radius" data-title="添加资讯" _href="article-add.html" onclick="article_add('添加资讯','article-add.html')"
+						<a class="btn btn-primary radius" data-title="添加{$typename}的文章" _href="article-add.html" onclick="article_add('添加{$typename}的文章','article-add.html')"
 						    href="javascript:;">
 							<i class="Hui-iconfont">&#xe600;</i> 添加文档</a>
 					</span>
@@ -43,7 +43,7 @@
 						<strong>{$count}</strong> 条</span>
 				</div>
 				<div class="mt-20">
-					<table class="table table-border table-bordered table-bg table-hover table-sort">
+					<table class="table table-border table-bordered table-bg table-hover">
 						<thead>
 							<tr class="text-c">
 								<th width="25">
@@ -90,6 +90,7 @@
 					</table>
 				</div>
 			</article>
+			{$artlist|raw}
 		</div>
 	</section>
 
@@ -121,7 +122,7 @@
 			var index = layer.open({
 				type: 2,
 				title: title,
-				content: 'add.html'
+				content: 'add.html?typeid={$arctype}'
 			});
 			layer.full(index);
 		}
@@ -201,6 +202,26 @@
 				})
 			}
 		}
+
+
+
+	/*分页显示*/
+	$.getJSON('test/demo1.json', {curr: 1}, function(res){ //从第6页开始请求。返回的json格式可以任意定义
+		laypage({
+			cont: 'page1', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：&lt;div id="page1">&lt;/div>
+			pages: res.pages, //通过后台拿到的总页数
+			curr: 6, //初始化当前页
+			jump: function(e){ //触发分页后的回调
+				$.getJSON('test/demo1.json', {curr: e.curr}, function(res){
+					e.pages = e.last = res.pages; //重新获取总页数，一般不用写
+					//渲染
+					var view = document.getElementById('view1'); //你也可以直接使用jquery
+					var demoContent = (new Date().getTime()/Math.random()/1000)|0; //此处仅仅是为了演示
+					view.innerHTML = res.content + demoContent; 
+				});
+			}
+		});
+	});
 	</script>
 
 	<!--/请在上方写此页面业务相关的脚本-->

@@ -52,11 +52,20 @@ class Model extends Controller
     public function updatechannel(Request $request){
         if($request){
             $data='';
-            
+            $validate = new \app\admin\validate\Model;
             for($i=0;$i<count(input("post.field"));$i++){
+                $field['field'] = input('post.field')[$i];
+                $field['itemname'] = input('post.itemname')[$i];
+                dump(input('post.field')[$i]);
+                if (!$validate->check($field)) {
+                    $this->error($validate->getError());
+               }
                 $data .="<field:".input('post.field')[$i]." itemname=\"".input('post.itemname')[$i]."\" type=\"".input('post.type')[$i]."\"> </field:".input('post.field')[$i].">\n";
             }
             dump($data);
+            
+
+            
             $res= Db::name('channeltype')
                     ->where('id',input('post.id'))
                     ->update(
