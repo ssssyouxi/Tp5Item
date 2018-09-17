@@ -143,30 +143,12 @@ class News extends Controller
         //         "$k"=>$v
         //     }
         // }
+
         if(input('post.flag')){
             $flag = implode(",",input('post.flag'));
         }else{
             $flag = '';
         }
-        $res = Archives::strict(false)->insertGetId([
-                                            'title'=>input('post.title'),
-                                            'flag'=>$flag,
-                                            'weight'=>input('post.weight'),
-                                            'click'=>input('post.click'),
-                                            'keywords'=>input('post.keywords'),
-                                            'description'=>input('post.description'),
-                                            'writer'=>input('post.writer'),
-                                            'source'=>input('post.source'),
-                                            'litpic'=>input('post.litpic'),
-                                            'senddate'=>time(),
-                                            'pubtime'=>time(),
-                                            'filename'=>input('post.filename'),
-                                            'typeid'=>input('post.typeid')
-                                            ]);
-        $data = input("post.");
-        $data['aid']=$res;
-        $data['body'] = input('post.editorValue');
-
         $channel = Db::name("arctype")
                             ->field("channeltype")
                             ->where("id",input('post.typeid'))
@@ -175,6 +157,18 @@ class News extends Controller
                             ->field("addtable")
                             ->where("id",$channel['channeltype'])
                             ->find();
+        $dat = input("post.");
+        $dat['flag'] = $flag;
+        $dat['senddate'] = time();
+        $dat['pubdate'] = time();
+        $dat['sortrank'] = time();
+        $dat['channel']=$channel['channeltype'];
+        $res = Archives::strict(false)->insertGetId(
+                                            $dat
+                                            );
+        $data = input("post.");
+        $data['aid']=$res;
+        $data['body'] = input('post.editorValue');
         dump($data);
         $res1 = Db::table($table['addtable'])
                         ->strict(false)
@@ -194,6 +188,7 @@ class News extends Controller
 
         $channel = Db::name("archives")->field("channel")->where("id",input("get.id"))->find();
         $addtable = Db::name("channeltype")->field("addtable,fieldset")->where("id",$channel['channel'])->find();
+        dump($addtable['addtable']);
         $news = Db::table($addtable['addtable'])
                                 ->alias('a')
                                 ->view($addtable['addtable'],'*')
@@ -302,10 +297,22 @@ class News extends Controller
             return "未接收到任何数据！";
             exit();
         }
+        dump(input("post."));
+
+        $flag = input('post.flag');
+        $flag1 = isset($flag) ? implode(",",$flag) : '';
+        $channel = Db::name("arctype")
+                            ->field("channeltype")
+                            ->where("id",input('post.typeid'))
+                            ->find();
+        $table = Db::name("channeltype")
+                            ->field("addtable")
+                            ->where("id",$channel['channeltype'])
+                            ->find();
         $res = Archives::where('id',input('post.id'))
                         ->update([
                             'title'=>input('post.title'),
-                            'flag'=>implode(",",input('post.flag')),
+                            'flag'=>$flag1,
                             'typeid'=>input('post.typeid'),
                             'weight'=>input('post.weight'),
                             'click'=>input('post.click'),
@@ -316,14 +323,14 @@ class News extends Controller
                             'litpic'=>input('post.litpic'),
                             'pubdate'=>time()
                             ]);
-        $res1 = Addonarticle::where('aid',input('post.id'))
-                            ->update([
-                                'body'=>input('post.aaaaa')
-                            ]);
+        $res1 = Db::table($table['addtable'])->where('aid',input('post.id'))
+                            ->strict(false)
+                            ->data(input("post."))
+                            ->update();
         if($res!=0||$res1!=0){
-            return '修改成功！';
+            $this->success("修改成功");
         }else{
-            return '修改失败！您未修改任何项目';
+            $this->error("修改失败");
         }
     }
 

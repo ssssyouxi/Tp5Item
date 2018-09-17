@@ -19,10 +19,8 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>移动到哪个栏目下：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<input type="hidden" id="sele" value="{$wxj}">
 				<select name="reid" class="select">
-					<option value="请选择">请选择</option>
-					{$wxj}
+					{$wxj|raw}
 				</select>
 				</span> </div>
 		</div>
@@ -45,7 +43,7 @@
 <script type="text/javascript" src="/lib/jquery.validation/1.14.0/messages_zh.js"></script>   
 <script type="text/javascript" src="/lib/webuploader/0.1.5/webuploader.min.js"></script> 
 <script>
-	$(".select").append($("#sele").val());
+	// $(".select").append($("#sele").val());
 </script>
 <!-- <script>
 	$(function(){
