@@ -10,6 +10,10 @@
 	position: static;
 
 }
+.spanKey{
+	color:red;
+	font-weight: bold;
+	}
 </style>
 </head>
 
@@ -67,10 +71,10 @@
 								</td>
 								<td>{$list.id}</td>
 								<td class="text-l">
-									<u style="cursor:pointer" class="text-primary" onClick="article_edit('查看','article.html?id={$list.id}')" title="查看">{$list.title}</u>
+									<u style="cursor:pointer" class="text-primary" onClick="article_edit('查看','article.html?id={$list.id}')" title="查看">{$list.title|raw}</u>
 								</td>
-								<td>{$list.typename}</td>
-								<td>{$list.writer}</td>
+								<td>{$list.typename|raw}</td>
+								<td>{$list.writer|raw}</td>
 								<td>{$list.senddate|date="Y:m:d H:i:s"}</td>
 								<td>{$list.click}</td>
 								
@@ -122,7 +126,7 @@
 			var index = layer.open({
 				type: 2,
 				title: title,
-				content: 'add.html'
+				content: 'add.html?typeid=0&channel=1'
 			});
 			layer.full(index);
 		}
@@ -207,6 +211,18 @@
 
 
 
+//javascript代码
+// $("u").each(function(){
+// var repStr=$(this).html().replace(/{$kw}/i,"<span class='spanKey'>{$kw}</span>");
+// $(this).html(repStr);
+// });
+$("u").each(function(){
+	var str = $(this).html();
+		var keywords = "{$kw}";
+        var reg = new RegExp(""+keywords+"","i");
+        var result = str.replace(reg,"<font style='color:#F00;font-weight:700;'>"+keywords+"</font>");
+		$(this).html(result);
+		})
 </script>
 
 	<!--/请在上方写此页面业务相关的脚本-->

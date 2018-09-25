@@ -114,73 +114,7 @@
 			});
 			layer.full(index);
 		}
-		/*资讯-单条删除*/
-		function article_del(obj, id) {
-			layer.confirm('确认要删除吗？', function (index) {
-				$.ajax({
-					type: 'POST',
-					url: 'delnews.html',
-					data: {
-						'id': id
-					},
-					success: function (data) {
-						if (data.code) {
-							$(obj).parents("tr").remove();
-							layer.msg(data.msg, {
-								icon: 1,
-								time: 1000
-							});
-						} else {
-							console.log(data.msg);
-						}
-					},
-					error: function (data) {
-						console.log(data.msg);
-					},
-				});
-			});
-		}
-		/*资讯-多条删除*/
-		function datadel(obj) {
-			var arr = [];
-			$.each($("input[name='list[]']"), function () {
-				if (this.checked) {
-					arr.push($(this).val());
-				}
-			});
-			if (arr == '') {
-				alert("请先选择要删除的项目");
-			} else {
-				layer.confirm('确认要删除选中的项目吗？', function (index) {
-					console.log(arr);
-					var operatorIDs = JSON.stringify(arr);
-					$.ajax({
-						type: 'POST',
-						url: "delNews.html",
-						data: {
-							'id': operatorIDs
-						},
-						success: function (re) {
-							console.log(re.id)
-							if (re.code) {
-								$.each($("input[name='list[]']"), function () {
-									if ($.inArray($(this).val(), re.id) >= 0) {
-										console.log($.inArray($(this).val(), re.id))
-										console.log('被删除的项为' + ($(this).val() + '，在数组' + re.id + '中；'))
-										$(this).parents("tr").remove();
-									}
-								});
-								layer.msg(re.msg, {
-									icon: 1,
-									time: 1000
-								});
-							}
-						}
-					})
-
-				})
-			}
-		}
+		
 	</script>
 
 	<!--/请在上方写此页面业务相关的脚本-->

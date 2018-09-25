@@ -84,11 +84,14 @@ function showCode(str) {
 $(document).ready(function(){
 	var t = $("#treeDemo");
 	t = $.fn.zTree.init(t, setting, zNodes);
-	demoIframe = $("#testIframe");
-	demoIframe.bind("load", loadReady);
-	var zTree = $.fn.zTree.getZTreeObj("tree");
-	zTree.selectNode(zTree.getNodeByParam("id",'11'));
+	// demoIframe = $("#testIframe");
+	// demoIframe.bind("load", loadReady);
+	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+	var a = zTree.getNodeByParam('pId',0);//这个筛选条件以后要改成判断是否只有一个pId为0的，如果有多个，则不展开
+	zTree.expandNode(a, true, false, false );
 });
+$("#menu-article dt").addClass("selected");
+$("#menu-article dd").show();
 </script>
 <!--/请在上方写此页面业务相关的脚本-->
 </body>

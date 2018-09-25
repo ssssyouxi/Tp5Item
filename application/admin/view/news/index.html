@@ -21,8 +21,12 @@
 			<table class="table">
 				<tr>
 					<td width="200" class="va-t">
-						<ul id="treeDemo" class="ztree"></ul></td>
-					<td class="va-t"><iframe ID="testIframe" Name="testIframe" FRAMEBORDER=0 SCROLLING=AUTO width=100%  height=768px SRC="about:blank"></iframe></td>
+						<a href="listall.html"  class="btn btn-primary radius" target="testIframe">所有文档</a>
+						<ul id="treeDemo" class="ztree"></ul>
+						<input type="text" class="input-text radius" id="search" placeholder="输入标题搜索"">
+						<a href="listall.html?kw=" id="Isearch" class="btn btn-secondary radius" target="testIframe">search</a>
+					</td>
+					<td class="va-t"><iframe ID="testIframe" Name="testIframe" FRAMEBORDER=0 SCROLLING=AUTO width=100%  height=768px SRC=""></iframe></td>
 				</tr>
 			</table>
 		</article>
@@ -41,7 +45,7 @@
 var setting = {
 	view: {
 		dblClickExpand: false,
-		showLine: false,
+		showLine: true,
 		selectedMulti: true,
 	},
 	data: {
@@ -52,23 +56,23 @@ var setting = {
 			rootPId: ""
 		}
 	},
-	callback: {
-		beforeClick: function(treeId, treeNode) {
-			var zTree = $.fn.zTree.getZTreeObj("tree");
-			if (treeNode.isParent) {
-				zTree.expandNode(treeNode);
-				return false;
-			} else {
-				demoIframe.attr("src",treeNode.file + ".html");
-				return true;
-			}
-		},
-	}
+	// callback: {
+	// 	beforeClick: function(treeId, treeNode) {
+	// 		var zTree = $.fn.zTree.getZTreeObj("tree");
+	// 		if (treeNode.isParent) {
+	// 			zTree.expandNode(treeNode);
+	// 			return false;
+	// 		} /*else {
+	// 			demoIframe.attr("src",treeNode.file + ".html");
+	// 			return true;
+	// 		}*/
+	// 	},
+	// }
 };
 
 var zNodes =[
 	{volist name="type" id="cate"}
-	{'id':{$cate.id}, 'pId':{$cate.reid}, 'name':"{$cate.typename}", 'url': "/admin/news/artlist.html?id={$cate.id}",  "target":"testIframe"},
+	{'id':{$cate.id}, 'pId':{$cate.reid}, 'name':"{$cate.typename|raw}", 'url': "/admin/news/artlist.html?id={$cate.id}",  "target":"testIframe"},
 	{/volist}
 ];
 
@@ -83,12 +87,24 @@ function showCode(str) {
 $(document).ready(function(){
 	var t = $("#treeDemo");
 	t = $.fn.zTree.init(t, setting, zNodes);
-	demoIframe = $("#testIframe");
-	demoIframe.bind("load", loadReady);
-	var zTree = $.fn.zTree.getZTreeObj("tree");
-	zTree.selectNode(zTree.getNodeByParam("id",'11'));
-});
+	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 
+	//获取pId为0（即顶级栏目）的节点数据JSON对象集合
+	var a = zTree.getNodesByParam('pId',0); 
+
+	//判断顶级栏目的数量是否为一个或以下
+	if(a.length <= 1){  
+
+	//一个或以下则展开顶级栏目，多个则不展开
+		zTree.expandNode(a[0], true, false, false );  
+	}
+	
+});
+$("#search").change(function(){
+	$("#Isearch").attr("href","listall.html?kw=" + $("#search").val())
+})
+$("#menu-article dt").addClass("selected");
+$("#menu-article dd").show();
 </script>
 <!--/请在上方写此页面业务相关的脚本-->
 </body>

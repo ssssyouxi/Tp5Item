@@ -99,9 +99,8 @@ class Category extends Controller
 
     //栏目-删除（及文章软删除）
     public function catedel(Request $request){
-        dump(input("post.id"));
         if($request){
-            dump(1);
+            
             $res = Archives::where('typeid',input('post.id'))->update(["delete_time"=>time()]);
             // dump(2);
             // $channel = Arctype::where('id',input('post.id'))->field('channeltype')->find();
@@ -109,9 +108,9 @@ class Category extends Controller
             // $db = Db::name('channeltype')->where('id',$channel['channeltype'])->field('addtable')->find();
             // dump(4);
             // $res = Db::table($db['addtable'])->where('typeid',input('post.id'))->update(["delete_time"=>time()]);
-            dump(5);
-            // $res1 = Arctype::where('id',input('post.id'))->delete();
-            if($res /*&& $res1*/){
+            
+            $res1 = Arctype::where('id',input('post.id'))->delete();
+            if(isset($res) && $res1){
                 return ['code'=>1,'msg'=>'删除成功！'];
             }else{
                 return ['code'=>0,'msg'=>'删除失败！'];

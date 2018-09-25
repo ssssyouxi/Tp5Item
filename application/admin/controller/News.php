@@ -20,7 +20,20 @@ class News extends Controller
         return $this->fetch();
     }
     public function listall(){
-        $artlist = Db::name("archives")
+        if(input('get.kw')){
+            $keywords = input('get.kw');
+            $artlist = Db::name("archives")
+                            ->alias('a')
+                            ->field('a.id,title,typeid,writer,senddate,click')
+                            ->join('sh_arctype t',' t.id = a.typeid')
+                            ->field('typename')
+                            ->order('a.id','desc')
+                            ->where(['delete_time'=>null])
+                            ->where('a.title','like',"%$keywords%")
+                            ->paginate(10,false,['query'=>['kw'=>input("get.kw")]]);
+                            
+        }else{
+            $artlist = Db::name("archives")
                             ->alias('a')
                             ->field('a.id,title,typeid,writer,senddate,click')
                             ->join('sh_arctype t',' t.id = a.typeid')
@@ -28,6 +41,9 @@ class News extends Controller
                             ->order('a.id','desc')
                             ->where(['delete_time'=>null])
                             ->paginate(10);
+        }
+        $keywords = isset($keywords) ? $keywords:'';
+        $this->assign("kw",$keywords);
         $count = $artlist->total();
         $this->assign("count",$count);
         $this->assign("artlist",$artlist);
@@ -36,7 +52,8 @@ class News extends Controller
     //显示首页
     public function artlist()
     {
-   
+
+        
         $channeltype = Db::name("arctype")
                             ->field("typename,channeltype")
                             ->where("id",input("get.id"))
@@ -55,27 +72,32 @@ class News extends Controller
                         ->order('s.id','desc')
                         ->where(['a.typeid'=>input('get.id'),'delete_time'=>null])
                         ->paginate(10,false,['query'=>['id'=>input("get.id")]]);
-
-        $count = $artlist->total();
         $this->assign("arctype",input("get.id"));
         $this->assign("typename",$channeltype['typename']);
+        $count = $artlist->total();
+        
+        
         $this->assign("count",$count);
         $this->assign("artlist",$artlist);
         return $this->fetch();
     }
 
     //增加新闻-新文档
-    public function add($typeid){
+    public function add($typeid,$channel=-2){
         $weight = (Archives::max('weight'))+1;
         $arcatt = Arcatt::select();
+        if($channel==-2){
+            $channeltype = Arctype::field("channeltype")->where("id",$typeid)->find();
+        }else{
+            $channeltype["channeltype"] = $channel;
+        }
 
 
 
 
 
 
-
-        $channeltype = Arctype::field("channeltype")->where("id",$typeid)->find();
+        // $channeltype = Arctype::field("channeltype")->where("id",$typeid)->find();
         $fieldset = Db::name("channeltype")->field("fieldset")->where("id",$channeltype["channeltype"])->find();
 
         $arr = explode("\n",$fieldset['fieldset']);
@@ -392,12 +414,29 @@ class News extends Controller
                     break;
                 //img项仅供参考
                 case 'img':
+                if($a){
+                    
+                    preg_match_all("/{[^}]*}([^{]*){\/[^}]*}/",$a,$r);
+                    // //preg_match("/\'}(.*){\//",$a,$r);
+                        $c = '';
+                    foreach ($r[1] as $key => $value) {
+                        $c .="<img src='".$value."' class='eximg' onclick='removeimg(this)'/><input type='text' value='".$value."' name='".$v['field']."[]' style='display:none'/>"; 
+                    }
+                    
+                    
+                }else{
+                    $c = $a;
+                }
+
                 $res.=
                 "
                 <div class='row cl'>
                     <label class='form-label col-xs-4 col-sm-2'>".$v['itemname']."：</label>
                     <div class='formControls col-xs-8 col-sm-9'>
-                        <textarea  class='textarea' placeholder='说点什么...最少输入10个字符'  placeholder='' id='' name='".$v['field']."'>".$a."</textarea>
+                        ".$c."
+                        <input type='button' value='点击上传' onclick=document.getElementById('".$v['field']."').click() />
+                        
+						<input type='file' name='".$v['field']."[]' class='".$v['field']."[]' id='".$v['field']."' style='display:none' />
                     </div>
                 </div>
                 ";
