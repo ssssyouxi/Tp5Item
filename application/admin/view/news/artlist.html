@@ -38,6 +38,7 @@
 						<a class="btn btn-primary radius" data-title="添加{$typename}的文章" _href="article-add.html" onclick="article_add('添加{$typename}的文章','article-add.html')"
 						    href="javascript:;">
 							<i class="Hui-iconfont">&#xe600;</i> 添加文档</a>
+							<a class="btn btn-success radius r" style="line-height:1.6em;margin-left:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i>刷新本页</a>
 					</span>
 					<span class="r">共有数据：
 						<strong>{$count}</strong> 条</span>
@@ -191,6 +192,7 @@
 										$(this).parents("tr").remove();
 									}
 								});
+								layer.close(index);
 								layer.msg(re.msg, {
 									icon: 1,
 									time: 1000

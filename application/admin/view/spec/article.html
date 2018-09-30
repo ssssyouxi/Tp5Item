@@ -1,0 +1,144 @@
+<!--_meta 公共模版-->
+{include file="/common/_meta" /}
+<!--/meta 公共模版-->
+
+<title>新增文章 - 资讯管理 - H-ui.admin v3.0</title>
+<meta name="keywords" content="H-ui.admin v3.0,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+<meta name="description" content="H-ui.admin v3.0，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+<script type="text/javascript" src="/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<script type="text/javascript" src="/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+</head>
+
+<body>
+	<article class="page-container">
+		<form class="form form-horizontal" id="form-article-add">
+			<div class="row cl">
+				<input type="hidden" name="id" value="{$spec.id}">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>文章标题：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" value="{$spec.title|raw}" placeholder="" id="" name="title" required>
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2">简略标题：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" value="{$spec.shorttitle|raw}" placeholder="" id="" name="shorttitle">
+				</div>
+			</div>
+			<!-- 这里需要循环显示flag -->
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2">自定义属性：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					{volist name="arcatt" id="att"}
+					<div class="check-box">
+						<input type="checkbox" value="{$att.att}" id="checkbox-{$att.sortid}" name="flag[]" {php}if
+						 (strpos($spec['flag'],$att['att']) !==false ? true : false) echo 'checked=true' ; {/php}> <label for="checkbox-{$att.sortid}">{$att.attname}</label>
+					</div>
+
+					{/volist}
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2">缩略图：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<div class="uploader-thum-container">
+						<div id="" class="uploader-list">
+							<img src="{$spec.litpic}" class="singleimg" style="width: 20%;max-width: 150px" />
+							<input type="file" name="" class="single" id="litpic" style="display:none" />
+							<button type="button" onclick="document.getElementById('litpic').click()">上传图片</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			</div>
+			<!-- <div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2">缩略图111：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<div class="uploader-thum-container">
+						<div id="" class="uploader-list">
+							<img src="{$spec.litpic}" class="singleimg" style="width: 20%;max-width: 150px" /> -->
+							<!-- 此处input的id和下面按钮里js选择的id都是数据库里的字段名 -->
+							<!-- <input type="file" name="" class="single" id="aa" style="display:none" />
+							<button type="button" onclick="document.getElementById('aa').click()">上传图片</button>
+						</div>
+					</div>
+				</div>
+			</div> -->
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2">专题模板：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" value="{$spec.templet|raw}" placeholder="" id="" name="templet">
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-sm-2">文章作者：</label>
+				<div class="formControls col-sm-4">
+					<input type="text" class="input-text" value="{$spec.writer|raw}" placeholder="" id="" name="writer">
+				</div>
+				<label class="form-label col-xs-1 ">文章来源：</label>
+				<div class="formControls col-xs-4 ">
+					<input type="text" class="input-text" value="{$spec.source|raw}" placeholder="" id="" name="source">
+				</div>
+			</div>
+
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类栏目：</label>
+				<div class="formControls col-xs-8 col-sm-4"> <span class="select-box">
+						<select name="typeid" class="select">
+							{$wxj|raw}
+						</select>
+					</span> </div>
+				<label class="form-label col-xs-1 ">点击数：</label>
+				<div class="formControls col-xs-4 ">
+					<input type="text" class="input-text" value="{$spec.click}" placeholder="" id="" name="click">
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2">关键词：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" value="{$spec.keywords|raw}" placeholder="" id="" name="keywords">(请以英文逗号“,”隔开)
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2">文章摘要：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<textarea name="description" cols="" rows="" class="textarea" placeholder="说点什么...最少输入10个字符" datatype="*10-100"
+					 dragonfly="true" nullmsg="备注不能为空！" onKeyUp="textarealength(this,200)">{$spec.description|raw}</textarea>
+				</div>
+			</div>
+
+
+
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2">自定义文件名：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" name="filename" value="{$spec.filename}">（不包括后缀名如.html等）
+				</div>
+			</div>
+			<div class="row cl">
+				<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+					<button class="btn btn-primary radius" d-type="updatespec" id="submit" type="button"><i class="Hui-iconfont">&#xe632;</i> 提交</button>
+				</div>
+			</div>
+		</form>
+	</article>
+
+	<!--_footer 作为公共模版-->
+	{include file="/common/_footer" /}
+	<!--/_footer /作为公共模版-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript" src="/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript" src="/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+	<script type="text/javascript" src="/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+	<script type="text/javascript" src="/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+	<script type="text/javascript" src="/lib/webuploader/0.1.5/webuploader.min.js"></script>
+	<script type="text/javascript" src="/js/up.js"></script>
+
+	
+	<!--/请在上方写此页面业务相关的脚本-->
+</body>
+
+</html>

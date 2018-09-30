@@ -12,7 +12,7 @@ use \app\admin\model\Arcatt; //查表Arcatt
 #use think\facede\Env;
 
 
-class News extends Controller
+class News extends Base
 {
     public function index(){
         $type = Arctype::view('Arctype','id,reid,topid,typename')->select()->toArray(); 
@@ -29,6 +29,7 @@ class News extends Controller
                             ->field('typename')
                             ->order('a.id','desc')
                             ->where(['delete_time'=>null])
+                            ->where('a.arcrank','neq','-2')
                             ->where('a.title','like',"%$keywords%")
                             ->paginate(10,false,['query'=>['kw'=>input("get.kw")]]);
                             
@@ -40,6 +41,7 @@ class News extends Controller
                             ->field('typename')
                             ->order('a.id','desc')
                             ->where(['delete_time'=>null])
+                            ->where('a.arcrank','neq','-2')
                             ->paginate(10);
         }
         $keywords = isset($keywords) ? $keywords:'';
@@ -70,7 +72,9 @@ class News extends Controller
                         ->join('sh_arctype t','a.typeid = t.id')
                         ->field('typename')
                         ->order('s.id','desc')
-                        ->where(['a.typeid'=>input('get.id'),'delete_time'=>null])
+                        ->where('a.typeid',input('get.id'))
+                        ->where('delete_time',null)
+                        ->where('s.arcrank','neq','-2')
                         ->paginate(10,false,['query'=>['id'=>input("get.id")]]);
         $this->assign("arctype",input("get.id"));
         $this->assign("typename",$channeltype['typename']);
@@ -165,12 +169,16 @@ class News extends Controller
         //         "$k"=>$v
         //     }
         // }
-
+            
         if(input('post.flag')){
             $flag = implode(",",input('post.flag'));
         }else{
             $flag = '';
         }
+        $dat = input("post.");
+        $imglist =json_decode(input('post.imglist'));
+        $dat = $this->eachimg($imglist,$dat);
+        
         $channel = Db::name("arctype")
                             ->field("channeltype")
                             ->where("id",input('post.typeid'))
@@ -179,26 +187,27 @@ class News extends Controller
                             ->field("addtable")
                             ->where("id",$channel['channeltype'])
                             ->find();
-        $dat = input("post.");
+        
         $dat['flag'] = $flag;
         $dat['senddate'] = time();
         $dat['pubdate'] = time();
         $dat['sortrank'] = time();
         $dat['channel']=$channel['channeltype'];
-        $res = Archives::strict(false)->insertGetId(
-                                            $dat
-                                            );
-        $data = input("post.");
-        $data['aid']=$res;
-        $data['body'] = input('post.editorValue');
-        dump($data);
+        $res2 = Db::name('arctiny')
+                        ->strict(false)
+                        ->insertGetId($dat);
+        $dat['aid']=$res2;
+        $dat['id']=$res2;
+        $res = Archives::strict(false)->insert($dat);
+        
+        $dat['body'] = input('post.editorValue');
         $res1 = Db::table($table['addtable'])
                         ->strict(false)
-                        ->insert($data);
+                        ->insert($dat);
         if($res!=0 && $res1!=0){
-            $this->success( '添加成功！');
+            return  ['code'=>1,'msg'=>'增加成功'];
         }else{
-            $this->error( '添加失败！');
+            return  ['code'=>0,'msg'=>'增加失败'];
         }
     }
 
@@ -252,7 +261,7 @@ class News extends Controller
                 $wxj.= "<option value='".$value['id']."'".$select.">".str_repeat('—', $value['level']).$value['typename']."</option>";
             }
         }
-        $news['body'] = htmlspecialchars_decode(html_entity_decode($news['body']));
+        $news['body'] = isset($news['body'])?htmlspecialchars_decode(html_entity_decode($news['body'])):'';
         $this->assign("arcatt",$arcatt);
         $this->assign("wxj",html_entity_decode($wxj));
         $this->assign("news",$news);
@@ -260,26 +269,7 @@ class News extends Controller
         return $this->fetch();
         
     }
-    function getTree($array, $reid =0, $level = 0){
 
-        //声明静态数组,避免递归调用时,多次声明导致数组覆盖
-        static $list = [];
-        foreach ($array as $key => $value){
-            //第一次遍历,找到父节点为根节点的节点 也就是pid=0的节点
-            if ($value['reid'] == $reid){
-                //父节点为根节点的节点,级别为0，也就是第一级
-                $value['level'] = $level;
-                //把数组放到list中
-                $list[] = $value;
-                //把这个节点从数组中移除,减少后续递归消耗
-                unset($array[$key]);
-                //开始递归,查找父ID为该节点ID的节点,级别则为原级别+1
-                $this->getTree($array, $value['id'], $level+1);
-
-            }
-        }
-        return $list;
-    }
     // private function getCate($arr){
     //     $arr_top = [];
     //     $arr_son = [];
@@ -319,10 +309,14 @@ class News extends Controller
             return "未接收到任何数据！";
             exit();
         }
-        dump(input("post."));
+        $data = input('post.');
+        $imglist =json_decode(input('post.imglist'));
 
         $flag = input('post.flag');
         $flag1 = isset($flag) ? implode(",",$flag) : '';
+        $data['flag']=$flag1;
+        $data['pubdate']=time();
+        $data = $this->eachimg($imglist,$data);
         $channel = Db::name("arctype")
                             ->field("channeltype")
                             ->where("id",input('post.typeid'))
@@ -331,44 +325,55 @@ class News extends Controller
                             ->field("addtable")
                             ->where("id",$channel['channeltype'])
                             ->find();
-        $res = Archives::where('id',input('post.id'))
-                        ->update([
-                            'title'=>input('post.title'),
-                            'flag'=>$flag1,
-                            'typeid'=>input('post.typeid'),
-                            'weight'=>input('post.weight'),
-                            'click'=>input('post.click'),
-                            'keywords'=>input('post.keywords'),
-                            'description'=>input('post.description'),
-                            'writer'=>input('post.writer'),
-                            'source'=>input('post.source'),
-                            'litpic'=>input('post.litpic'),
-                            'pubdate'=>time()
-                            ]);
-        $res1 = Db::table($table['addtable'])->where('aid',input('post.id'))
+        $res = Archives::where('id',input('post.id'))  //对于总表archives的更新
+                        ->strict(false)
+                        ->update($data);
+        $res1 = Db::table($table['addtable'])->where('aid',input('post.id')) //对于模型对应的表的更新
                             ->strict(false)
-                            ->data(input("post."))
-                            ->update();
-        if($res!=0||$res1!=0){
-            $this->success("修改成功");
+                            ->update($data);
+        $res2 = Db::name('arctiny')->where('id',input('post.id')) //对于公共表arctiny的更新
+                            ->strict(false)
+                            ->update(input("post."));
+        if($res!==false && $res1!==false && $res2!==false){
+            return  ['code'=>1,'msg'=>'修改成功'];
         }else{
-            $this->error("修改失败");
+            return  ['code'=>0,'msg'=>'修改失败'];
         }
     }
-
+    private function eachimg($arr,$data){
+        foreach($arr as $key => $value){
+            /*if(is_array($value) && array_key_exists("0",$value)!==false){
+                    $this->eachimg($value,$data); 
+            }else{*/
+                if(is_array($value)){
+                    $v = implode(",",$value);
+                    $data[$key]=$v;
+                }else{
+                    $data[$key] = $value;
+                }
+            /*}*/
+        }
+        return $data;
+    }
     //对新闻的软删除
     public function delNews($id){
         $id = json_decode($id);
+        $res1 = Archives::where(['id'=>$id])
+                        ->update(['arcrank'=>'-2']);
         $res= Archives::destroy($id);
-        if($res){
+        
+        
+        // dump(Archives::getLastSql());
+        if($res!==false && $res1 !== false){
             return ['code'=>1,'msg'=>'删除成功！','id'=>$id];
         }else{
             return ['code'=>0,'msg'=>'删除失败！'];
         }
     }
 
-    //获得当前类型的样式
-    public function gettype($arr,$news = ""){
+    //获得当前类型的样式   
+    //待移至模板引擎上
+    private function gettype($arr,$news = ""){
         $res="";
         foreach($arr as $k => $v){
             $a = isset($news[$v['field']]) ? $news[$v['field']] : '';
@@ -413,15 +418,43 @@ class News extends Controller
                     ";
                     break;
                 //img项仅供参考
+                case 'imgfile':
+                
+                $res.="
+                <div class='row cl'>
+				<label class='form-label col-xs-4 col-sm-2'>".$v['itemname']."：</label>
+				<div class='formControls col-xs-8 col-sm-9'>
+					<div class='uploader-thum-container'>
+						<div id='' class='uploader-list'>
+							
+							<img src='".$a."' alt='' >
+							
+                            <input type='file' name='".$v['field']."' class='singleimg' id='".$v['field']."' style='display:none' />
+                            <button type='button' value='上传图片' onclick=document.getElementById('".$v['field']."').click()  ></button>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+                ";
+                break;
                 case 'img':
                 if($a){
-                    
-                    preg_match_all("/{[^}]*}([^{]*){\/[^}]*}/",$a,$r);
-                    // //preg_match("/\'}(.*){\//",$a,$r);
+                    if(stristr($a,"dede:")){
+                        preg_match_all("/{[^}]*}([^{]*){\/[^}]*}/",$a,$r);
+                        //preg_match("/\'}(.*){\//",$a,$r);
                         $c = '';
-                    foreach ($r[1] as $key => $value) {
-                        $c .="<img src='".$value."' class='eximg' onclick='removeimg(this)'/><input type='text' value='".$value."' name='".$v['field']."[]' style='display:none'/>"; 
+                        foreach ($r[1] as $key => $value) {
+                            $c .="<img src='".$value."' class='many' data-id=".$v['field']." data-src='".$value."' onclick='removeimg($(this))' style='width: 20%;max-width: 150px'/>"; 
+                        }
+                    }else{
+                        $c = '';
+                        $arr = explode(",",$a);
+                        foreach($arr as $key =>$value){
+                            $c .="<img src='".$value."' class='many' data-id=".$v['field']." data-src='".$value."' onclick='removeimg($(this))' style='width: 20%;max-width: 150px'/>";
+                        }
                     }
+                    
                     
                     
                 }else{
@@ -431,12 +464,13 @@ class News extends Controller
                 $res.=
                 "
                 <div class='row cl'>
-                    <label class='form-label col-xs-4 col-sm-2'>".$v['itemname']."：</label>
+                    <label class='form-label col-xs-4 col-sm-2'>".$v['itemname']."(一张或多张)：</label>
                     <div class='formControls col-xs-8 col-sm-9'>
                         ".$c."
-                        <input type='button' value='点击上传' onclick=document.getElementById('".$v['field']."').click() />
+                        <input type='file' name='".$v['field']."[]' class='manyimg' id='".$v['field']."' style='display:none' />
+                        <button type='button' onclick=document.getElementById('".$v['field']."').click() >点击上传</button>
                         
-						<input type='file' name='".$v['field']."[]' class='".$v['field']."[]' id='".$v['field']."' style='display:none' />
+						
                     </div>
                 </div>
                 ";

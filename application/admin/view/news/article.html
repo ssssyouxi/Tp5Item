@@ -12,7 +12,7 @@
 
 <body>
 	<article class="page-container">
-		<form class="form form-horizontal" id="form-article-add" action="http://127.0.0.1:8000/admin/news/updatenews/" method="post">
+		<form class="form form-horizontal" id="form-article-add" >
 			<div class="row cl">
 				<input type="hidden" name="id" value="{$news.id}">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>文章标题：</label>
@@ -86,11 +86,11 @@
 				<div class="formControls col-xs-8 col-sm-9">
 					<div class="uploader-thum-container">
 						<div id="fileList" class="uploader-list">
-							<input type="text" name="litpic" value="{$news.litpic}" id="path">
-							<img src="{$news.litpic}" alt="" id="imgpath">
-							<input type="button" value="上传图片" onclick="file.click()" class="" /><br>
-							<input type="file" id="file" name="file" style="display:none" />
-							<span id="msg"></span>
+							
+							<img src="{$news.litpic}" class="singleimg" style="width: 20%;max-width: 150px">
+							<input type="file" name="" class="single" id="litpic" style="display:none" />
+							<button type="button" onclick="document.getElementById('litpic').click()">上传图片</button>
+							
 						</div>
 					</div>
 				</div>
@@ -111,7 +111,8 @@
 			</div>
 			<div class="row cl">
 				<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-					<button class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 提交</button>
+					<button class="btn btn-primary radius" d-type="updatenews" id="submit" type="button" ><i class="Hui-iconfont">&#xe632;</i> 提交</button>
+					
 				</div>
 			</div>
 		</form>
@@ -127,6 +128,7 @@
 	<script type="text/javascript" src="/lib/jquery.validation/1.14.0/validate-methods.js"></script>
 	<script type="text/javascript" src="/lib/jquery.validation/1.14.0/messages_zh.js"></script>
 	<script type="text/javascript" src="/lib/webuploader/0.1.5/webuploader.min.js"></script>
+	<script type="text/javascript" src="/js/up.js"></script>
 
 	<script type="text/javascript">
 		$(function () {
@@ -174,7 +176,7 @@
 			//    });
 		});
 	</script>
-	<script>
+	<!-- <script>
 		//上传图片
 		$('#file').change(function (event) {
 			var formData = new FormData();
@@ -203,6 +205,9 @@
 		function removeimg(obj) {
 			layer.confirm('确认要删除这张图片吗？', function (index) {
 				$(obj).remove();
+				
+				console.log(obj["data-id"]);
+				
 				layer.msg("删除成功", {
 					icon: 1,
 					time: 1000
@@ -214,7 +219,8 @@
 		// 	window.a = "#"+re;
 		// 	$(a).click();
 		// }
-		$('#aaaa').change(function (event) {
+		$("input[type='file'][id!='file']").change(function (event) {
+			var name = "#" + $(this).attr("id");
 			var formData = new FormData();
 			formData.append("file", $(this).get(0).files[0]);
 			$.ajax({
@@ -228,7 +234,7 @@
 					console.log(data)
 					if (data.code == 1) {
 						data.res = data.res.replace(/\\/g,"/");
-						$("#aaaa").before("<img src='"+data.res+"' class='eximg' onclick='removeimg(this)'/><input type='text' value='"+data.res+"' name='"+$('#aaaa').attr('class')+"' style='display:none'/>");
+						$(name).before("<img src='"+data.res+"' data-id='"+ data.res +"' class='eximg' onclick='removeimg(this)'/><input type='text' value='"+data.res+"' name='"+$(name).attr('class')+"' id='"+ data.res +"' style='display:none'/>");
 						console.log(data.msg + "上传至" + data.res);
 					} else {
 						console.log(data.msg + ",错误为：" + data.res);
@@ -236,7 +242,7 @@
 				}
 			});
 		});
-	</script>
+	</script> -->
 	<!-- <script>
 	$(function(){
 		var options = {

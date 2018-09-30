@@ -1,0 +1,239 @@
+<!--_meta 公共模版-->
+{include file="/common/_meta" /}
+<!--/meta 公共模版-->
+
+<title>新闻管理 - 专题管理 - H-ui.admin v3.0</title>
+<meta name="keywords" content="H-ui.admin v3.0,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+<meta name="description" content="H-ui.admin v3.0，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+<style>
+#nnnnn .Hui-article-box,#nnnnn .Hui-article{
+	position: static;
+
+}
+</style>
+</head>
+
+<body id="">
+<!--_header 作为公共模版分离出去-->
+{include file="/common/_header" /}
+<!--/_header 作为公共模版分离出去-->
+
+<!--_menu 作为公共模版分离出去-->
+{include file="/common/_menu" /}
+<!--/_menu 作为公共模版分离出去-->
+	<section class="Hui-article-box">
+		<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 主要功能 <span class="c-gray en">&gt;</span> 专题管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+		<div class="Hui-article">
+			<article class="cl pd-20">
+				<!-- <div class="text-c">
+					<span class="select-box inline">
+						<select name="" class="select">
+							<option value="0">全部分类</option>
+							<option value="1">分类一</option>
+							<option value="2">分类二</option>
+						</select>
+					</span>
+					<input type="text" name="" id="" placeholder=" 资讯名称" style="width:250px" class="input-text">
+					<button name="" id="" class="btn btn-success" type="submit">
+						<i class="Hui-iconfont">&#xe665;</i> 搜资讯</button>
+				</div> -->
+				<div class="cl pd-5 bg-1 bk-gray">
+					<span class="l">
+						<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
+							<i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
+						<a class="btn btn-primary radius" data-title="添加专题" _href="spec/add.html" onclick="article_add('添加专题','spec/add.html')"
+						    href="javascript:;">
+							<i class="Hui-iconfont">&#xe600;</i> 添加文档</a>
+						<a class="btn btn-success radius r" style="line-height:1.6em;margin-left:3px" href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont"></i>刷新本页</a>
+					</span>
+					<span class="r">共有数据：
+						<strong>{$count}</strong> 条</span>
+				</div>
+				<div class="mt-20">
+					<table class="table table-border table-bordered table-bg table-hover">
+						<thead>
+							<tr class="text-c">
+								<th width="25">
+									<input type="checkbox" name="" value="">
+								</th>
+								<th width="50">ID</th>
+								<th>标题</th>
+								<th width="100">分类</th>
+								<th width="80">作者</th>
+								<th width="130">更新时间</th>
+								<th width="70">浏览次数</th>
+								
+								<th width="80">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							{volist name="spec" id="list"}
+							<tr class="text-c">
+								<td>
+									<input type="checkbox" value="{$list.aid}" name="list[]">
+								</td>
+								<td>{$list.aid}</td>
+								<td class="text-l">
+									<u style="cursor:pointer" class="text-primary" onClick="article_edit('查看','/admin/spec/article.html?id={$list.aid}')" title="查看">{$list.title|raw}</u>
+								</td>
+								<td>{$list.typename|raw}</td>
+								<td>{$list.writer|raw}</td>
+								<td>{$list.senddate|date="Y:m:d H:i:s"}</td>
+								<td>{$list.click}</td>
+								
+								<td class="f-14 td-manage">
+									<a style="text-decoration:none" class="ml-5" onClick="article_edit('查看','/admin/spec/article.html?id={$list.aid}')" href="javascript:;"
+									    title="编辑">
+										<i class="Hui-iconfont">&#xe6df;</i>
+									</a>
+									<a style="text-decoration:none" class="ml-5" onClick="article_del(this,'{$list.aid}')" href="javascript:;" title="删除">
+										<i class="Hui-iconfont">&#xe6e2;</i>
+									</a>
+								</td>
+							</tr>
+							{/volist}
+
+						</tbody>
+					</table>
+				</div>
+			</article>
+			{$spec|raw}
+		</div>
+	</section>
+
+	<!--_footer 作为公共模版-->
+	{include file="/common/_footer" /}
+	<!--/_footer /作为公共模版-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript" src="/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript" src="/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="/lib/laypage/1.2/laypage.js"></script>
+	<script type="text/javascript">
+		$('.table-sort').dataTable({
+			"aaSorting": [
+				[1, "desc"]
+			], //默认第几个排序
+			"bStateSave": true, //状态保存
+			"aoColumnDefs": [
+				//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+				{
+					"orderable": false,
+					"aTargets": [0, 7]
+				} // 不参与排序的列
+			]
+		});
+
+		/*资讯-添加*/
+		function article_add(title, url, w, h) {
+			var index = layer.open({
+				type: 2,
+				title: title,
+				content: '/admin/spec/add.html'
+			});
+			layer.full(index);
+		}
+		/*资讯-编辑*/
+		function article_edit(title, url, id, w, h) {
+			var index = layer.open({
+				type: 2,
+				title: title,
+				content: url
+			});
+			layer.full(index);
+		}
+		/*资讯-单条删除*/
+		function article_del(obj, id) {
+			layer.confirm('确认要删除吗？', function (index) {
+				$.ajax({
+					type: 'POST',
+					url: '/admin/spec/delSpec.html',
+					data: {
+						'id': id
+					},
+					success: function (data) {
+						if (data.code) {
+							$(obj).parents("tr").remove();
+							layer.msg(data.msg, {
+								icon: 1,
+								time: 1000
+							});
+						} else {
+							console.log(data.msg);
+						}
+					},
+					error: function (data) {
+						console.log(data.msg);
+					},
+				});
+			});
+		}
+		/*资讯-多条删除*/
+		function datadel(obj) {
+			var arr = [];
+			$.each($("input[name='list[]']"), function () {
+				if (this.checked) {
+					arr.push($(this).val());
+				}
+			});
+			if (arr == '') {
+				alert("请先选择要删除的项目");
+			} else {
+				layer.confirm('确认要删除选中的项目吗？', function (index) {
+					console.log(arr);
+					var operatorIDs = JSON.stringify(arr);
+					$.ajax({
+						type: 'POST',
+						url: "/admin/spec/delSpec.html",
+						data: {
+							'id': operatorIDs
+						},
+						success: function (re) {
+							console.log(re.id)
+							if (re.code) {
+								$.each($("input[name='list[]']"), function () {
+									if ($.inArray($(this).val(), re.id) >= 0) {
+										console.log($.inArray($(this).val(), re.id))
+										console.log('被删除的项为' + ($(this).val() + '，在数组' + re.id + '中；'))
+										$(this).parents("tr").remove();
+									}
+								});
+								layer.msg(re.msg, {
+									icon: 1,
+									time: 1000
+								});
+							}
+						}
+					})
+
+				})
+			}
+		}
+
+
+
+	/*分页显示*/
+	// $.getJSON('test/demo1.json', {curr: 1}, function(res){ //从第6页开始请求。返回的json格式可以任意定义
+	// 	laypage({
+	// 		cont: 'page1', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：&lt;div id="page1">&lt;/div>
+	// 		pages: res.pages, //通过后台拿到的总页数
+	// 		curr: 6, //初始化当前页
+	// 		jump: function(e){ //触发分页后的回调
+	// 			$.getJSON('test/demo1.json', {curr: e.curr}, function(res){
+	// 				e.pages = e.last = res.pages; //重新获取总页数，一般不用写
+	// 				//渲染
+	// 				var view = document.getElementById('view1'); //你也可以直接使用jquery
+	// 				var demoContent = (new Date().getTime()/Math.random()/1000)|0; //此处仅仅是为了演示
+	// 				view.innerHTML = res.content + demoContent; 
+	// 			});
+	// 		}
+	// 	});
+	// });
+	$("#menu-article dt").addClass("selected");
+	$("#menu-article dd").show();
+	</script>
+
+	<!--/请在上方写此页面业务相关的脚本-->
+</body>
+
+</html>
