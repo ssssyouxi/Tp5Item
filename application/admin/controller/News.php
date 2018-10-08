@@ -8,6 +8,7 @@ use \app\admin\model\Addonarticle; //查表addonarticle
 use \app\admin\model\Arctype; //查表Arctype
 use \app\admin\model\Archives; //查表Archives
 use \app\admin\model\Arcatt; //查表Arcatt
+use think\facade\Env;
 
 #use think\facede\Env;
 
@@ -345,12 +346,51 @@ class News extends Base
             /*if(is_array($value) && array_key_exists("0",$value)!==false){
                     $this->eachimg($value,$data); 
             }else{*/
-                if(is_array($value)){
-                    $v = implode(",",$value);
-                    $data[$key]=$v;
-                }else{
-                    $data[$key] = $value;
+            if(is_array($value)){
+                foreach($value as $k =>$v){
+                    if(strripos($v,'temp')!==false){
+                        $path = str_replace('temp','uploads',$v);
+                        if(rename(Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . $v,Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . $path)){
+                            return ['code'=>1,'msg'=>'修改成功'];
+                        }else{
+                            return ['code'=>0,'msg'=>'修改失败'];
+                        }
+                        $value[$k] = $path;
+                    }
                 }
+                $value = implode(",",$value);
+            }else{
+                if(strripos($value,'temp')!==false){
+                    $path = str_replace('temp','uploads',$value);
+                    if(rename(Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . $value,Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . $path)){
+                        dump(1);
+                    }else{
+                        dump(0);
+                    }
+                    $arr[$key] = $path;
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // if(is_array($value)){
+            //     $value = implode(",",$value);
+            // }
+            
+            $data[$key]=$value;
             /*}*/
         }
         return $data;

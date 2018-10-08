@@ -4,5 +4,6 @@
 *.log
 thinkphp
 .env
-/uploads
-/upload
+/public/uploads
+/public/upload
+/public/temp

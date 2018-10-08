@@ -1,3 +1,4 @@
+//初始化图片对象
 window.imglist = {};
 $("input.single").each(function () {
     imglist[$(this).attr('id')] = $(this).prev().attr('src');
@@ -10,6 +11,9 @@ $("img.many").each(function () {
 })
 
 console.log(imglist);
+
+
+
 //(单张的)上传图片
 $("input[type='file'][class='single']").change(function (event) {
     var name = $(this).attr("id");
@@ -39,6 +43,7 @@ $("input[type='file'][class='single']").change(function (event) {
         }
     });
 });
+
 
 //(总量可以是多张的)上传图片
 $("input[type='file'][class='manyimg']").change(function (event) {
@@ -70,6 +75,8 @@ $("input[type='file'][class='manyimg']").change(function (event) {
     });
 });
 
+
+
 //修改提交
 $("button#submit").click(function () {
 
@@ -86,6 +93,7 @@ $("button#submit").click(function () {
             break;
         case 'updatespec':
             var url = "/admin/spec/updatespec/";
+            break;
     }
 
 

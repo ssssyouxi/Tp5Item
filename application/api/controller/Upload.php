@@ -11,7 +11,7 @@ class Upload extends Controller{
         $file = $this->request->file('file');
         if(!empty($file)){
             // 移动到框架应用根目录/public/uploads/ 目录下
-            $info = $file->validate(['size'=>1048576,'ext'=>'jpg,png,gif'])->rule('uniqid')->move(Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . 'uploads'.DIRECTORY_SEPARATOR.substr(date('Ymd',time()),-6));
+            $info = $file->validate(['size'=>1048576,'ext'=>'jpg,png,gif'])->rule('uniqid')->move(Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . 'temp'.DIRECTORY_SEPARATOR.substr(date('Ymd',time()),-6));
             $error = $file->getError();
             if($info){
                 // 成功上传后 获取上传信息

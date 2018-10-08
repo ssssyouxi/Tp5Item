@@ -7,6 +7,7 @@ use \app\admin\model\Archives; //查表archives
 use \app\admin\model\Arctype;//查表arctype
 use \app\admin\model\Arcatt; //查表Arcatt
 #use think\facede\Env;
+use think\facade\Env;
 
 class Spec extends Base
 {
@@ -79,7 +80,16 @@ class Spec extends Base
         $data = input('post.');
         $imglist =json_decode(input('post.imglist'));
         foreach($imglist as $key => $value){
-            $data[$key]=$value;
+            if(strripos($value,'temp')!==false){
+                $path = str_replace('temp','uploads',$value);
+                if(rename(Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . $value,Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . $path)){
+                    return ['code'=>1,'msg'=>'修改成功'];
+                }else{
+                    return ['code'=>0,'msg'=>'修改失败'];
+                }
+                
+            }
+            $data[$key]=$path;
         }
         $flag = input('post.flag');
         $flag1 = isset($flag) ? implode(",",$flag) : '';
@@ -140,6 +150,15 @@ class Spec extends Base
         $dat['channel']="-1";
         $imglist =json_decode(input('post.imglist'));
         foreach($imglist as $key => $value){
+            if(strripos($value,'temp')!==false){
+                $path = str_replace('temp','uploads',$value);
+                if(rename(Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . $value,Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . $path)){
+                    return ['code'=>1,'msg'=>'修改成功'];
+                }else{
+                    return ['code'=>0,'msg'=>'修改失败'];
+                }
+                
+            }
             $dat[$key]=$value;
         }
         $res = Db::name("arctiny")->strict(false)->insertGetId($dat);
