@@ -35,10 +35,9 @@
 							<select name="channeltype" class="select">
 								<option value="请选择">请选择</option>
 									{volist name="channel" id="ch"}
-										<option value="{$ch.id}" {if $res.channeltype==$ch.id } selected {/if}>{$ch.typename} 
+										<option value="{$ch.id}" {if $res.channeltype==$ch.id } selected {/if}>{$ch.typename}</option>
 									{/volist} 
-								</option> 
-									
+								 
 							</select>
 						</span> 
 					</div> 

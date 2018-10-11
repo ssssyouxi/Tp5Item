@@ -363,9 +363,9 @@ class News extends Base
                 if(strripos($value,'temp')!==false){
                     $path = str_replace('temp','uploads',$value);
                     if(rename(Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . $value,Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . $path)){
-                        dump(1);
+                        
                     }else{
-                        dump(0);
+                        
                     }
                     $arr[$key] = $path;
                 }

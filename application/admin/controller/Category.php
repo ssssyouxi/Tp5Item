@@ -76,18 +76,20 @@ class Category extends Controller
     //栏目-显示添加
     public function showadd (){
         $type = Db::name('arctype')->field('id,reid,typename')->select();
+        $channel = Db::name('channeltype')->field("id,typename")->select();
         $list = $this->getTree($type);
         $wxj= '';
         foreach($list as $value){
             $wxj.= "<option value='".$value['id']."'>".str_repeat('——', $value['level']).$value['typename']."</option>";}
         $this->assign("wxj",html_entity_decode($wxj));
+        $this->assign("channel",$channel);
         return $this->fetch();
     }
 
     //栏目-增加
     public function addcate(Request $request){
         if($request){
-            $data = ["typename"=>input('post.typename'),"reid"=>input('post.reid')];
+            $data = ["typename"=>input('post.typename'),"reid"=>input('post.reid'),'channeltype'=>input('post.channeltype')];
             $res = Arctype::insert($data);
             if($res){
                 $this->success("添加成功");

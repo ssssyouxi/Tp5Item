@@ -31,10 +31,13 @@
 						<a class="btn btn-primary radius" data-title="添加资讯" _href="article-add.html" onclick="article_add('添加资讯','article-add.html')"
 						    href="javascript:;">
 							<i class="Hui-iconfont">&#xe600;</i> 添加文档</a>
+							<a class="btn btn-success radius r" style="line-height:1.6em;margin-left:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i>刷新本页</a>
 					</span>
+					<span class="r">共有数据：
+							<strong>{$count}</strong> 条</span>
 				</div>
 				<div class="mt-20">
-					<table class="table table-border table-bordered table-bg table-hover table-sort">
+					<table class="table table-border table-bordered table-bg table-hover">
 						<thead>
 							<tr class="text-c">
 								<th width="80" class="sorting_desc">id号</th>
@@ -69,7 +72,9 @@
 						</tbody>
 					</table>
 				</div>
+				{$channeltype|raw}
 			</article>
+			
 		</div>
 	</section>
 
@@ -117,7 +122,35 @@
 		$("#menu-article dt").addClass("selected");
 		$("#menu-article dd").show();
 	</script>
+	<script>
 
+
+		function article_del(obj, id) {
+			layer.confirm('确认要删除吗？', function (index) {
+				$.ajax({
+					type: 'POST',
+					url: '/admin/model/delmodel.html',
+					data: {
+						'id': id
+					},
+					success: function (data) {
+						if (data.code) {
+							$(obj).parents("tr").remove();
+							layer.msg(data.msg, {
+								icon: 1,
+								time: 1000
+							});
+						} else {
+							console.log(data.msg);
+						}
+					},
+					error: function (data) {
+						console.log(data.msg);
+					},
+				});
+			});
+		}
+	</script>
 	<!--/请在上方写此页面业务相关的脚本-->
 </body>
 

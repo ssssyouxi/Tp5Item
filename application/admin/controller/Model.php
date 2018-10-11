@@ -3,14 +3,20 @@ namespace app\admin\controller;
 use think\Controller;
 use think\Db;
 use think\facade\Request;
+use Phinx\Migration\AbstractMigration;
 
 class Model extends Controller
 {
     //模型-列表
     public function index()
     {
-        $res = Db::name("channeltype")->field("id,nid,typename,addtable")->order('id','desc')->select();
+        $res = Db::name("channeltype")->field("id,nid,typename,addtable")->where('isshow',1)->order('id','desc')->paginate(15);
+
         $this->assign("channeltype",$res);
+        $count = $res->total();
+        
+        
+        $this->assign("count",$count);
         return $this->fetch();
     }
 
@@ -81,6 +87,28 @@ class Model extends Controller
             }
         }
     }
+
+    //模型-新增展示
+    public function add(){
+        $id = (Db::name('channeltype')->max('id')) + 1;
+        $this->assign('id',$id);
+        return $this->fetch();
+    }
+
+
+
+
+    //模型-软删除
+    public function delmodel(){
+        $id = input('post.id');
+        $res = Db::name('channeltype')->where(['id'=>$id])
+                        ->update(['isshow'=>'0']);
+        if($res!==false){
+            return ['code'=>1,'msg'=>'删除成功！','id'=>$id];
+        }else{
+            return ['code'=>0,'msg'=>'删除失败！'];
+        }
+    }
     public function type(){
         return [
             'htmltext',
@@ -98,5 +126,17 @@ class Model extends Controller
             'checkbox',
             'textdata'
         ];
+    }
+    public function mmmm(){
+        $aaa = new MyNewMigration("table1","v1.0");
+        $bbb = $aaa->add1("sh_archives");
+        dump($bbb);
+    }
+}
+class MyNewMigration extends AbstractMigration {
+    public function add1($table){
+        
+        return $this->table($table);
+
     }
 }
