@@ -82,14 +82,25 @@ class Spec extends Base
         foreach($imglist as $key => $value){
             if(strripos($value,'temp')!==false){
                 $path = str_replace('temp','uploads',$value);
-                if(rename(Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . $value,Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . $path)){
-                    return ['code'=>1,'msg'=>'修改成功'];
-                }else{
-                    return ['code'=>0,'msg'=>'修改失败'];
-                }
+                $old =Env::get('root_path') . 'public' . $value;
                 
+                $old = str_replace(["\\","/"],DIRECTORY_SEPARATOR,$old);
+                
+                $new = Env::get('root_path') . 'public' . $path;
+                $new = str_replace(["\\","/"],DIRECTORY_SEPARATOR,$new);
+                $newdir=dirname($new);
+                if(!is_dir($newdir)){
+                    mkdir($newdir,0777,true);
+                };
+                if(file_exists($old)){               
+                    if(!rename($old,$new)){
+                        return ['code'=>0,'msg'=>'图片移动出错，修改失败'];
+                    }
+                }else{
+                    return ['code'=>0,'msg'=>'图片不存在，修改失败'];
+                }
             }
-            $data[$key]=$path;
+            $data[$key] = $path;
         }
         $flag = input('post.flag');
         $flag1 = isset($flag) ? implode(",",$flag) : '';
@@ -152,14 +163,25 @@ class Spec extends Base
         foreach($imglist as $key => $value){
             if(strripos($value,'temp')!==false){
                 $path = str_replace('temp','uploads',$value);
-                if(rename(Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . $value,Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . $path)){
-                    return ['code'=>1,'msg'=>'修改成功'];
-                }else{
-                    return ['code'=>0,'msg'=>'修改失败'];
-                }
+                $old =Env::get('root_path') . 'public' . $value;
                 
+                $old = str_replace(["\\","/"],DIRECTORY_SEPARATOR,$old);
+                
+                $new = Env::get('root_path') . 'public' . $path;
+                $new = str_replace(["\\","/"],DIRECTORY_SEPARATOR,$new);
+                $newdir=dirname($new);
+                if(!is_dir($newdir)){
+                    mkdir($newdir,0777,true);
+                };
+                if(file_exists($old)){               
+                    if(!rename($old,$new)){
+                        return ['code'=>0,'msg'=>'图片移动出错，修改失败'];
+                    }
+                }else{
+                    return ['code'=>0,'msg'=>'图片不存在，修改失败'];
+                }
             }
-            $dat[$key]=$value;
+            $dat[$key]=$path;
         }
         $res = Db::name("arctiny")->strict(false)->insertGetId($dat);
         
@@ -171,7 +193,7 @@ class Spec extends Base
                     ->strict(false)
                     ->insert($dat);
               
-        if($res!=0 && $res1!=0 && $res2!=0){
+        if($res!==false && $res1!==false && $res2!==false){
             return  ['code'=>1,'msg'=>'增加成功'];
         }else{
             return  ['code'=>0,'msg'=>'增加失败'];

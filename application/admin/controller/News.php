@@ -350,24 +350,61 @@ class News extends Base
                 foreach($value as $k =>$v){
                     if(strripos($v,'temp')!==false){
                         $path = str_replace('temp','uploads',$v);
-                        if(rename(Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . $v,Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . $path)){
-                            return ['code'=>1,'msg'=>'修改成功'];
+                        $old =Env::get('root_path') . 'public' . $v;
+                        
+                        $old = str_replace(["\\","/"],DIRECTORY_SEPARATOR,$old);
+                        
+                        $new = Env::get('root_path') . 'public' . $path;
+                        $new = str_replace(["\\","/"],DIRECTORY_SEPARATOR,$new);
+                        $newdir=dirname($new);
+                        if(!is_dir($newdir)){
+                            mkdir($newdir,0777,true);
+                        };
+                        if(file_exists($old)){               
+                            if(!rename($old,$new)){
+                                return ['code'=>0,'msg'=>'图片移动出错，修改失败'];
+                            }
                         }else{
-                            return ['code'=>0,'msg'=>'修改失败'];
+                            return ['code'=>0,'msg'=>'图片不存在，修改失败'];
                         }
+                        // $path = str_replace('temp','uploads',$v);
+                        // if(rename(Env::get('root_path') . 'public' . $v,Env::get('root_path') . 'public'. $path)){
+                        //     // return ['code'=>1,'msg'=>'修改成功'];
+                        // }else{
+                        //     // return ['code'=>0,'msg'=>'修改失败'];
+                        // }
                         $value[$k] = $path;
                     }
                 }
                 $value = implode(",",$value);
+                $data[$key]=$value;
             }else{
                 if(strripos($value,'temp')!==false){
                     $path = str_replace('temp','uploads',$value);
-                    if(rename(Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . $value,Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . $path)){
-                        
+                    $old =Env::get('root_path') . 'public' . $value;
+                    
+                    $old = str_replace(["\\","/"],DIRECTORY_SEPARATOR,$old);
+                    
+                    $new = Env::get('root_path') . 'public' . $path;
+                    $new = str_replace(["\\","/"],DIRECTORY_SEPARATOR,$new);
+                    $newdir=dirname($new);
+                    if(!is_dir($newdir)){
+                        mkdir($newdir,0777,true);
+                    };
+                    if(file_exists($old)){               
+                        if(!rename($old,$new)){
+                            return ['code'=>0,'msg'=>'图片移动出错，修改失败'];
+                        }
                     }else{
-                        
+                        return ['code'=>0,'msg'=>'图片不存在，修改失败'];
                     }
-                    $arr[$key] = $path;
+                    // $path = str_replace('temp','uploads',$value);
+                    // if(rename(Env::get('root_path') . 'public' . $value,Env::get('root_path') . 'public' . $path)){
+                    //     // dump(1);
+                    // }else{
+                    //     // dump(0);
+                    // }
+                    $data[$key] = $path;
                 }
             }
 
@@ -389,8 +426,7 @@ class News extends Base
             // if(is_array($value)){
             //     $value = implode(",",$value);
             // }
-            
-            $data[$key]=$value;
+            // $data[$key]=$value;
             /*}*/
         }
         return $data;
@@ -436,6 +472,8 @@ class News extends Base
                         </script>";
                     break;
                 case 'text':
+                case 'int':
+                case 'softlinks':
                     $res.=
                     "
                     <div class='row cl'>
