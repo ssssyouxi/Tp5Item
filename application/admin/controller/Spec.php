@@ -180,8 +180,9 @@ class Spec extends Base
                 }else{
                     return ['code'=>0,'msg'=>'图片不存在，修改失败'];
                 }
+                $dat[$key]=$path;
             }
-            $dat[$key]=$path;
+            
         }
         $res = Db::name("arctiny")->strict(false)->insertGetId($dat);
         

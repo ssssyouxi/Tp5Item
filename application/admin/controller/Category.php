@@ -62,6 +62,9 @@ class Category extends Controller
             if(input('post.typename')=="请选择"){
                 $this->error("请选择要移动的分组");
             }
+            if(trim(input('post.typename'))==''){
+                $this->error("请输入正确的名字");
+            }
             $res = Db::name('arctype')->data(['typename'=>input('post.typename'),'reid'=>input('post.reid'),'channeltype'=>input('post.channeltype')])->where('id',input('post.id'))->update();
             if($res){
                 $this->success("修改成功");
@@ -89,6 +92,9 @@ class Category extends Controller
     //栏目-增加
     public function addcate(Request $request){
         if($request){
+            if(trim(input('post.typename'))==''){
+                $this->error("请输入正确的名字");
+            }
             $data = ["typename"=>input('post.typename'),"reid"=>input('post.reid'),'channeltype'=>input('post.channeltype')];
             $res = Arctype::insert($data);
             if($res){

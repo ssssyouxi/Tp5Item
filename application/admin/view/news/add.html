@@ -22,7 +22,7 @@
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>简略标题：</label>
+			<label class="form-label col-xs-4 col-sm-2">简略标题：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="" placeholder="" id="" name="shorttitle" required>
 			</div>
@@ -46,7 +46,7 @@
 		</div>
 		<!-- 这里需要循环显示flag -->
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类栏目：</label>
+			<label class="form-label col-xs-4 col-sm-2">分类栏目：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select name="typeid" class="select">
 					{$wxj|raw}
@@ -64,29 +64,29 @@
 				</span> </div>
 		</div> -->
 		<div class="row cl">
-			<label class="form-label col-sm-2"><span class="c-red">*</span>排序值：</label>
+			<label class="form-label col-sm-2">排序值：</label>
 			<div class="formControls col-sm-4">
 				<input type="text" class="input-text" value="{$weight}" placeholder="" id="" name="weight" required>
 			</div>
-			<label class="form-label col-xs-1 "><span class="c-red">*</span>点击数：</label>
+			<label class="form-label col-xs-1 ">点击数：</label>
 			<div class="formControls col-xs-4 ">
 				<input type="text" class="input-text" value="{php} echo rand(80, 400) {/php}" placeholder="" id="" name="click" required>
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>关键词：</label>
+			<label class="form-label col-xs-4 col-sm-2">关键词：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="" placeholder="" id="" name="keywords" required>(请以英文逗号“,”隔开)
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>文章摘要：</label>
+			<label class="form-label col-xs-4 col-sm-2">文章摘要：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<textarea name="description" cols="" rows="" class="textarea"  	required placeholder="请输入文章摘要" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！"  ></textarea>
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-sm-2"><span class="c-red">*</span>文章作者：</label>
+			<label class="form-label col-sm-2">文章作者：</label>
 			<div class="formControls col-sm-4">
 				<input type="text" class="input-text" value="{$Request.session.userid}" placeholder="一般为登录名" id="" name="writer">
 			</div>
@@ -96,7 +96,7 @@
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>缩略图：</label>
+			<label class="form-label col-xs-4 col-sm-2">缩略图：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<div class="uploader-thum-container">
 					<div id="fileList" class="uploader-list">

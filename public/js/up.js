@@ -79,7 +79,13 @@ $("input[type='file'][class='manyimg']").change(function (event) {
 
 //修改提交
 $("button#submit").click(function () {
-
+    if ($.trim($("input[name='title']").val()) == '') {
+        layer.msg("请填写标题", {
+            icon: 2,
+            time: 3000
+        });
+        return false;
+    }
     console.log($(this).attr('d-type'));
     switch ($(this).attr('d-type')) {
         case 'addnews':
@@ -127,11 +133,12 @@ $("button#submit").click(function () {
                     icon: 1,
                     time: 3000
                 });
-
+                // setTimeout(parent.location.reload(),5000);
                 setTimeout(
                     function () {
-                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-                        parent.layer.close(index); //再执行关闭   
+                        // var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        // parent.layer.close(index); //再执行关闭 
+                        parent.location.reload()
                     },
                     3000
                 );

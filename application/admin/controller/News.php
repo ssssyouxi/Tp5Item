@@ -31,6 +31,7 @@ class News extends Base
                             ->order('a.id','desc')
                             ->where(['delete_time'=>null])
                             ->where('a.arcrank','neq','-2')
+                            ->where('a.channel','neq',"-1")
                             ->where('a.title','like',"%$keywords%")
                             ->paginate(10,false,['query'=>['kw'=>input("get.kw")]]);
                             
@@ -41,6 +42,7 @@ class News extends Base
                             ->join('sh_arctype t',' t.id = a.typeid')
                             ->field('typename')
                             ->order('a.id','desc')
+                            ->where('a.channel','neq',"-1")
                             ->where(['delete_time'=>null])
                             ->where('a.arcrank','neq','-2')
                             ->paginate(10);

@@ -57,62 +57,63 @@ class Model extends Controller
     //模型-提交修改
     public function updatechannel(Request $request){
         if($request){
+            dump(input('post.'));
+            foreach(input('post.itemname') as $k =>$v){
+                if($v==''){
+                    echo "你没填";
+                    exit;
+                }
+            }
+            echo "OK";
+            
             // dump(input('post.'));
             // dump(input('post.field'));
             $type = input('post.type');
             $data = input('post.field');
+            $arr = [];
             foreach($data as $k =>$v){
                 if($v!=""){
-                    // dump(0);
-                    // $sql="select COLUMN_TYPE from information_schema.columns where table_schema = 'tp5item' AND table_name='".input('post.addtable')."' and column_name='".$v."';";
-                    // $res = Db::query($sql);
-                    // dump(11233);
-                    // dump($sql);
-                    // dump($res);
-                    // dump(1.1);
-                    // if($res){
-                    //     dump(1.2);
-                    //     echo "不是空";
-                    
-                    //     dump(1);
-                    //     if($res[0]["COLUMN_TYPE"]==$this->seltype($type[$k])){
-                    //         echo $this->seltype($type[$k])."不用改<br/>";
-                    //     }else{
-                    //         $sql = "alter table ".input('post.addtable')." modify column ".$v." ".$this->seltype($type[$k]);
-                    //         $res1 = Db::query($sql);
-                    //         dump(2);
-                    //         if($res1!==false){
-                    //             echo '修改成功<br/>';
-                    //         }else{
-                    //             echo '修改失败<br/>';
-                    //             echo $sql."<br/>";
-                    //         }
-                    //     }
-                    // }else{
-                    //     $res = Db::query("alter table ".input('post.addtable')." add ".$v." ".$this->seltype($type[$k]));
-                    //     if($res){
-                    //         echo "新增成功";
-                    //     }else{
-                    //         echo "新增失败";
-                    //     }
-                    // }
-                    echo "真棒！";
-                }else{
-                    echo "这有个空的 我不能改";
+                    $sql="select COLUMN_TYPE from information_schema.columns where table_schema = 'tp5item' AND table_name='".input('post.addtable')."' and column_name='".$v."';";
+                    $res = Db::query($sql);
+                    if($res){
+                        echo "不是空";
+                        if($res[0]["COLUMN_TYPE"]==$this->seltype($type[$k])){
+                            echo $this->seltype($type[$k])."不用改<br/>";
+                        }else{
+                            $sql = "alter table ".input('post.addtable')." modify column ".$v." ".$this->seltype($type[$k]);
+                            $res1 = Db::query($sql);
+                            
+                            if($res1!==false){
+                                echo '修改成功<br/>';
+                            }else{
+                                echo '修改失败<br/>';
+                                echo $sql."<br/>";
+                            }
+                        }
+                    }else{
+                        $res = Db::query("alter table ".input('post.addtable')." add ".$v." ".$this->seltype($type[$k]));
+                        if($res){
+                            echo "新增成功";
+                        }else{
+                            echo "新增失败";
+                        }
+                    }
+                    echo "真棒！".$v."<br/>";
+                    $arr[]=$v;
+                  
                 }
-                
             }
-            exit;
+            dump(input('post.'));
             $data='';
             $validate = new \app\admin\validate\Model;
-            for($i=0;$i<count(input("post.field"));$i++){
-                $field['field'] = input('post.field')[$i];
+            for($i=0;$i<count($arr);$i++){
+                $field['field'] = $arr[$i];
                 $field['itemname'] = input('post.itemname')[$i];
-                // dump(input('post.field')[$i]);
+                // dump($arr[$i]);
                 if (!$validate->check($field)) {
                     $this->error($validate->getError());
                }
-                $data .="<field:".input('post.field')[$i]." itemname=\"".input('post.itemname')[$i]."\" type=\"".input('post.type')[$i]."\"> </field:".input('post.field')[$i].">\n";
+                $data .="<field:".$arr[$i]." itemname=\"".input('post.itemname')[$i]."\" type=\"".input('post.type')[$i]."\"> </field:".$arr[$i].">\n";
             }
             // dump(input('post.'));
             
