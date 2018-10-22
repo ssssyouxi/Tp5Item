@@ -69,7 +69,7 @@ var setting = {
 
 var zNodes =[
 	{volist name="type" id="cate"}
-	{'id':{$cate.id}, 'pId':{$cate.reid}, 'name':"{$cate.typename}", 'url': "/admin/category/article.html?id={$cate.id}",  "target":"testIframe"},
+	{'id':{$cate.id}, 'pId':{$cate.reid}, 'name':"{$cate.typename|raw}", 'url': "/admin/category/article.html?id={$cate.id}",  "target":"testIframe"},
 	{/volist}
 ];
 

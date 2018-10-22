@@ -154,7 +154,7 @@
 					success: function (data) {
 						if (data.code) {
 							$(obj).parents("tr").remove();
-							layer.msg(data.msg, {
+							layer.msg("id:"+data.id+data.msg, {
 								icon: 1,
 								time: 1000
 							});

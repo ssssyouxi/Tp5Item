@@ -40,10 +40,10 @@ class Index extends Controller
         return $this->fetch();
     }
 
-    public function hello($name = 'ThinkPHP5')
-    {
-        return 'hello,' . $name;
-    }
+    // public function hello($name = 'ThinkPHP5')
+    // {
+    //     return 'hello,' . $name;
+    // }
 
     public function category(){
         $type = Arctype::view('Arctype','id,reid,topid,typename')->select()->toArray();

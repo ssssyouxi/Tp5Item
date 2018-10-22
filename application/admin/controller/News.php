@@ -476,16 +476,6 @@ class News extends Base
                 case 'text':
                 case 'int':
                 case 'softlinks':
-                    $res.=
-                    "
-                    <div class='row cl'>
-			            <label class='form-label col-xs-4 col-sm-2'>".$v['itemname']."：</label>
-			            <div class='formControls col-xs-8 col-sm-9'>
-				            <input type='text' class='input-text' value='".$a."' placeholder='' id='' name='".$v['field']."'>
-			            </div>
-		            </div>
-                    ";
-                    break;
                 case 'number':
                     $res.=
                     "
@@ -497,6 +487,7 @@ class News extends Base
 		            </div>
                     ";
                     break;
+
                 //img项仅供参考
                 case 'imgfile':
                 

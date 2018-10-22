@@ -129,9 +129,9 @@ $("button#submit").click(function () {
         success: function (data) {
             if (data.code) {
 
-                layer.msg(data.msg + "，3秒后将关闭窗口", {
+                layer.msg(data.msg + "，2秒后将关闭窗口", {
                     icon: 1,
-                    time: 3000
+                    time: 2000
                 });
                 // setTimeout(parent.location.reload(),5000);
                 setTimeout(
@@ -140,7 +140,7 @@ $("button#submit").click(function () {
                         // parent.layer.close(index); //再执行关闭 
                         parent.location.reload()
                     },
-                    3000
+                    2000
                 );
             }
         },
