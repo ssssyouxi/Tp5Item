@@ -222,7 +222,7 @@ class News extends Base
 
         $channel = Db::name("archives")->field("channel")->where("id",input("get.id"))->find();
         $addtable = Db::name("channeltype")->field("addtable,fieldset")->where("id",$channel['channel'])->find();
-        dump($addtable['addtable']);
+        //dump($addtable['addtable']);
         $news = Db::table($addtable['addtable'])
                                 ->alias('a')
                                 ->view($addtable['addtable'],'*')

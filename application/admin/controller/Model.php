@@ -26,7 +26,7 @@ class Model extends Controller
                                       ->where('id',input('get.id'))
                                       ->find();
         $arr = explode("\n",$res['fieldset']);
-        dump($arr);
+        // dump($arr);
         $res_arr = [];
         $list=$this->type();
         foreach ($arr as $key => $value) {
@@ -57,29 +57,50 @@ class Model extends Controller
     //模型-提交修改
     public function updatechannel(Request $request){
         if($request){
-            dump(input('post.'));
-            foreach(input('post.itemname') as $k =>$v){
-                if($v==''){
-                    echo "你没填";
-                    exit;
+            //dump(input('post.'));
+            $res = input('post.');
+            if(isset($res['itemname'])){
+                $validate = new \app\admin\validate\Model;
+                for($i=0;$i<sizeof($res['itemname']);$i++){
+                    $ar = [
+                        'itemname'=>$res['itemname'][$i],
+                        'field'=>$res['field'][$i]
+                    ];
+                    if(!$validate->check($ar)){
+                        $this->error($validate->getError());
+                        exit;
+                    }
                 }
-            }
-            echo "OK";
+                // foreach(input('post.itemname') as $k =>$v){
+                //     $arr = [
+                //         "itemname"=>$v
+                //     ];
+                //     if(!$validate->check($arr)){
+                //         echo "你没填";
+                //         $this->error($validate->getError());
+                //         exit;
+                //     }
+                // }
             
+            
+            //echo "OK";
             // dump(input('post.'));
             // dump(input('post.field'));
-            $type = input('post.type');
-            $data = input('post.field');
+            $type = $res['type'];
+            $data = $res['field'];
+
             $arr = [];
             foreach($data as $k =>$v){
-                if($v!=""){
+                    
                     $sql="select COLUMN_TYPE from information_schema.columns where table_schema = 'tp5item' AND table_name='".input('post.addtable')."' and column_name='".$v."';";
                     $res = Db::query($sql);
+                    //检查有无字段存在
                     if($res){
-                        echo "不是空";
-                        if($res[0]["COLUMN_TYPE"]==$this->seltype($type[$k])){
-                            echo $this->seltype($type[$k])."不用改<br/>";
-                        }else{
+                        
+                        //echo "不是空";
+                        //判断字段类型是否被修改
+                        if($res[0]["COLUMN_TYPE"]!=$this->seltype($type[$k])){
+                            //被修改，修改字段类型
                             $sql = "alter table ".input('post.addtable')." modify column ".$v." ".$this->seltype($type[$k]);
                             $res1 = Db::query($sql);
                             
@@ -89,50 +110,61 @@ class Model extends Controller
                                 echo '修改失败<br/>';
                                 echo $sql."<br/>";
                             }
+                            
                         }
                     }else{
-                        $res = Db::query("alter table ".input('post.addtable')." add ".$v." ".$this->seltype($type[$k]));
+                        //不存在，则新增字段
+                        $sql = "alter table ".input('post.addtable')." add ".$v." ".$this->seltype($type[$k]);
+                        $res = Db::query($sql);
                         if($res){
                             echo "新增成功";
                         }else{
-                            echo "新增失败";
+                            echo "新增失败".$sql;
                         }
                     }
                     echo "真棒！".$v."<br/>";
-                    $arr[]=$v;
+                    if(!in_array($v,$arr)){
+                        $arr[]=$v;
+                    }else{
+                        $this->error("字段名已存在，请修改！");
+                    }
+                    
                   
-                }
+                
             }
-            dump(input('post.'));
+        
+            //dump(input('post.'));
             $data='';
-            $validate = new \app\admin\validate\Model;
+            
             for($i=0;$i<count($arr);$i++){
-                $field['field'] = $arr[$i];
-                $field['itemname'] = input('post.itemname')[$i];
+                // $field['field'] = $arr[$i];
+                // $field['itemname'] = input('post.itemname')[$i];
                 // dump($arr[$i]);
-                if (!$validate->check($field)) {
-                    $this->error($validate->getError());
-               }
+            //     if (!$validate->check($field)) {
+            //         $this->error($validate->getError());
+            //    }
                 $data .="<field:".$arr[$i]." itemname=\"".input('post.itemname')[$i]."\" type=\"".input('post.type')[$i]."\"> </field:".$arr[$i].">\n";
             }
+        
             // dump(input('post.'));
             
-
+        }else{
+            $data = '';
+        }
             
             $res= Db::name('channeltype')
                     ->where('id',input('post.id'))
                     ->update(
                         [
                             'typename'=>input('post.typename'),
-                            'fieldset'=>$data,
-                            'addtable'=>input('post.addtable')
+                            'fieldset'=>$data
                             ]
                         );
             
             if($res){
-                $this->success("修改成功");
+                $this->success("成功");
             }else{
-                $this->error("修改失败");
+                $this->error("未做任何修改");
             }
         }
     }

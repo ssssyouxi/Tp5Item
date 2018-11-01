@@ -22,7 +22,7 @@ $("input[type='file'][class='single']").change(function (event) {
     formData.append("file", $(this).get(0).files[0]);
     console.log($(this));
     $.ajax({
-        url: 'http://127.0.0.1:8000/api/upload/index/ ',
+        url: '/api/upload/index/ ',
         type: 'POST',
         data: formData,
         cache: false,
@@ -52,7 +52,7 @@ $("input[type='file'][class='manyimg']").change(function (event) {
     var formData = new FormData();
     formData.append("file", $(this).get(0).files[0]);
     $.ajax({
-        url: 'http://127.0.0.1:8000/api/upload/index/ ',
+        url: '/api/upload/index/ ',
         type: 'POST',
         data: formData,
         cache: false,
