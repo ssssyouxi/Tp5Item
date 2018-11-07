@@ -129,6 +129,11 @@ function admin_start(obj,id){
 		layer.msg('已启用!', {icon: 6,time:1000});
 	});
 }
+$("#search").change(function(){
+	$("#Isearch").attr("href","listall.html?kw=" + $("#search").val())
+})
+$("#menu-article dt").addClass("selected");
+$("#menu-article dd").show();
 </script> 
 <!--/请在上方写此页面业务相关的脚本-->
 </body>

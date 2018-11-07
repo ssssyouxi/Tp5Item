@@ -8,6 +8,7 @@ use \app\admin\model\Arctype;//查表arctype
 use \app\admin\model\Arcatt; //查表Arcatt
 #use think\facede\Env;
 use think\facade\Env;
+use think\facade\Config;
 
 class Spec extends Base
 {
@@ -17,9 +18,9 @@ class Spec extends Base
         $res = Db::name('Archives')
                     ->alias('a')
                     ->field('a.title,a.click,a.writer,a.senddate')
-                    ->join('sh_arctype s','a.typeid=s.id')
+                    ->join(Config::get('database.prefix')."arctype s",'a.typeid=s.id')
                     ->field('s.typename')
-                    ->join('sh_addonspec d','a.id=d.aid')
+                    ->join(Config::get('database.prefix').'addonspec d','a.id=d.aid')
                     ->field('templet,d.aid')
                     ->where('a.channel',"-1")
                     ->where('a.arcrank','neq','-2')
@@ -38,7 +39,7 @@ class Spec extends Base
         $res = Archives::where('id',input('get.id'))
                         ->alias('a')
                         ->field('*')
-                        ->join("sh_addonspec s","s.aid=a.id")
+                        ->join(Config::get('database.prefix')."addonspec s","s.aid=a.id")
                         ->field("templet,s.aid")
                         ->find();
         $type = Arctype::view('Arctype','id,reid,topid,typename,channeltype')->select()->toArray();

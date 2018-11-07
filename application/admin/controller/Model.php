@@ -4,6 +4,7 @@ use think\Controller;
 use think\Db;
 use think\facade\Request;
 use Phinx\Migration\AbstractMigration;
+use think\facade\Config;
 
 class Model extends Controller
 {
@@ -222,10 +223,11 @@ class Model extends Controller
                 'typename'=>input('post.typename'),
                 'addtable'=>input('post.addtable')
             ];
-            $res = Db::query('SELECT * FROM sh_channeltype WHERE id=\''.$data['id'].'\' OR nid LIKE \''.$data['nid'].'\' OR addtable LIKE \''.$data['addtable'].'\' LIMIT 0,1');
+            $res = Db::query('SELECT * FROM '.Config::get('database.prefix').'channeltype WHERE id=\''.$data['id'].'\' OR nid LIKE \''.$data['nid'].'\' OR addtable LIKE \''.$data['addtable'].'\' LIMIT 0,1');
             $res1 = Db::query('SHOW TABLES LIKE \''.$data['addtable'].'\'');
             if($res!=false || $res1!=false){
                 echo "ID、名字标识或附加表名可能已经存在，请修改";
+                exit;
             }else{
                 $res = Db::query("DROP TABLE IF EXISTS `".$data['addtable']."`");
                 $res1 = Db::query("
@@ -240,7 +242,7 @@ class Model extends Controller
                 
                 ");
                 $res2 = Db::query("
-                INSERT INTO `sh_channeltype`(id,nid,typename,addtable,addcon,mancon,editcon,useraddcon,usermancon,usereditcon,fieldset,listfields,issystem,issend,arcsta,usertype,sendrank,needdes,needpic,titlename,onlyone,dfcid)
+                INSERT INTO `".Config::get('database.prefix')."channeltype`(id,nid,typename,addtable,addcon,mancon,editcon,useraddcon,usermancon,usereditcon,fieldset,listfields,issystem,issend,arcsta,usertype,sendrank,needdes,needpic,titlename,onlyone,dfcid)
     VALUES ('".$data['id']."','".$data['nid']."','".$data['typename']."','".$data['addtable']."','archives_add.php','content_list.php','archives_edit.php','archives_add.php','content_list.php','archives_edit.php','','','0','0','-1','','0','1','1','标题','0','0')
                 
                 ");
@@ -299,7 +301,7 @@ class Model extends Controller
 }
 class MyNewMigration extends AbstractMigration {
     public function add1(){
-        $exists = $this->hasTable('sh_archives');
+        $exists = $this->hasTable(Config::get('database.prefix').'archives');
         if ($exists) {
             return  "这个表存在";
         }

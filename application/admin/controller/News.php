@@ -9,6 +9,7 @@ use \app\admin\model\Arctype; //查表Arctype
 use \app\admin\model\Archives; //查表Archives
 use \app\admin\model\Arcatt; //查表Arcatt
 use think\facade\Env;
+use think\facade\Config;
 
 #use think\facede\Env;
 
@@ -26,7 +27,7 @@ class News extends Base
             $artlist = Db::name("archives")
                             ->alias('a')
                             ->field('a.id,title,typeid,writer,senddate,click')
-                            ->join('sh_arctype t',' t.id = a.typeid')
+                            ->join(Config::get('database.prefix').'arctype t',' t.id = a.typeid')
                             ->field('typename')
                             ->order('a.id','desc')
                             ->where(['delete_time'=>null])
@@ -39,7 +40,7 @@ class News extends Base
             $artlist = Db::name("archives")
                             ->alias('a')
                             ->field('a.id,title,typeid,writer,senddate,click')
-                            ->join('sh_arctype t',' t.id = a.typeid')
+                            ->join(Config::get('database.prefix').'arctype t',' t.id = a.typeid')
                             ->field('typename')
                             ->order('a.id','desc')
                             ->where('a.channel','neq',"-1")
@@ -70,9 +71,9 @@ class News extends Base
         $artlist = Db::table($addtable['addtable'])
                         ->field('aid')
                         ->alias('a')
-                        ->join('sh_archives s','a.aid = s.id')
+                        ->join(Config::get('database.prefix').'archives s','a.aid = s.id')
                         ->field('title,writer,senddate,click')
-                        ->join('sh_arctype t','a.typeid = t.id')
+                        ->join(Config::get('database.prefix').'arctype t','a.typeid = t.id')
                         ->field('typename')
                         ->order('s.id','desc')
                         ->where('a.typeid',input('get.id'))
@@ -226,8 +227,8 @@ class News extends Base
         $news = Db::table($addtable['addtable'])
                                 ->alias('a')
                                 ->view($addtable['addtable'],'*')
-                                ->view('sh_archives','*','a.aid=sh_archives.id')
-                                ->view('sh_arctype','typename','a.typeid = sh_arctype.id')
+                                ->view(Config::get('database.prefix').'archives','*','a.aid='.Config::get('database.prefix').'archives.id')
+                                ->view(Config::get('database.prefix').'arctype','typename','a.typeid = '.Config::get('database.prefix').'arctype.id')
                                 ->where("a.aid",input('get.id'))
                                 ->find();
         /////////////

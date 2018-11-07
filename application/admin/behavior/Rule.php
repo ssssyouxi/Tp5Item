@@ -4,25 +4,26 @@ namespace app\admin\behavior;
 use think\Controller;
 use think\Request;
 use think\facade\Cookie;
+use think\facade\Config;
 class Rule extends Controller{
 	public function run(Request $request){
-		if($request->controller()!='Login'&&/*!session('userid')*/!cookie('id')&&!cookie('user')){
-            //如果没有进入登录页面并且cookie没有值
-            return $this->redirect('/admin/login');//进入登录页面
-            
-        }elseif($request->controller()=='Login'&&/*cache('check')[cookie("hash")]!=""*/cookie('id')&&$request->action()!='logout'){
-            //如果进入登陆页面而且cookie中的值和缓存值匹配
-            // session(cache('check')[cookie("hash")]['userid']);
-            session('userid',cookie('user'));
-            return $this->redirect('/admin/index');//进入首页
 
-        }elseif($request->controller()=='Login'&&session('userid')&&$request->action()=='index'){
-            //如果进入登陆页面而且session有值而且方法是首页
-            return $this->redirect('/admin/index');//进入首页
+        dump(cookie('date').cookie('user').Config::get('token'));
+        if(!session('?userid')){
+
+            //判断有无cookie
+            if((cookie('?id') && cookie('?user')) && (time()-cookie('date')<=3600*24*10) && password_verify(cookie('date').cookie('user').Config::get('token'),cache(cookie('id')))){
+
+                // password_verify(cookie('date').cookie('user').Config::get('token'),cache(cookie('id')));
+                session('userid',cookie('user'));
+
+            } elseif($request->controller()!='Login') { 
+                
+                return $this->redirect('/admin/login');
+            }
+        } elseif($request->controller()=='Login' && $request->action()=='index') {
             
-		}elseif($request->controller()!='Login'&&cookie('id')&&cookie('user')){
-            //如果没有进入登录页面并且cookie有值
-            session('userid',cookie('user'));//给session设置值
+            return $this->redirect('/admin/index');
         }
 	}
 }

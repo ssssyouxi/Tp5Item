@@ -33,9 +33,9 @@ Class login extends Controller{
                     ['userid'=>input("post.userid"),
                         'pwd'=>substr(md5(input("post.pwd")),5,20)])
                     ->find();
-                       
+        dump($res);
         if($res){
-            if(input('post.online')){
+            if(input('?post.online')){
                 // $str = md5(time());
                 // Cookie::set('hash',$str,3600*24*10);
                 // $arr[$str]=session([
@@ -44,17 +44,26 @@ Class login extends Controller{
                 // $arr[$str]['userid'] = input("post.userid");
                 // Cache::set('check',$arr[$str],3600*24*10);
                 cookie('id',$res['id'],3600*24*10);
-                cookie('user',input("post.userid"),3600*24*10);
-                $psw = substr(sha1($res['id'].input("post.userid")),5,20);
-                cache($res['id'],$psw,3600*24*10);
+                $user = input("post.userid");
+                cookie('user',$user,3600*24*10);
+                $date = time();
+                cookie('date',$date,3600*24*10);
+                dump($date.$user.Config::get('token'));
+                $pwd = password_hash($date.$user.Config::get('token'),PASSWORD_DEFAULT);
+                cache($res['id'],$pwd,3600*24*10);
+                cookie('tk',$pwd,3600*24*10);
             }else{
                 // session($res['id'],input("post.userid"));
                 cookie('id',$res['id']);
-                cookie('user',input("post.userid"));
-                $psw = substr(sha1($res['id'].input("post.userid")),5,20);
-                cache($res['id'],$psw);
+                $user = input("post.userid");
+                cookie('user',$user);
+                $date = time();
+                cookie('date',$date);
+                $pwd = password_hash($date.$user.Config::get('token'),PASSWORD_DEFAULT);
+                // $pwd = substr(hash("sha256",($res['id'].input("post.userid").Config::get('token'))),12,62);
+                cache($res['id'],$pwd);
             }
-            session('userid',input("post.userid"));
+            session('userid',$user);
             $this->success('登陆成功，即将进入管理首页', '/admin/index');
         }else{
             $this->error('账号/密码错误，请重新登录');
@@ -64,6 +73,8 @@ Class login extends Controller{
         session('userid',null);
         cookie('id',null);
         cookie('user',null);
+        cookie('date',null);
+        cookie('tk',null);
         $this->success('已退出登录', '/admin/login');
     }
 }
