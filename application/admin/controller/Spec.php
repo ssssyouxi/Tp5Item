@@ -15,20 +15,41 @@ class Spec extends Base
     //专题-列表页
     public function index()
     {
-        $res = Db::name('Archives')
-                    ->alias('a')
-                    ->field('a.title,a.click,a.writer,a.senddate')
-                    ->join(Config::get('database.prefix')."arctype s",'a.typeid=s.id')
-                    ->field('s.typename')
-                    ->join(Config::get('database.prefix').'addonspec d','a.id=d.aid')
-                    ->field('templet,d.aid')
-                    ->where('a.channel',"-1")
-                    ->where('a.arcrank','neq','-2')
-                    ->where(['delete_time'=>null])
-                    ->order("senddate","desc")
-                    ->paginate(10);
-        $count = $res->total();
+        if(input('?get.kw')){
+            $keywords = input('get.kw');
+            $res = Db::name('Archives')
+                        ->alias('a')
+                        ->field('a.title,a.click,a.writer,a.senddate')
+                        ->join(Config::get('database.prefix')."arctype s",'a.typeid=s.id')
+                        ->field('s.typename')
+                        ->join(Config::get('database.prefix').'addonspec d','a.id=d.aid')
+                        ->field('templet,d.aid')
+                        ->where('a.channel',"-1")
+                        ->where('a.arcrank','neq','-2')
+                        ->where(['delete_time'=>null])
+                        ->where('a.title','like',"%$keywords%")
+                        ->order("senddate","desc")
+                        ->paginate(10,false,['query'=>['kw'=>input("get.kw")]]);
+
+        }else{        
+            $res = Db::name('Archives')
+                        ->alias('a')
+                        ->field('a.title,a.click,a.writer,a.senddate')
+                        ->join(Config::get('database.prefix')."arctype s",'a.typeid=s.id')
+                        ->field('s.typename')
+                        ->join(Config::get('database.prefix').'addonspec d','a.id=d.aid')
+                        ->field('templet,d.aid')
+                        ->where('a.channel',"-1")
+                        ->where('a.arcrank','neq','-2')
+                        ->where(['delete_time'=>null])
+                        ->order("senddate","desc")
+                        ->paginate(10);
+        }
+        $keywords = isset($keywords) ? $keywords:'';
+        $this->assign("kw",$keywords);
         
+        $count = $res->total();
+    
         $this->assign("spec",$res);
         $this->assign("count",$count);
         return $this->fetch();
@@ -78,6 +99,11 @@ class Spec extends Base
             return "未接收到任何数据！";
             exit();
         }
+        $title = $this->sameTitle(input('post.title'),input('post.id'));
+        if($title['code']){
+            return  ['code'=>0,'msg'=>'增加失败，标题重复！'];
+            exit;
+        }
         $data = input('post.');
         $imglist =json_decode(input('post.imglist'));
         foreach($imglist as $key => $value){
@@ -100,6 +126,8 @@ class Spec extends Base
                 }else{
                     return ['code'=>0,'msg'=>'图片不存在，修改失败'];
                 }
+            }else{
+                $path='';
             }
             $data[$key] = $path;
         }
@@ -148,6 +176,11 @@ class Spec extends Base
         if($request ==''){
             $this->error("未接收到任何数据！");
             exit();
+        }
+        $title = $this->sameTitle(input('post.title'));
+        if($title['code']){
+            return  ['code'=>0,'msg'=>'增加失败，标题重复！'];
+            exit;
         }
         if(input('post.flag')){
             $flag = implode(",",input('post.flag'));
@@ -199,6 +232,21 @@ class Spec extends Base
             return  ['code'=>1,'msg'=>'增加成功'];
         }else{
             return  ['code'=>0,'msg'=>'增加失败'];
+        }
+    }
+
+    
+    //检查标题是否重复
+    public function sameTitle($title,$id=null){
+        $res = Archives::field("title,id")
+                        ->where("title",$title)
+                        ->find();
+        
+        if($res && $res['id']!=$id){
+
+            return ['code'=>1,'msg'=>'有相同的标题！'];
+        }else{
+            return ['code'=>0,'msg'=>' '];
         }
     }
 }

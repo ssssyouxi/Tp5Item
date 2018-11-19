@@ -17,7 +17,7 @@
 				<input type="hidden" name="id" value="{$spec.id}">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>文章标题：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value="{$spec.title|raw}" placeholder="" id="" name="title" required>
+					<input type="text" class="input-text" value="{$spec.title|raw}" placeholder="" id="title" name="title" required>
 				</div>
 			</div>
 			<div class="row cl">
@@ -46,7 +46,7 @@
 						<div id="" class="uploader-list">
 							<img src="{$spec.litpic}" class="singleimg" style="width: 20%;max-width: 150px" />
 							<input type="file" name="" class="single" id="litpic" style="display:none" />
-							<button type="button" onclick="document.getElementById('litpic').click()">上传图片</button>
+							<div type="button" onclick="document.getElementById('litpic').click()" class="btn btn-primary radius">上传图片</div>
 						</div>
 
 					</div>
@@ -113,8 +113,8 @@
 
 			<div class="row cl">
 				<label class="form-label col-xs-4 col-sm-2">自定义文件名：</label>
-				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" name="filename" value="{$spec.filename}">（不包括后缀名如.html等）
+				<div class="formControls  col-sm-4">
+					<input type="text" class="input-text" name="filename" value="{$spec.filename}">（不包括后缀名如.html等）
 				</div>
 			</div>
 			<div class="row cl">

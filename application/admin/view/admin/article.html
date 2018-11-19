@@ -1,0 +1,118 @@
+<!--_meta 公共模版-->
+{include file="/common/_meta" /}
+<!--/meta 公共模版-->
+
+<title>新增文章 - 资讯管理 - H-ui.admin v3.0</title>
+<meta name="keywords" content="H-ui.admin v3.0,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+<meta name="description" content="H-ui.admin v3.0，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+</head>
+
+<body>
+	<article class="page-container" style="background-color: #fff">
+		<form class="form form-horizontal" id="form-admin-add" method="POST" action="article.html">
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-3">账号：</label>
+				<div class="formControls col-xs-8 col-sm-8">
+					<input type="hidden" class="input-text" value="{$adminuser.id}" name="id">
+					<span>{$adminuser.userid}</span>
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-3">密码(<span class="c-red">不修改请留空</span>)：</label>
+				<div class="formControls col-xs-8 col-sm-8">
+					<input type="password" class="input-text" value="" placeholder="不修改请留空" id="pwd" name="pwd">
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户名：</label>
+				<div class="formControls col-xs-8 col-sm-8">
+					<input type="text" class="input-text" value="{$adminuser.uname}" name="uname" required>
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-3">真实姓名：</label>
+				<div class="formControls col-xs-8 col-sm-8">
+					<input type="text" class="input-text" value="{$adminuser.tname}" name="tname">
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-sm-3"><span class="c-red">*</span>用户权限：</label>
+				<div class="formControls col-sm-4">
+					<select name="usertype" id="" class="input-text">
+						{volist name="purviews" id="list"}
+						<option value="{$list.rank}" {if $list.rank == $adminuser.usertype} selected  {/if}>
+							{$list.typename}
+						</option>
+						{/volist}
+					</select>
+				</div>
+
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-3">邮箱：</label>
+				<div class="formControls col-xs-8 col-sm-8">
+					<input type="text" class="input-text" value="{$adminuser.email}" name="email" email>
+				</div>
+			</div>
+
+			<div class="row cl">
+				<div class="col-xs-8 col-sm-8 col-xs-offset-4 col-sm-offset-2">
+					<input class="btn btn-primary" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+				</div>
+			</div>
+		</form>
+	</article>
+
+	<!--_footer 作为公共模版-->
+	{include file="/common/_footer" /}
+	<!--/_footer /作为公共模版-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript" src="/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript" src="/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+	<script type="text/javascript" src="/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+	<script type="text/javascript" src="/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+	<script type="text/javascript" src="/lib/webuploader/0.1.5/webuploader.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			$("#form-admin-add").validate({
+				rules: {
+					pwd: {
+						maxlength:16,
+						minlength:4
+					},
+					uname: {
+						required: true,
+						maxlength:16,
+						minlength:1
+					},
+					email: "email"
+				},
+				messages: {
+					pwd: {
+						maxlength: "账号长度在4-16之间",
+						minlength: "账号长度在4-16之间"
+
+					},
+					uname: {
+						required: "请输入用户名",
+						maxlength: "账号长度在1-16之间",
+						minlength: "账号长度在1-16之间"
+					},
+					email: "邮箱格式不正确"
+				}
+			});
+		});
+	</script>
+	<script>
+		$("#pwd").keyup(function(){
+			var str = $("#pwd").val();
+			$("#pwd").val(str.replace(/\s+/g,""));
+		})
+	</script>
+
+	<!--/请在上方写此页面业务相关的脚本-->
+</body>
+
+</html>

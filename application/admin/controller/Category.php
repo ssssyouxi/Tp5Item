@@ -21,7 +21,7 @@ class Category extends Base
     //栏目-修改展示
     public function article(Request $request)
     {
-        $res = Db::name("arctype")->field("id,reid,typename,channeltype")->where("id",input("get.id"))->find();
+        $res = Db::name("arctype")->field("id,reid,typename,channeltype,typedir")->where("id",input("get.id"))->find();
         $type = Db::name('arctype')->field('id,reid,typename')->select();
         $channel = Db::name('channeltype')->field("id,typename")->select();
         $list = $this->getTree($type);
@@ -58,14 +58,29 @@ class Category extends Base
 
     //栏目-修改
     public function changeCate(Request $request){
+        if(session('usertype')<5){
+            return $this->error("权限不足");
+        }
         if($request){
+            $data = input("post.");
             if(input('post.typename')=="请选择"){
-                $this->error("请选择要移动的分组");
+                return $this->error("请选择要移动的分组");
             }
             if(trim(input('post.typename'))==''){
-                $this->error("请输入正确的名字");
+                return $this->error("请输入正确的名字");
             }
-            $res = Db::name('arctype')->data(['typename'=>input('post.typename'),'reid'=>input('post.reid'),'channeltype'=>input('post.channeltype')])->where('id',input('post.id'))->update();
+            if($data['id']==$data['reid']){
+                return $this->error("不能将当前目录移入目标的目录下！");
+            }
+            $res = Db::name('arctype')
+                        ->data([
+                            'typename'=>$data['typename'],
+                            'reid'=>$data['reid'],
+                            'channeltype'=>$data['channeltype'],
+                            'typedir'=>$data['typedir']
+                            ])
+                        ->where('id',$data['id'])
+                        ->update();
             if($res){
                 $this->success("修改成功");
             }else{
@@ -91,11 +106,18 @@ class Category extends Base
 
     //栏目-增加
     public function addcate(Request $request){
+        if(session('usertype')<5){
+            return $this->error("权限不足");
+        }
         if($request){
             if(trim(input('post.typename'))==''){
                 $this->error("请输入正确的名字");
             }
-            $data = ["typename"=>input('post.typename'),"reid"=>input('post.reid'),'channeltype'=>input('post.channeltype')];
+            $data = [
+                        'typename'=>input('post.typename'),
+                        'reid'=>input('post.reid'),
+                        'channeltype'=>input('post.channeltype'),
+                        'typedir'=>input('post.typedir')];
             $res = Arctype::insert($data);
             if($res){
                 $this->success("添加成功");
@@ -107,6 +129,9 @@ class Category extends Base
 
     //栏目-删除（及文章软删除）
     public function catedel(Request $request){
+        if(session('usertype')<5){
+            return $this->error("权限不足");
+        }
         if($request){
             
             $res = Archives::where('typeid',input('post.id'))->update(["delete_time"=>time()]);

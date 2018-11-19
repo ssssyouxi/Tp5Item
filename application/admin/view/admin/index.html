@@ -24,12 +24,12 @@
 	<div class="Hui-article">
 		<article class="cl pd-20">
 			<div class="text-c">
-				<input type="text" class="input-text" style="width:250px" placeholder="输入管理员名称" id="" name="">
-				<button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
+				<input type="text" class="input-text" style="width:250px" placeholder="请输入登录账号" id="search" name="">
+				<a href="/admin/admin/index.html?kw=" class="btn btn-success" id="Isearch" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</a>
 			</div>
 			<div class="cl pd-5 bg-1 bk-gray mt-20">
-				<span class="l"> <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="admin_add('添加管理员','admin-add.html','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加管理员</a> </span>
-				<span class="r">共有数据：<strong></strong> 条</span>
+				<span class="l"> <a href="javascript:;" onclick="admin_add('添加管理员','admin/add.html','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加管理员</a> </span>
+				<span class="r">共有数据：<strong>{$total}</strong> 条</span>
 			</div>
 			<table class="table table-border table-bordered table-bg">
 				<thead>
@@ -37,7 +37,7 @@
 						<th scope="col" colspan="10">管理员列表</th>
 					</tr>
 					<tr class="text-c">
-						<th width="25"><input type="checkbox" name="" value=""></th>
+						<!-- <th width="25"><input type="checkbox" name="" value=""></th> -->
 						<th width="40">ID</th>
 						<th width="150">登录账号</th>
 						<th width="150">用户名</th>
@@ -52,16 +52,18 @@
 				<tbody>
 					{volist name="adminlist" id="admin" }
 					<tr class="text-c">
-						<td><input type="checkbox" value="{$admin.id}" name=""></td>
+						<!-- <td><input type="checkbox" value="{$admin.id}" name=""></td> -->
 						<td>{$admin.id}</td>
-						<td>{$admin.userid}</td>
+						<td class="userid">{$admin.userid}</td>
 						<td>{$admin.uname}</td>
 						<td>{$admin.tname}</td>
-						<td>{$admin.usertype}</td>
+						<td>{$admin.typename}</td>
 						<td>{$admin.email}</td>
 						<td>{$admin.logintime|date="Y:m:d H:i:s"}</td>
 						<td>{$admin.loginip}</span></td>
-						<td class="td-manage"><a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> <a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑','admin-add.html','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+						<td class="td-manage">
+							<!-- <a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> -->
+							<a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑','admin/article.html?id={$admin.id}','{$admin.id}','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'{$admin.id}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 					</tr>
 					{/volist}
 					
@@ -94,14 +96,31 @@ function admin_add(title,url,w,h){
 	layer_show(title,url,w,h);
 }
 /*管理员-删除*/
-function admin_del(obj,id){
-	layer.confirm('确认要删除吗？',function(index){
-		//此处请求后台程序，下方是成功后的前台处理……
-		
-		$(obj).parents("tr").remove();
-		layer.msg('已删除!',{icon:1,time:1000});
-	});
-}
+function admin_del(obj, id) {
+			layer.confirm('确认要删除吗？', function (index) {
+				$.ajax({
+					type: 'POST',
+					url: 'admin/del.html',
+					data: {
+						'id': id
+					},
+					success: function (data) {
+						if (data.code) {
+							$(obj).parents("tr").remove();
+							layer.msg(data.msg, {
+								icon: 1,
+								time: 1000
+							});
+						} else {
+							console.log(data.msg);
+						}
+					},
+					error: function (data) {
+						console.log(data.msg);
+					},
+				});
+			});
+		}
 /*管理员-编辑*/
 function admin_edit(title,url,id,w,h){
 	layer_show(title,url,w,h);
@@ -130,10 +149,20 @@ function admin_start(obj,id){
 	});
 }
 $("#search").change(function(){
-	$("#Isearch").attr("href","listall.html?kw=" + $("#search").val())
+	$("#Isearch").attr("href","/admin/admin/index.html?kw=" + $("#search").val())
 })
+
 $("#menu-article dt").addClass("selected");
 $("#menu-article dd").show();
+
+
+$(".userid").each(function(){
+	var str = $(this).html();
+		var keywords = "{$kw}";
+        var reg = new RegExp(""+keywords+"","i");
+        var result = str.replace(reg,"<font style='color:#F00;font-weight:700;'>"+keywords+"</font>");
+		$(this).html(result);
+		})
 </script> 
 <!--/请在上方写此页面业务相关的脚本-->
 </body>

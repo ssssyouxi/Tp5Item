@@ -16,13 +16,17 @@ use think\facade\Config;
 
 class News extends Base
 {
+
+    //首页
     public function index(){
         $type = Arctype::view('Arctype','id,reid,topid,typename')->select()->toArray(); 
         $this->assign('type',$type);
         return $this->fetch();
     }
+
+    //列表页
     public function listall(){
-        if(input('get.kw')){
+        if(input('?get.kw')){
             $keywords = input('get.kw');
             $artlist = Db::name("archives")
                             ->alias('a')
@@ -55,7 +59,8 @@ class News extends Base
         $this->assign("artlist",$artlist);
         return $this->fetch();
     }
-    //显示首页
+
+    //显示列表首页
     public function artlist()
     {
 
@@ -173,12 +178,18 @@ class News extends Base
         //         "$k"=>$v
         //     }
         // }
-            
+        input('post.title');
+        $title = $this->sameTitle(input('post.title'),input('post.id'));
+        if($title['code']){
+            return  ['code'=>0,'msg'=>'增加失败，标题重复！'];
+            exit;
+        }
         if(input('post.flag')){
             $flag = implode(",",input('post.flag'));
         }else{
             $flag = '';
         }
+
         $dat = input("post.");
         $imglist =json_decode(input('post.imglist'));
         $dat = $this->eachimg($imglist,$dat);
@@ -313,6 +324,12 @@ class News extends Base
             return "未接收到任何数据！";
             exit();
         }
+        input('post.title');
+        $title = $this->sameTitle(input('post.title'),input('post.id'));
+        if($title['code']){
+            return  ['code'=>0,'msg'=>'增加失败，标题重复！'];
+            exit;
+        }
         $data = input('post.');
         $imglist =json_decode(input('post.imglist'));
 
@@ -410,22 +427,6 @@ class News extends Base
                     $data[$key] = $path;
                 }
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             // if(is_array($value)){
             //     $value = implode(",",$value);
             // }
@@ -449,6 +450,33 @@ class News extends Base
             return ['code'=>0,'msg'=>'删除失败！'];
         }
     }
+
+
+    //检查标题是否重复
+    // public function sameTitle($title){
+    //     $res = Archives::field("title")
+    //                     ->where("title",$title)
+    //                     ->find();
+    //     if($res){
+    //         return ['code'=>1,'msg'=>'有相同的标题！'];
+    //     }else{
+    //         return ['code'=>0,'msg'=>' '];
+    //     }
+    // }
+    public function sameTitle($title,$id=null){
+        $res = Archives::field("title,id")
+                        ->where("title",$title)
+                        ->find();
+        
+        if($res && $res['id']!=$id){
+
+            return ['code'=>1,'msg'=>'有相同的标题！'];
+        }else{
+            return ['code'=>0,'msg'=>' '];
+        }
+    }
+
+
 
     //获得当前类型的样式   
     //待移至模板引擎上
@@ -502,7 +530,7 @@ class News extends Base
 							<img src='".$a."' alt='' >
 							
                             <input type='file' name='".$v['field']."' class='singleimg' id='".$v['field']."' style='display:none' />
-                            <button type='button' value='上传图片' onclick=document.getElementById('".$v['field']."').click()  ></button>
+                            <div class='btn btn-primary radius' type='button' value='上传图片' onclick=document.getElementById('".$v['field']."').click()  ></div>
 							
 						</div>
 					</div>
@@ -540,7 +568,7 @@ class News extends Base
                     <div class='formControls col-xs-8 col-sm-9'>
                         ".$c."
                         <input type='file' name='".$v['field']."[]' class='manyimg' id='".$v['field']."' style='display:none' />
-                        <button type='button' onclick=document.getElementById('".$v['field']."').click() >点击上传</button>
+                        <div type='button' class='btn btn-primary radius' onclick=document.getElementById('".$v['field']."').click() >点击上传</div>
                         
 						
                     </div>

@@ -29,11 +29,17 @@ Class login extends Controller{
             $this->error('验证码错误，请重新登录！');
            };
 
-        $res = Admin::where(
-                    ['userid'=>input("post.userid"),
-                        'pwd'=>substr(md5(input("post.pwd")),5,20)])
+        $res = Admin::alias('a')
+                    ->field('a.id,a.userid,a.pwd,a.usertype')
+                    ->join(Config::get('database.prefix')."admintype s",'a.usertype=s.rank')
+                    ->field('s.typename')
+                    ->where(
+                    ['a.userid'=>input("post.userid"),
+                        'a.pwd'=>substr(md5(input("post.pwd")),5,20)])
                     ->find();
+                    
         dump($res);
+        
         if($res){
             if(input('?post.online')){
                 // $str = md5(time());
@@ -63,7 +69,11 @@ Class login extends Controller{
                 // $pwd = substr(hash("sha256",($res['id'].input("post.userid").Config::get('token'))),12,62);
                 cache($res['id'],$pwd);
             }
+            $ip=$request->ip();
+            Admin::where('id',$res['id'])->update(['logintime'=>time(),'loginip'=>$ip]);
             session('userid',$user);
+            session('usertype',$res['usertype']);
+            session('typename',$res['typename']);
             $this->success('登陆成功，即将进入管理首页', '/admin/index');
         }else{
             $this->error('账号/密码错误，请重新登录');
@@ -71,6 +81,8 @@ Class login extends Controller{
     }
     public function logout(){
         session('userid',null);
+        session('usertype',null);
+        session('typename',null);
         cookie('id',null);
         cookie('user',null);
         cookie('date',null);

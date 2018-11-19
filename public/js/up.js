@@ -86,6 +86,13 @@ $("button#submit").click(function () {
         });
         return false;
     }
+    if ($(".tip").length > 0) {
+        layer.msg("标题重复，请修改！", {
+            icon: 2,
+            time: 3000
+        });
+        return false;
+    }
     console.log($(this).attr('d-type'));
     switch ($(this).attr('d-type')) {
         case 'addnews':
@@ -142,6 +149,11 @@ $("button#submit").click(function () {
                     },
                     2000
                 );
+            } else {
+                layer.msg(data.msg , {
+                    icon: 2,
+                    time: 2000
+                });
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown, data) {
@@ -175,4 +187,29 @@ function removeimg(obj) {
         });
     })
 }
+
+
+
+$("#title").keyup(function () { 
+    var id=$("input[name='id']").val() ? $("input[name='id']").val() : null;
+    $.ajax({
+        type: "post",
+        url: "/admin/spec/sameTitle",
+        data: {
+            "title": $("#title").val(),
+            "id": id
+        },
+
+        success: function (res) {
+            if (res.code) {
+                $("p.tip").remove();
+                $("#title").parent("div").append("<p style='color:red' class='tip'>" + res.msg + "</p>");
+            } else {
+                $("p.tip").remove();
+            }
+            
+        }
+    });
+});
+
 

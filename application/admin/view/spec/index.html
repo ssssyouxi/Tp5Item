@@ -22,7 +22,7 @@
 {include file="/common/_menu" /}
 <!--/_menu 作为公共模版分离出去-->
 	<section class="Hui-article-box">
-		<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 主要功能 <span class="c-gray en">&gt;</span> 专题管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+		<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 主要功能 <span class="c-gray en">&gt;</span> 专题管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a><a href="index.html?kw=" id="Isearch" class="btn btn-secondary radius r" target="_self" style="width: 90px !important;margin:3px 10px 0"><i class="Hui-iconfont">&#xe665;</i> 搜索</a><input type="text" class="input-text radius r" id="search" placeholder="输入标题搜索" style="width:300px !important;margin-top:3px"/></nav>
 		<div class="Hui-article">
 			<article class="cl pd-20">
 				<!-- <div class="text-c">
@@ -43,7 +43,7 @@
 							<i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
 						<a class="btn btn-primary radius" data-title="添加专题" _href="spec/add.html" onclick="article_add('添加专题','spec/add.html')"
 						    href="javascript:;">
-							<i class="Hui-iconfont">&#xe600;</i> 添加文档</a>
+							<i class="Hui-iconfont">&#xe600;</i> 添加专题</a>
 						<a class="btn btn-success radius r" style="line-height:1.6em;margin-left:3px" href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont"></i>刷新本页</a>
 					</span>
 					<span class="r">共有数据：
@@ -74,7 +74,7 @@
 								</td>
 								<td>{$list.aid}</td>
 								<td class="text-l">
-									<u style="cursor:pointer" class="text-primary" onClick="article_edit('查看','/admin/spec/article.html?id={$list.aid}')" title="查看">{$list.title|raw}</u>
+									<u style="cursor:pointer" class="text-primary" onClick="article_edit('查看专题：{$list.title|raw}','/admin/spec/article.html?id={$list.aid}')" title="查看">{$list.title|raw}</u>
 								</td>
 								<td>{$list.typename|raw}</td>
 								<td>{$list.writer|raw}</td>
@@ -82,7 +82,7 @@
 								<td>{$list.click}</td>
 								
 								<td class="f-14 td-manage">
-									<a style="text-decoration:none" class="ml-5" onClick="article_edit('查看','/admin/spec/article.html?id={$list.aid}')" href="javascript:;"
+									<a style="text-decoration:none" class="ml-5" onClick="article_edit('查看专题：{$list.title|raw}','/admin/spec/article.html?id={$list.aid}')" href="javascript:;"
 									    title="编辑">
 										<i class="Hui-iconfont">&#xe6df;</i>
 									</a>
@@ -229,6 +229,16 @@
 	// 		}
 	// 	});
 	// });
+	$("#search").change(function(){
+	$("#Isearch").attr("href","index.html?kw=" + $("#search").val())
+})
+$("u").each(function(){
+	var str = $(this).html();
+		var keywords = "{$kw}";
+        var reg = new RegExp(""+keywords+"","i");
+        var result = str.replace(reg,"<font style='color:#F00;font-weight:700;'>"+keywords+"</font>");
+		$(this).html(result);
+		})
 	$("#menu-article dt").addClass("selected");
 	$("#menu-article dd").show();
 	</script>

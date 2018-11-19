@@ -26,7 +26,7 @@ class Index extends Controller
         $UserCount = Admin::count("id"); //用户总数
 
         $adminCount = Admin::where('usertype','10')->count(); //管理员总数
-
+        $admin = Admin::where('userid',session('userid'))->field("loginip")->find();
         $this->assign("countArt",$ArtCount);
         $this->assign("todayArt",$todayArt);
         $this->assign("yesterdayArt",$yesterdayArt);
@@ -35,6 +35,7 @@ class Index extends Controller
         $this->assign("proCount",$ProCount);
         $this->assign("userCount",$UserCount);
         $this->assign("adminCount",$adminCount);
+        $this->assign("ip",$admin['loginip']);
         $this->assign('name', 'thinkphp');
 
         return $this->fetch();

@@ -1,0 +1,137 @@
+<!--_meta 公共模版-->
+{include file="/common/_meta" /}
+<!--/meta 公共模版-->
+
+<title>新增文章 - 资讯管理 - H-ui.admin v3.0</title>
+<meta name="keywords" content="H-ui.admin v3.0,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+<meta name="description" content="H-ui.admin v3.0，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+</head>
+
+<body>
+	<article class="page-container" style="background-color: #fff">
+		<form class="form form-horizontal" id="form-admin-add" method="POST" action="/admin/admin/add.html">
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>账号：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" value="" placeholder="" id="" name="userid" required>
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>密码：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="password" class="input-text" value="" placeholder="" id="pwd" name="pwd" required>
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>确认密码：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="password" class="input-text" value="" placeholder="" id="" name="pwd1" required>
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>用户名：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" value="" placeholder="" id="" name="uname" required>
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2">真实姓名：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" value="" placeholder="" id="" name="tname">
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-sm-2"><span class="c-red">*</span>用户权限：</label>
+				<div class="formControls col-sm-4">
+					<select name="usertype" id="" class="input-text">
+						{volist name="purviews" id="list"}
+						<option value="{$list.rank}">
+							{$list.typename}
+						</option>
+						{/volist}
+					</select>
+				</div>
+
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2">邮箱：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" value="" placeholder="" id="" name="email" email>
+				</div>
+			</div>
+
+			<div class="row cl">
+				<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+					<input class="btn btn-primary" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+				</div>
+			</div>
+		</form>
+	</article>
+
+	<!--_footer 作为公共模版-->
+	{include file="/common/_footer" /}
+	<!--/_footer /作为公共模版-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript" src="/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript" src="/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+	<script type="text/javascript" src="/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+	<script type="text/javascript" src="/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+	<script type="text/javascript" src="/lib/webuploader/0.1.5/webuploader.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			$("#form-admin-add").validate({
+				rules: {
+					userid: {
+						required: true,
+						maxlength:16,
+						minlength:4
+					},
+					pwd: {
+						required: true,
+						maxlength:16,
+						minlength:4
+					},
+					pwd1:{
+						equalTo:'#pwd'
+					},
+					uname: {
+						required: true,
+						maxlength:16,
+						minlength:1
+					},
+					email: "email"
+				},
+				messages: {
+					userid: {
+						required: "请输入账号",
+						maxlength: "账号长度在4-16之间",
+						minlength: "账号长度在4-16之间"
+
+					},
+					pwd: {
+						required: "请输入密码",
+						maxlength: "账号长度在4-16之间",
+						minlength: "账号长度在4-16之间"
+
+					},
+					pwd1:{
+						equalTo:"两次输入的密码不一致！"
+					},
+					uname: {
+						required: "请输入用户名",
+						maxlength: "账号长度在1-16之间",
+						minlength: "账号长度在1-16之间"
+					},
+					email: "邮箱格式不正确"
+				}
+			});
+		});
+	</script>
+
+
+	<!--/请在上方写此页面业务相关的脚本-->
+</body>
+
+</html>

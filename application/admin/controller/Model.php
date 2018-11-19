@@ -57,6 +57,9 @@ class Model extends Controller
 
     //模型-提交修改
     public function updatechannel(Request $request){
+        if(session('usertype')<5){
+            return $this->error("权限不足");
+        }
         if($request){
             //dump(input('post.'));
             $res = input('post.');
@@ -68,8 +71,7 @@ class Model extends Controller
                         'field'=>$res['field'][$i]
                     ];
                     if(!$validate->check($ar)){
-                        $this->error($validate->getError());
-                        exit;
+                        return $this->error($validate->getError());
                     }
                 }
                 // foreach(input('post.itemname') as $k =>$v){
@@ -216,6 +218,9 @@ class Model extends Controller
 
     //模型-新增提交
     public function addmodel(Request $request){
+        if(session('usertype')<5){
+            return $this->error("权限不足");
+        }
         if($request){
             $data=[
                 'id'=>input('post.id'),
