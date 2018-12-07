@@ -22,13 +22,14 @@ Class login extends Controller{
 
         
         if($request ==''){
-            $this->error('请输入账号/密码！');
+            return $this->error('请输入账号/密码！');
         }
 
         if(!captcha_check(input("post.captcha"))){
-            $this->error('验证码错误，请重新登录！');
+            return $this->error('验证码错误，请重新登录！');
            };
 
+        // dump(input("post."));
         $res = Admin::alias('a')
                     ->field('a.id,a.userid,a.pwd,a.usertype')
                     ->join(Config::get('database.prefix')."admintype s",'a.usertype=s.rank')
@@ -38,7 +39,7 @@ Class login extends Controller{
                         'a.pwd'=>substr(md5(input("post.pwd")),5,20)])
                     ->find();
                     
-        dump($res);
+        // dump($res);
         
         if($res){
             if(input('?post.online')){
@@ -54,7 +55,7 @@ Class login extends Controller{
                 cookie('user',$user,3600*24*10);
                 $date = time();
                 cookie('date',$date,3600*24*10);
-                dump($date.$user.Config::get('token'));
+                // dump($date.$user.Config::get('token'));
                 $pwd = password_hash($date.$user.Config::get('token'),PASSWORD_DEFAULT);
                 cache($res['id'],$pwd,3600*24*10);
                 cookie('tk',$pwd,3600*24*10);

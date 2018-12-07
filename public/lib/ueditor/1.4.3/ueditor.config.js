@@ -36,7 +36,10 @@
         , toolbars: [[
             'fullscreen', 'source', '|', 'undo', 'redo', '|',
             'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist','|',
-            'simpleupload', 'insertimage','|', 'selectall', 'cleardoc'
+            'simpleupload', 'insertimage', '|', 'selectall', 'cleardoc',
+            'link', '|', 'justifyleft', 'justifyright', 'justifycenter', 'justifyjustify', '|',
+            'lineheight', '|', 'fontfamily', 'fontsize' 
+
         ]]
         //当鼠标放在工具栏上时显示的tooltip提示,留空支持自动多语言配置，否则以配置值为准
         //,labelMap:{
@@ -131,7 +134,7 @@
         //        }
         //    }
         //}()
-
+        ,allowDivTransToP:false      //允许进入编辑器的div标签自动变成p标签
         //,allHtmlEnabled:false //提交到后台的数据是否包含整个html字符串
 
         //insertorderedlist
@@ -314,7 +317,7 @@
         //,tableDragable: true
 
         //,disabledTableInTable:true  //禁止表格嵌套
-
+        
         //sourceEditor
         //源码的查看方式,codemirror 是代码高亮，textarea是文本框,默认是codemirror
         //注意默认codemirror只能在ie8+和非ie中使用

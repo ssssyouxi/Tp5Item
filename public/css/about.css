@@ -1,0 +1,136 @@
+/*主内容区*/
+/*.profile{background:url(../img/about/profile-xl.jpg) no-repeat center;}*/
+.about_b .mt div{
+	margin-top:18px;
+	margin-bottom: 7px;
+}
+.about_b .mt .img-responsive{
+	width: 100%;
+}
+h2{
+	margin-top: 35px;
+	margin-bottom: 1px;
+}
+.about_b .p_a{
+	margin-top: 25px;
+	line-height: 24px;
+	
+}
+.about_b .p_b{
+	background: #f8f8f8;
+	font-size: 14px;
+	padding: 7px 30px 7px;
+
+}
+.about_l{
+	margin-top:51px;
+
+}
+.about_l img{
+	width: 100%;
+}
+ .img-responsive{
+	margin: 0 auto;
+}
+.about_zs{
+	margin-top: 40px;
+}
+.about_zs div{
+	margin-top: 10px;
+}
+/*模态框start*/
+
+/*模态框end*/
+/*媒体查询*/
+@media(max-width: 1200px){
+	.new_news{
+		display: none;
+	}
+}
+@media (max-width: 500px){
+	.profile{
+		background:url(../img/about/profile-xll.jpg) no-repeat center;height: 700px;
+		}
+	.profile h1{
+		padding-top: 20px;
+	}
+	.about_b .p_b{
+	font-size: 14px;
+	}
+	.text-white p{
+		line-height: 20px;
+	}
+	}
+
+@media (max-width: 759px){
+	.profile{
+		background:url(../img/about/profile-xl.jpg) no-repeat center; height: 500px;
+		}
+	.profile h1{
+		padding-top: 20px;
+	}
+	}
+@media (min-width: 760px){
+	.profile{
+		background:url(../img/about/profile-xs.jpg) no-repeat center;height: 382px;
+		}
+	.profile h1{
+		padding-top: 40px;
+	}
+	.about_b .p_b{
+	background: #f8f8f8;
+	font-size: 14px;
+	padding: 7px 15px 7px;
+
+	}
+	}
+@media(min-width: 1000px){
+	.profile{
+		background:url(../img/about/profile-xb.jpg) no-repeat top center;height: 382px;
+		}
+	.profile h1{
+		padding-top: 40px;
+	}
+	.about_b .p_b{
+	background: #f8f8f8;
+	font-size: 14px;
+	padding: 4px 16px 7px;
+
+}
+	}
+@media(min-width: 1200px){
+	.profile h1{padding: 50px 0 10px;font-size: 32px;font-family: Estrangelo Edessa;}
+	.profile p{line-height: 21px ;font-size:14px;padding-left: 2px;}
+	.container.text-white p:first-of-type{font-size: 14px;line-height: 24px;padding-bottom: 6px;margin-bottom: 0px;}
+	.about_b .p_a{
+	margin-top: 25px;
+}
+	article {
+    margin-bottom: 42px;
+}
+	.new_new{
+		display:block;
+	}
+}
+@media(max-width: 400px){
+	.profile h1{
+		padding-top: 5px;
+	}
+	.text-white p{
+		margin-bottom: 0;
+		line-height: 18px;
+	}
+}
+
+.tri:before{
+	display:inline-block;
+	content: "";
+	width: 0;
+	height: 0;
+	border-width: 5px 0 5px  5px;
+	 border-style: solid;
+	 border-color:transparent transparent  transparent red;
+	 
+	 margin-top: 6px;
+	 margin-left: 58px;
+	}

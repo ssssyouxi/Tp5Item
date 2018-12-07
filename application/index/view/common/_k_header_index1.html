@@ -1,0 +1,107 @@
+		<div class="h1">
+			<div class="h_header">
+				<div class="logo">
+					<h1><a href="{dede:global.cfg_basehost/}" title="Kefid(ShangHai) Machinery Co.,Ltd"><img src="/images/logo.jpg" alt="Kefid(ShangHai) Machinery Co.,Ltd"border="0" /></a></h1>
+					<p>Manufacturer and supplier of mining equipment.</p>
+				</div>
+                <div class="select">
+                	<div id="language"><a href="#" title="Change Language" id="sub_link">United States - English</a>
+                    	<ul id="sbu_language">
+                        	<li><a href="http://www.kefidchina.com/" title="English" target="_blank"><img src="{dede:global.cfg_templets_skin/}/images/en.gif" alt="English" /></a></li>
+                            <li><a href="http://es.kefidchina.com/" title="Español" target="_blank"><img src="{dede:global.cfg_templets_skin/}/images/es.gif" alt="Español" /></a></li>
+                            <li><a href="http://fr.kefidchina.com/" title="Français" target="_blank"><img src="{dede:global.cfg_templets_skin/}/images/fr.gif" alt="Français" /></a></li>
+                            <li><a href="http://ru.kefidchina.com/" title="Русский" target="_blank"><img src="{dede:global.cfg_templets_skin/}/images/ru.gif" alt="Русский" /></a></li>
+							<li><a href="http://ar.kefidchina.com/" title="العربية" target="_blank"><img src="{dede:global.cfg_templets_skin/}/images/ae.gif" alt="العربية" /></a></li>
+							<li><a href="http://pt.kefid.com/" title="Português" target="_blank"><img src="{dede:global.cfg_templets_skin/}/images/pt.gif" alt="Português" /></a></li>
+                            <li><a href="http://vn.kefid.com/" title="Tiếng Việt" target="_blank"><img src="{dede:global.cfg_templets_skin/}/images/vn.gif" alt="Tiếng Việt" /></a></li>
+							<li><a href="http://cn.kefid.com/" title="Chinese" target="_blank"><img src="{dede:global.cfg_templets_skin/}/images/cn.gif" alt="Chinese" /></a></li>
+                        </ul>
+                    </div>
+				</div>
+			</div>
+			<div class="menu">
+				<ul id="navi1">
+					<li><a href="/" title="Home">Home<span></span></a></li>
+					<li><a href="/v3/About-Kefid/" title="About Kefid">About Kefid<span></span></a></li>
+					<li id="h_m_product" class="on_on"><a href="/v3/products.html" title="Products ">Products <span></span></a>
+                    	 <div id="sub_menu">
+                    		<div>
+                                <h2><a href="/v3/Crushing-Plant/" title="Stationary Crushing Plant">Stationary Crushing Plant</a></h2>
+                                <ul>
+                                    <li><a href="/v3/Crushing-Plant/Jaw-Crushers/Jaw-Crusher.html">Jaw Crusher</a></li>
+                                    <li><a href="/v3/Crushing-Plant/Jaw-Crushers/JC-Series-Jaw-Crusher.html">JC Series Jaw Crusher</a></li>
+                                    <li><a href="/v3/Crushing-Plant/Impact-Crushers/Impact-Crusher.html">Impact Crusher</a></li>
+                                    <li><a href="/v3/Crushing-Plant/Impact-Crushers/Hydraulic-Impact-Crusher.html">Hydraulic Impact Crusher</a></li>
+                                    <li><a href="/v3/Crushing-Plant/Impact-Crushers/Primary-Impact-Crusher.html">Primary Impact Crusher</a></li>
+                                    <li><a href="/v3/Crushing-Plant/Cone-Crushers/CS-Cone-Crusher.html">CS Cone Crusher</a></li>
+                                    <li><a href="/v3/Crushing-Plant/Cone-Crushers/Spring-Cone-Crusher.html">Spring Cone Crusher</a></li>
+                                    <li><a href="/v3/Crushing-Plant/Cone-Crushers/HST-Cone-Crusher.html">HST Cone Crusher</a></li>
+                                    <li><a href="/v3/Crushing-Plant/Cone-Crushers/HPT-Cone-Crusher.html">HPT Cone Crusher</a></li>
+                                    <li><a href="/v3/Crushing-plant/VSI-Crushers/VSI6S1263.html">VSI6S vertical shaft impact crusher</a></li>
+                                    <li><a href="/v3/Crushing-plant/VSI-Crushers/Deep-Rotor-VSI-Crusher.html">Deep Rotor VSI Crusher</a></li>
+                                    <li><a href="/v3/Crushing-plant/VSI-Crushers/B-Series-VSI-Crusher.html">B Series VSI Crusher</a></li>
+                                    <li><a href="/v3/Crushing-plant/VSI-Crushers/P-Series-VSI-Crusher.html">P Series VSI Crusher</a></li> 
+                                </ul>                                               
+                        	</div>
+                            <div>
+                                <h2><a href="/v3/Mobile-Crusher/" title="Mobile Crushing Plant">Mobile Crushing Plant</a></h2>
+                                <ul>
+                                    {volist name="mobilelist" id="promlist"}
+                                    <li><a href="/v3/Mobile-Crusher/{if empty($promlist.filename)}{$promlist.id}{else}{$promlist.filename}{/if}.html" target="_self">{$promlist.title}</a></li>
+                                    {/volist}
+                                </ul> 
+                                <h2><a href="/v3/Aggregate-Production-Line/" title="Aggregate Production Line">Aggregate Production Line</a></h2> 
+                                <ul>
+                                        {volist name="aggregatelist" id="alist"}
+                                        <li><a href="/v3/Aggregate-Production-Line/{if empty($alist.filename)}{$alist.id}{else}{$alist.filename}{/if}.html" target="_self">{$alist.title}</a></li>
+                                        {/volist}  
+                                </ul>                                  
+                            </div>
+                            <div>
+                                <h2><a href="/v3/Grinding-Mill/" title="Grinding Mill">Grinding Mill</a></h2>
+                                <ul>
+                                        {volist name="milllist" id="mlist"}
+                                        <li><a href="/v3/Grinding-Mill/{if empty($mlist.filename)}{$mlist.id}{else}{$mlist.filename}{/if}.html" target="_self">{$mlist.title}</a></li>
+                                        {/volist}
+                                </ul>                          
+                            </div>
+                            <div>
+                                <h2><a href="/v3/Screening-Washing/" title="Screening & Washing">Screening & Washing</a></h2>
+                                <ul>
+                                        {volist name="screeninglist" id="slist"}
+                                        <li><a href="/v3/Screening-Washing/{if empty($slist.filename)}{$slist.id}{else}{$slist.filename}{/if}.html" target="_self">{$slist.title}</a></li>
+                                        {/volist}
+                                </ul> 
+                                <h2><a href="/v3/Feeding-Conveying/" title="Feeding & Conveying ">Feeding & Conveying</a></h2> 
+                                <ul>
+                                        {volist name="feedinglist" id="flist"}
+                                        <li><a href="/v3/Feeding-Conveying/{if empty($flist.filename)}{$flist.id}{else}{$flist.filename}{/if}.html" target="_self">{$flist.title}</a></li>
+                                        {/volist}
+                                </ul>                                  
+                            </div>
+                    	</div>                                                                      
+                    </li>
+					<li id="h_m_case"><a href="/Case/" title="Global Case">Global Case<span></span></a>
+                        <div id="case_list">
+                          <dl>
+                            <dt><a href="/Case/Asia/">Asia</a></dt>
+                            <dt><a href="/Case/Europe/">Europe</a></dt>
+                            <dt><a href="/Case/Africa/">Africa</a></dt>
+                            <dt><a href="/Case/NorthAmerica/">North America</a></dt>
+                            <dt><a href="/Case/LatinAmerica/">Latin America</a></t>
+                            <dt><a href="/Case/Oceania/">Oceania</a></dt>
+                          </dl>
+                        </div>
+                    </li><li><a href="/News/" title="News">News<span></span></a></li>
+					<li id="h_m_solutions"><a href="/solutions/">Solutions<span></span></a>
+                        <div id="solutions_list">
+                            <a href="/solutions/pro-line.html" title="Success project case">Production Line</a>
+                            <a href="/solutions/case.html" title="Success project case">Success project case</a>
+                        </div>
+                    </li> 
+					<li><a href="/Service/" title="Service" rel="nofollow">Service<span></span></a></li>
+					<li><a href="/v3/contact.html" title="Contact Us" rel="nofollow">Contact Us<span></span></a></li>
+				</ul>
+			</div>
+            
+		</div>

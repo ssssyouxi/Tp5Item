@@ -1,0 +1,40 @@
+{include file="/common/_meta" /}
+    <title>Document</title>
+</head>
+<style>
+.hp:hover{
+    cursor: pointer;
+}
+</style>
+<body>
+        <table class="table table-border table-bordered table-bg table-hover">
+                <thead>
+                    <tr class="text-c">
+                        <th>文件名</th>
+                        <th width="150">大小</th>
+                        <th width="150">时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {foreach $res as $k => $v}
+                    <tr class="text-l hp">
+                        
+                        <td class="name">{$k}</td>
+                        <td class="text-c">{$v.size}</td>
+                        <td class="text-c">{$v.time|date='Y-m-d h:i:s'}</td>
+                    </tr>
+                    {/foreach}
+
+                </tbody>
+            </table>
+
+<script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
+<script>
+var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+$('.hp').on('click', function(){
+    parent.$('#model').val($(this).children("td").eq(0).text());
+    parent.layer.close(index);
+});
+</script>
+</body>
+</html>

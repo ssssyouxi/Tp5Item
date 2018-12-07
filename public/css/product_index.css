@@ -1,0 +1,127 @@
+.product_title{
+	font-family:  "Estrangelo Edessa";
+	font-size: 36px;
+	margin-top: 37px;
+}
+.product_title+hr{
+	margin-top: 14px;
+}
+.product_list_nav{
+	z-index: 100;
+	background: white;
+
+}
+.product_list_nav>li{
+	margin-bottom: 25px;
+}
+.product_list_nav a{
+	font-size: 15px;
+	color: #2f3443;
+}
+.product_list_nav li a{
+	padding-left: 1px;
+
+}
+.product_list_nav .drop-menu{
+	
+}
+.product_center_pic .box{
+	position: relative;
+	margin-top: 57px;
+
+}
+
+.product_icon1{
+	width: 30px;
+	height: 25px;
+	position: absolute;
+}
+.product_center_inname{
+	margin-top: -34px;
+	text-align: center;
+	font-size: 16px;
+	margin-top: -20px;
+}
+.product_des p:last-child{
+	color: #da3003;
+}
+.product_list .l1>.box{
+	margin-top: 50px;
+}
+.product_list .l1{
+	margin-top: -25px;
+}
+.product_list .l2{
+	margin-top: 85px;
+}
+.product_list .l2>.box{
+	margin-top:25px;
+}
+.product_list .l3{
+	margin-top: 85px;
+}
+.product_list .line-big:last-child{
+	margin-bottom: 40px;
+}
+.footer{
+	margin-top: 65px;
+}
+
+@media(max-width: 420px){
+	.nb-d{
+		display: none;
+	}
+}
+@media (min-width: 761px){
+	.product_list_nav .myactive:before{position: relative;}
+	.product_list_nav .myactive:before{
+		content: '';
+		display: block;
+		position: absolute;
+		right: 50%;
+		top:-10px;
+		margin-right: -3px;
+		border:6px transparent solid;
+		border-top-color: #da3003;
+}
+.text-red, a.text-red:link{color: #2f3443 !important;}
+	.product_list_nav>li{
+		margin-right: 5px; 
+}
+	.product_list_nav{
+		width: 100%;
+}
+.product_center_pic .box:hover{
+	
+	box-shadow:0px 4px 10px 1px  #ccc;
+}
+
+.product_center_pic .box:hover .img-responsive{
+	margin-left: 10px;
+}
+.product_center_pic .box .img-responsive{
+	margin-left: 0px;
+	 transition: margin 1s;
+	 -webkit-transition: margin 1s;
+	 -moz-transition:margin 1s;
+	 -ms-transition:margin 1s;
+}
+}
+
+
+@media(min-width: 1000px){
+	.product_list_nav>li{
+		margin-right: 0px; 
+	}
+}
+@media (min-width: 1200px){
+	.product_list_nav>li{
+		margin-right: 0px; 
+	}
+}
+@media (max-width: 760px){
+	.product_center_inname{
+		/*text-align: left;*/
+	}
+
+}

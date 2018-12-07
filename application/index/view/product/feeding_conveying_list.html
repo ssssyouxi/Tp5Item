@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Feeding & Conveying - Kefid Shanghai Machinery</title>
+	<meta name="keywords" content="Feeding & Conveying" />
+	<meta name="description" content="As a professional and experienced manufacturer of mobile crusher,jaw crusher,cone crusher,impact crusher,ball mill,super fine mill and vertical mill,Kefid not only provide outstanding quality machine,but also offer complete business solution to you" />
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<link rel="stylesheet" href="/css/pintuer.css">
+	<link rel="stylesheet" href="/css/font.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/about.css">
+	<link rel="stylesheet" type="text/css" href="/css/index.css">
+	<link rel="stylesheet" type="text/css" href="/css/product_index.css">
+	<link rel="stylesheet" href="/css/p-contact.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/pintuer.js"></script>
+    <script src="/js/respond.js"></script>
+     <script src="/js/footer.js"></script>
+     <script src="/js/contact.js"></script>
+      
+</head>
+<body id="pr">
+	{include file="/common/_header_about"/}
+	<div class="nb-d ">
+		<div class="container">
+
+			<p><a href="/">Home </a>> Products>Feeding&Conveying</p>
+		</div>
+	</div>
+	<article class="container">
+		<section class="product_title">
+			PRODUCTS
+		</section>
+		<hr/>
+		<section class="product_list">
+			<button class="button icon-navicon" data-target="#link2" ></button>
+			<ul class="product_list_nav fixed nav nav-inline nav-navicon nav-menu" id="link2">
+				<li >
+					<a href="/v3/Mobile-Crusher/" >		Mobile Crushing Plant
+					</a>
+				</li>
+				<li>
+					<a href="/v3/Crushing-Plant/" >Stationary Crushing Plant</a>
+					
+				</li>
+				<li ><a href="/v3/Grinding-Mill/">Grinding Mill</a></li>
+				<li  ><a href="/v3/Screening-Washing/">Screening & Washing</a></li>
+				<li><a href="/v3/Aggregate-Production-Line/">Aggregate Production Line</a></li>
+				<li  class="myactive"><a href="/v3/Feeding-Conveying/" class="text-red">Feeding & Conveying</a></li>
+			</ul>
+			<div class="clearfix"></div>
+			<div class="line-big product_center_pic l1" id="mobile">
+					{volist name="feed" id="feedlist"}
+					<div class="xm4 xs6 xl12 box">
+					  <div class="product_icon product_icon1 dialogs"  data-toggle="click" data-target="#product_index_mydialoga[field:global.autoindex/]" data-mask="1" data-width="90%">
+					  <img src="/img/product/product_index_icon.jpg">
+					  <div class="product_des">
+						  <p>{$feedlist.title}</p>
+						  <p>
+							 {$feedlist.outputsize}<br />
+							 {$feedlist.capacity}<br />
+							 {$feedlist.pmaterials}
+						  </p>
+					  </div>
+					  <div id="product_index_mydialoga[field:global.autoindex/]">
+						  <div class="dialog">
+							  <div class="dialog-head"> <span class="close rotate-hover"></span><strong>{$feedlist.title}</strong> </div>
+						  </div>
+						  <div class="dialog-body">
+							  <p>
+							  {$feedlist.outputsize}<br />
+							  {$feedlist.capacity}<br />
+							  {$feedlist.pmaterials}
+							  <br>
+							  <br>
+							  </p>
+						  </div>
+						  
+					  </div>
+				  </div>
+					  <a href="/v3/Feeding-Conveying/{if empty($feedlist.filename)}{$feedlist.id}{else}{$feedlist.filename}{/if}.html"><img src="{$feedlist.litpic}" class="img-responsive">
+					  <p class="product_center_inname">{$feedlist.title}</p>
+					  </a>
+			  </div>
+				   {/volist}
+			</div>
+		
+		</section>
+		<!-- 表单 -->
+		{include file="/common/_form" /}
+	</article>
+		{include file="/common/_k_footer" /}
+				
+</body>
+<script type="text/javascript">
+	w = $(window).width();
+	if(w<760){
+		$('.product_list_nav').removeClass('fixed');
+	}
+	if(w > 760){
+		$('.product_icon').attr('data-target','')
+		$('.product_icon').attr('data-mask','')
+		$('.product_icon').attr('data-toggle','')
+		
+		$('.product_des').click(function(event){
+		event.stopPropagation()
+	});
+
+	$('.product_icon').mouseenter(function(event){
+	
+		$(this).children('img').attr('src','/img/product/icon.png');
+		$(this).children('.product_des').stop().slideDown(0)
+
+
+	}).mouseleave(function(){
+		$(this).children('img').attr('src','/img/product/product_index_icon.jpg');
+		$(this).children('.product_des').stop().slideUp(0)
+	});
+	}
+
+	$('.product_list_nav a').each(function(){
+		$(this).on('click',function(){
+			
+			$('.product_list_nav a').each(function(){
+				$(this).removeClass('text-red')
+				$(this).css('color','black');
+			})
+			$(this).css('color','#da3003')
+			
+		})
+	})
+	function test(){
+		document.msgForm.reset(); 
+	}
+</script>
+</html>

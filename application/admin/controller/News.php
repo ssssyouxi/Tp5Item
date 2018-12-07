@@ -130,21 +130,6 @@ class News extends Base
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         $type = Arctype::view('Arctype','id,reid,topid,typename,channeltype')->select()->toArray();
         $list = $this->getTree($type);
         $wxj= '';
@@ -179,7 +164,7 @@ class News extends Base
         //     }
         // }
         input('post.title');
-        $title = $this->sameTitle(input('post.title'),input('post.id'));
+        $title = $this->sameTitle(input('post.title'),input('post.id'),input('post.typeid'));
         if($title['code']){
             return  ['code'=>0,'msg'=>'增加失败，标题重复！'];
             exit;
@@ -258,7 +243,23 @@ class News extends Base
                 // $res_arr['list'] = $list;
             }
         }
-        $res = $this->gettype($res_arr,$news);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // $res = $this->gettype($res_arr,$news);
         /////////////
         $type = Arctype::view('Arctype','id,reid,topid,typename,channeltype')->select()->toArray();
         $arcatt = Arcatt::select();
@@ -280,7 +281,7 @@ class News extends Base
         $this->assign("arcatt",$arcatt);
         $this->assign("wxj",html_entity_decode($wxj));
         $this->assign("news",$news);
-        $this->assign("res",$res);
+        $this->assign("res",$res_arr);
         return $this->fetch();
         
     }
@@ -325,10 +326,9 @@ class News extends Base
             exit();
         }
         input('post.title');
-        $title = $this->sameTitle(input('post.title'),input('post.id'));
+        $title = $this->sameTitle(input('post.title'),input('post.id'),input('post.typeid'));
         if($title['code']){
-            return  ['code'=>0,'msg'=>'增加失败，标题重复！'];
-            exit;
+            return  ['code'=>0,'msg'=>$title['msg']];
         }
         $data = input('post.');
         $imglist =json_decode(input('post.imglist'));
@@ -463,14 +463,16 @@ class News extends Base
     //         return ['code'=>0,'msg'=>' '];
     //     }
     // }
-    public function sameTitle($title,$id=null){
+    public function sameTitle($title,$id=null,$typeid){
         $res = Archives::field("title,id")
                         ->where("title",$title)
+                        ->where('typeid',$typeid)
+                        ->where('arcrank','<>',-2)
                         ->find();
         
-        if($res && $res['id']!=$id){
+        if($res && $res['id']!=$id ){
 
-            return ['code'=>1,'msg'=>'有相同的标题！'];
+            return ['code'=>1,'msg'=>'有相同的标题！'.$res['id']];
         }else{
             return ['code'=>0,'msg'=>' '];
         }

@@ -1,0 +1,100 @@
+	<section class="container">
+		<div class="head_top">
+			<a href="/"><img src="/img/public/kefid.png"></a>
+			<span class="head_right">
+				<a class="h-l" href="mailto:kefidsh@kefidgroup.com/">
+				<i class="icon icon-envelope-o" aria-hidden="true"></i>kefidsh@kefidgroup.com/
+				</a>
+				<select class="lang margin-big-left" onchange="window.location.href=this.options[this.selectedIndex].value">
+				    <option>--Language-- </option>
+				    <option value="http://www.kefidchina.com/">English</option>
+					<option value="http://es.kefidchina.com/"> Español</option>
+					<option value="http://fr.kefidchina.com/">Français</option>
+					<option value="http://ru.kefidchina.com/">Русский</option>
+					<option value="http://ar.kefidchina.com/">العربية</option>
+					<option value="http://mn.kefidchina.com/">монгол</option>
+					<option value="http://pt.kefid.com/">Português</option>
+					<option value="http://vn.kefid.com/">Tiếng Việt</option>
+					<option value="http://www.kefeida.com/">Chinese</option>
+				</select>
+			</span>
+		</div>	
+	</section>
+	<section class="mynav layout doc-header fixed">
+	<div class="container">
+	<button class="button icon-navicon ab_button" data-target="#nav-link3"></button>
+		<div class="clearfix"></div>
+		<ul class="nav nav-menu nav-inline nav-navicon " id="nav-link3">
+			<li class="hov_ho"><a href="/">Home</a> </li>
+			<li class="product_show hov_pr"><a href="/v3/products.html">Products<span class="arrow"></span></a></li>
+			<li class="hov_ca"><a href="/Case/">Case<span class="arrow"></span></a>
+				<ul class="drop-menu">
+					{volist name="casetype" id="type"}
+					<li><a href="/Case{$type.typedir}/">{$type.typename}</a> </li>
+				    {/volist}
+				</ul>
+			</li>
+			<li class="hov_so"><a href="/solutions/">Solution</a> </li>
+			<li class="hov_ne"><a href="/News/">News<span class="arrow"></span></a>
+				<ul class="drop-menu">
+					<li><a href="/News/company/">Company News</a> </li>
+					<li><a href="/News/industry/">Industry News</a> </li>
+					<li><a href="/special/">Focus</a> </li>
+					<li><a href="/News/knowledge/">Product Knowledge</a> </li>
+				</ul>
+			</li>
+			<li class="hov_se"><a href="/Service/">Service</a> </li>
+			<li class="hov_ab"><a href="/v3/About-Kefid/">About kefid</a> </li>
+			<li class="hov_co"><a href="/v3/contact/">Contact Us</a> </li>
+		</ul>
+		</div>
+		<div class="drop_list">
+			<div class="plist_con">
+				<ul>
+					<li>
+						<ul>
+						<li class="ptite"><a href="/v3/Mobile-Crusher/">Mobile Crushing Plant</a></li>
+						{volist name="mobilelist" id="promlist"}
+						<li><a href="/v3/Mobile-Crusher/{if empty($promlist.filename)}{$promlist.id}{else}{$promlist.filename}{/if}.html" target="_self">{$promlist.title}</a></li>
+						{/volist}
+						</ul>
+					</li>
+					<li>
+						<ul>
+							<li class="ptite"><a href="/v3/Crushing-Plant/">Stationary Crushing Plant</a></li>
+							{volist name="stationarylist" id="slist"}
+							<li><a href="{$slist.typedir}/{if empty($slist.filename)}{$slist.id}{else}{$slist.filename}{/if}.html" target="_self">{$slist.title}</a></li>
+							{/volist}
+						</ul>
+					</li>
+					<li>
+						<ul>
+						<li class="ptite"><a href="/v3/Grinding-Mill/">Grinding Mill</a></li>
+						{volist name="milllist" id="mlist"}
+						<li><a href="/v3/Grinding-Mill/{if empty($mlist.filename)}{$mlist.id}{else}{$mlist.filename}{/if}.html" target="_self">{$mlist.title}</a></li>
+						{/volist}
+						</ul>
+					</li>
+					<li>
+						<ul>
+							<li class="ptite"><a href="/v3/Aggregate-Production-Line/">Aggregate Production Line</a></li>
+							{volist name="aggregatelist" id="alist"}
+							<li><a href="/v3/Aggregate-Production-Line/{if empty($alist.filename)}{$alist.id}{else}{$alist.filename}{/if}.html" target="_self">{$alist.title}</a></li>
+							{/volist}
+							<li class="ptite"><a href="/v3/Screening-Washing/">Screening &amp; Washing</a></li>
+							{volist name="screeninglist" id="slist"}
+							<li><a href="/v3/Screening-Washing/{if empty($slist.filename)}{$slist.id}{else}{$slist.filename}{/if}.html" target="_self">{$slist.title}</a></li>
+							{/volist}
+							<li class="ptite"><a href="/v3/Feeding-Conveying/">Feeding &amp; Conveying</a></li>
+							{volist name="feedinglist" id="flist"}
+							<li><a href="/v3/Feeding-Conveying/{if empty($flist.filename)}{$flist.id}{else}{$flist.filename}{/if}.html" target="_self">{$flist.title}</a></li>
+							{/volist}
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+
+	

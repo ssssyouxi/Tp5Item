@@ -1,0 +1,135 @@
+
+
+.case_index_nav li a{
+	padding: 5px;
+	font-size: 14px;
+	color: #333333;
+	font-family: Arial;
+	
+}
+
+.case_index_nav{
+	margin-left: 26px;
+}
+.doc-logo button{
+	position: relative;
+	z-index: 500;
+	margin-top: -15px;
+	margin-bottom: 0px;
+	
+}
+.doc-logo a{
+	padding-left: 7px;
+	padding-top: 1px;
+}
+.case_index_title{
+	font-family:  "estrangelo edessa",Arial,"Times New Roman",Georgia;
+	font-size: 34px;
+	color: #414141;
+	margin-top: 38px;
+
+}
+.case_index_title+hr{
+	margin-bottom: 5px;
+}
+.doc-logo {
+	margin-top: 10px;
+
+}
+.case_index_plist div{
+
+	margin-top: 10px;
+}
+.case_index_plist div img{
+	 transition: transform 1s;
+	 -webkit-transition: transform 1s;
+	 -moz-transition:transform 1s;
+	 -ms-transition:transform 1s;
+}
+.case_index_plist div:hover{
+
+	  
+}
+.case_index_plist{
+	margin-top: 50px;
+}
+.case_index_plist img{
+	width: 100%
+}
+.case_index_plist p{
+	font-size: 14px;
+	margin-bottom: 10px;
+	padding-top: 15px;
+	line-height: 17px;
+}
+.ts{
+	position: relative;
+}
+.ts:before{
+	content: '';
+	display: block;
+	position: absolute;
+	right: 50%;
+	top:-10px;
+	margin-right: -3px;
+	border:6px transparent solid;
+	border-top-color: #da3003;
+}
+
+.page{
+	text-align: center;
+	margin: 0 auto;
+	margin-top: 57px;
+	margin-bottom: 10px;
+}
+.case_index_nav{
+	position: relative;
+	z-index: 100;
+}
+.case_index_h{
+	height: 0px;
+}
+#bd{
+	margin-top: 30px;
+
+}
+@media(max-width: 759px){
+	.case_index_plist div:nth-child(2){
+	margin-top: 25px;
+	margin-bottom: 10px;
+}
+	.case_index_nav{
+		margin-left: 0px;
+   	     padding-left: 5px;
+	}
+}
+@media(min-width: 760px){
+	.case_index_nav li{
+		margin-right: 25px;
+	
+	}
+	.case_index_plist div:hover img{
+	-ms-transform: scale(1.1,1.1); /* IE 9 */
+	-moz-transform: scale(1.1,1.1); /*Firefox*/ 
+    -webkit-transform: scale(1.1,1.1); /* Safari */
+     transform: scale(1.1,1.1); /* 标准语法 */
+}
+}
+@media(min-width: 1000px){
+	.case_index_nav li{
+		margin-right: 45px;
+	
+	}
+}
+@media(min-width: 1200px){
+	.case_index_nav li{
+		margin-right: 81px;
+	
+	}
+	.case_index_nav li:first-child{
+		margin-right: 74px;
+	}
+	.case_index_h{
+		height: 0px !important;
+	}
+}

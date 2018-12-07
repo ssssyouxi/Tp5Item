@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>{$res.title} - Kefid Shanghai Machinery</title>
+	<meta name="keywords" content="{$res.keywords}" />
+	<meta name="description" content="{$res.description}" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<link rel="stylesheet" href="/css/pintuer.css">
+	<link rel="stylesheet" href="/css/font.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/product_article.css">
+	<link rel="stylesheet" href="/css/p-contact.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/pintuer.js"></script>
+    <script src="/js/respond.js"></script>
+     <script src="/js/footer.js"></script>
+     <script src="/js/contact.js"></script>
+     <script src="/js/table.js"></script>
+</head>
+<body id="pr">
+	{include file="/common/_header_about" /} 
+	<div class="nb-d ">
+		<div class="container">
+			<p><a href="/">Home </a>&gt; <a href="/v3/products.html">Products</a></p>
+		</div>
+	</div>
+	<article>
+		<section class="container product_article_t">
+			<div class="line-big">
+				<div class="xl12 xs5 text-center product_article_pic">
+					<img src='{$artpro.bpic}' />
+				</div>
+				<div class="xl12 xs7 product_article_des">
+					<h1>{$res.title}</h1>
+					<p>
+						{$artpro.outputsize|raw}
+						<strong>PRODUCTION CAPACITY :</strong> {$artpro.capacity}
+					</p>
+					<p>
+						{$artpro.application|raw}
+					</p>
+					
+						<a href="javascript:void(0)" class="button bg-red radius-rounded" onclick="openZoosUrl('chatwin')">Chat online</a>
+						
+						<a href="#bd" class="button bg-red radius-rounded">
+							Leave a message
+						</a>
+					
+				</div>
+			</div>
+		</section>
+		<hr>
+		<section class="container product_article_b">
+			<div class="product_article_b_right">
+				<ul class=" product_info">
+					<li class="x4" name="d3"><span class="product_article_active">INTRODUCTION</span>
+					
+					</li>
+
+					<li class="x4" name="d2">
+						<span class="product_article_unactive">FEATURES</span>
+					</li>
+					<li class="x4" name="d1">
+						<span class="product_article_unactive">TECHNICAL SPECIFICATIONS</span>
+					</li>
+				</ul>
+				<div class="clearfix"></div>
+				<div>
+				<div class="d1" style="display:none">
+					<div class="table-responsive">
+							{$artpro.specifications|raw}
+					</div>
+					</div>
+					<div class="d2" style="display:none">
+							{$artpro.features|raw}
+					</div>
+					<div class="d3" style="display:block">
+							{$artpro.introduction|raw}				
+					</div>
+					</div>
+			</div>
+			<dl class="xs12 product_article_s_show">
+				<dt>INTRODUCTION</dt>
+				<dd>
+					{$artpro.introduction|raw}	
+				</dd>
+				<dt>FEATURES</dt>
+				<dd>{$artpro.features|raw}</dd>
+				<dt>TECHNICAL SPECIFICATIONS</dt>
+				<dd class="table-responsive">{$artpro.specifications|raw}</dd>
+			</dl>
+		</section>
+		<section class="container ">
+			<div class="clearfix"></div>
+				<div class="product_related_case">RELATED CASE</div>
+				<div class="line-big product_relcas">
+					{$artpro.principle|raw}
+				</div>
+		</section>
+	
+		{include file="/common/_form"/}
+		<section class="container product_article_m">
+			<h4>PEOPLE WHO VIEW THIS PRODUCT ALSO VIEWED</h4>
+			<div class="line-big text-center product_article_view">
+					{volist name="relist" id="rlist"}
+					<a href="/?id={$rlist.id}" class="xl12 xs4"><img src="{$rlist.litpic}" class="img-responsive">
+						<p class="product_center_inname">{$rlist.title}</p>
+					</a>
+					{/volist}
+
+		<!-- {dede:arclist typeid='1,2,7,8,10' limit='0,3' titlelen='80' orderby='id' orderway="desc"}
+
+			<a href="[field:arcurl/]" class="xl12 xs4"><img src="[field:litpic/]" class="img-responsive">
+						<p class="product_center_inname">[field:title/]</p>
+						</a>
+						{/dede:arclist} -->
+
+			</div>
+		</section>
+	</article>
+	<script type="text/javascript">
+		w  = $(window).width();
+
+	$('.banner').mouseenter(function(){
+		$('.banner .pager-prev').css('top',"90px");
+		$('.banner .pager-next').css('top',"90px");
+	});
+		if(w < 684){
+				$('.banner').mouseenter(function(){
+		h = $('.banner img').eq(1).height();
+		$('.banner .pager-prev').css('top',"45%");
+		$('.banner .pager-next').css('top',"45%");
+	});
+		}
+	$('.tog').click(function(){
+		$(this).next('span').next('ul').slideToggle(300)
+		$(this).toggleClass('tm');
+	});
+	
+		$('.product_info li').click(function(){
+			$('.product_info li span').addClass('product_article_unactive');
+			$('.product_info li span').removeClass('product_article_active');
+			$(this).children('span').removeClass('product_article_unactive').addClass('product_article_active')
+		
+			c = $(this).attr('name');
+			$('.'+c).css('display','block')
+			$('.'+c).siblings('div').css('display','none')
+		});
+
+	function test(){
+		document.msgForm.reset(); 
+	}
+	document.getElementById("url").value=window.location.href;
+	$('.product_article_pic a').removeAttr('href');
+</script>
+	{include file="/common/_k_footer"/}
+	{include file="/common/_left-pop-en"/}
+</body>
+</html>

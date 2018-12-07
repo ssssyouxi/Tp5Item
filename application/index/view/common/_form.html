@@ -1,0 +1,161 @@
+<section class="container" id="bd">
+				<div class="contact_s2" style="text-align: center">
+					<img src="/img/public/message.png" height="39" width="34">
+					<p><span>ONLINE MESSAGE</span></p>
+				</div>
+				<div class="contact_form line">
+						<form method="post" class="form-x" action="//data.kefid.com/Actionsh.php" name="msgForm" onsubmit="return check()" id="pform">
+					 <div class="line-big">
+					 	<div class="xs12 xm6">
+					 		<div class="form-group">
+								<div class="label">
+									<label for="username"><span style="color: red">*</span>
+									Name : </label>
+								</div>
+								<div class="field">
+								<input type="text" class="input"  name="userName" size="30" placeholder="">
+								
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="label">
+									<label for="username"><span style="color: red">*</span>
+									E-mail : </label>
+								</div>
+								<div class="field">
+								<input type="text" class="input"  name="userEMail" size="30">
+								
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="label">
+									<label for="username"><span style="color: red">*</span>
+									Products : </label>
+								</div>
+								<div class="field">
+									<select class="input radius-none" name="product" id="product">
+						          <option value="">Select  Equipment</option>
+						          <option value="Mobile Crusher">Mobile Crusher</option>
+						          <option value="Jaw Crusher">Jaw Crusher</option>
+						          <option value="Cone Crusher">Cone Crusher</option>
+						          <option value="Impact Crusher">Impact Crusher</option>
+						          <option value="Grinding Mill ">Grinding Mill </option>
+						          <option value="Sand Making Machine">Sand Making Machine</option>
+						          <option value="Sand Washing Machine">Sand Washing Machine</option>
+						          <option value="Production Line">Production Line</option>
+						          <option value="Vibrating Screen">Vibrating Screen</option>
+						          <option value="Feeder">Feeder</option>
+								</select>
+								
+								</div>
+							</div>
+					 	</div>
+					 	<div class="xs12 xm6">
+					 		<div class="form-group">
+								<div class="label">
+									<label for="username"><span style="color: white">*</span>
+									Country : </label>
+								</div>
+								<div class="field">
+								<input type="text" class="input"  name="uCountry"  placeholder="">
+								
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="label">
+									<label for="username"><span style="color: white">*</span>
+									Tel : </label>
+								</div>
+								<div class="field">
+								<input type="text" class="input"  name="userTel"  placeholder="">
+								
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="label">
+									<label for="username"><span style="color: red">*</span>
+									Materials : </label>
+								</div>
+								<div class="field">
+									<select class="input radius-none" name="mType" id="mType">
+									<option value="">Select Materials</option>
+									<option vlaue="Basalt">Basalt</option>
+									<option vlaue="Barite">Barite</option>
+									<option vlaue="Calcite">Calcite</option>
+									<option vlaue="Coal">Coal</option>
+									<option vlaue="Dolomite">Dolomite</option>
+									<option vlaue="Feldspar">Feldspar</option>
+									<option vlaue="Gypsum">Gypsum</option>
+									<option vlaue="Granite">Granite</option>
+									<option vlaue="Limestone">Limestone</option>
+									<option vlaue="Quartz">Quartz</option>
+									<option vlaue="Pebble">Pebble</option>
+									<option vlaue="Slag">Slag</option>
+									<option vlaue="Metallic ores">Metallic ores</option>
+								</select>
+								
+								</div>
+							</div>
+					 	</div>
+					 	<div class="xl12  xs12">
+					 		<div class="form-group">
+								<div class="label capa">
+									<label for="username"><span style="color: red">*</span>
+									Capacity : </label>
+								</div>
+								<div class="field capa_f">
+									<label>
+										<input name="mCap" type="radio" value="30-80T/H"><span>30-80T/H</span>
+									</label>
+									<label>
+										<input name="mCap" type="radio" value="80-150T/H"><span>80-150T/H</span>
+									</label>
+									<label>
+										<input name="mCap" type="radio" value="150-220T/H"><span>150-220T/H</span>
+									</label>
+									<label>
+										<input name="mCap" type="radio" value="220-350T/H"><span>220-350T/H</span>
+									</label>
+									<label>
+										<input name="mCap" type="radio" value="350-450T/H"><span>350-450T/H</span>
+									</label>
+									<label>
+										<input name="mCap" type="radio" value="450-600T/H"><span>450-600T/H</span>
+									</label>
+									
+									<label class="mf_2">
+										<input name="mCap" type="radio" value=">600T/H"><span>>600T/H</span>
+									</label>
+									
+
+									
+								</div>
+							</div>
+					 	</div>
+					 	<div class="x12">
+					 		<div class="form-group">
+								<div class="label mess">
+									<label for="username"><span style="color: red">*</span>
+									Message : </label>
+								</div>
+								<div class="field mess_f">
+									<span class="fmess">such as: Output size 0-10, 10-15, 15-20mm</span>
+									<textarea rows="4" name="Message" class="input radius-none"  id="textarea"></textarea>
+								
+								</div>
+							</div>
+					 	</div>
+					 </div>
+
+					<div class="x12">
+						<button class="button contact_sub radius-none"><b>Submit</b></button>
+					</div>
+					<!-- 隐藏传url -->
+						<input type="hidden" id="url" name="pWin" value="">
+						<!-- 隐藏传url -->
+					</form>
+				</div>
+				<script type="text/javascript">
+					document.getElementById("url").value=window.location.href;
+				</script>
+			</section>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$ppc.title} - Kefid Shanghai Machinery- Kefid Shanghai Machinery</title>
+<meta name="description" content="{$ppc.keywords}" />
+<meta name="keywords" content="{$ppc.description}" />
+<link href="/css/ppc_common.css" rel="stylesheet" media="screen" type="text/css" />
+<link href="/css/ppc_product.css" rel="stylesheet" media="screen" type="text/css" />
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript" src="/js/nav_1011.js"></script>
+ <script language="javascript" src="//drt.zoosnet.net/JS/LsJS.aspx?siteid=DRT53284414&float=1&lng=en"></script>
+</head>
+<body>
+		<!--Header-->
+    {include file="/common/_k_header_index1" /} 
+	<!--Header=end-->
+	<!--Middle-->
+		<div class="m">
+          <div class="m_l">
+        {include file="/common/_ppc_left" /}
+        {include file="/common/_left-contact" /}
+		  </div>
+			<div class="m_r">
+              <div class="pro_banner">
+               <div class="thumbnail"> <img src="{$artppc.bigpic}" alt="{$ppc.title}"/> </div>
+               <div class="brief">
+                  <h1>{$ppc.title}</h1>
+                  <span>Capacity:</span> {$artppc.pro_chanliang|raw}<br/>
+                  <span>Raw Materials:</span><br/>
+                  {$artppc.pro_materials|raw}<br/>
+                  <span>Applications:</span><br/>
+                  {$artppc.pro_applications|raw}<br/>
+                   <div class="anniu">
+                    <a class="anniu1" href="javascript:void(0)" onclick="openZoosUrl('chatwin')" target="_self">Chat Online</a>
+                    <a class="anniu2" href="#product_left_inquiry">Leave Message</a>
+                   </div>
+               </div>
+             </div>
+             <div class="pro_content">
+                {$artppc.body|raw}
+             </div>
+           <div class="tjwz" >
+             <h2>Related:</h2>
+             <ul class="cptuijian">            
+               <li><a href="//www.kefidchina.com/v3/Crushing-Plant/Jaw-Crushers/JC-Series-Jaw-Crusher.html" target="_blank"><img  src="//www.kefidchina.com/uploads/sh/JC-Series-Jaw-Crusher.jpg"/></a><br/>
+                   <a href="//www.kefidchina.com/v3/Crushing-Plant/Jaw-Crushers/JC-Series-Jaw-Crusher.html" target="_blank">JC Series Jaw Crusher</a>
+               </li>
+               <li><a href="//www.kefidchina.com/v3/Crushing-Plant/Cone-Crushers/HP-Cone-Crusher.html" target="_blank"><img src="//www.kefidchina.com/uploads/sh/HP-Cone-Crusher.jpg"/></a><br/>
+                   <a href="//www.kefidchina.com/v3/Crushing-Plant/Cone-Crushers/HP-Cone-Crusher.html" target="_blank">HP Cone Crusher</a>
+               </li>
+               <li><a href="//www.kefidchina.com/v3/Mobile-Crusher/Mobile-VSI-Crusher.html" target="_blank"><img src="//www.kefidchina.com/uploads/sh/Mobile-VSI-Crusher.jpg"/></a><br/>
+                   <a href="//www.kefidchina.com/v3/Mobile-Crusher/Mobile-VSI-Crusher.html" target="_blank">Mobile VSI Crusher</a>
+               </li>
+             </ul>
+           </div>
+             <div class="product_left_inquiry" name="product_left_inquiry" id="product_left_inquiry">{include file="/common/_lb_lyb" /}</div>
+             </div>
+              
+            <!--right over-->
+
+		</div>
+	<!--Middle=end-->
+	<!--Footer-->
+{include file="/common/_ppc_footer" /}
+	<!--Footer=end-->
+{include file="/common/_ppc_left-pop-en" /}
+</body>
+</html>

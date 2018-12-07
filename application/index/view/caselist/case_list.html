@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Mineral crusher machine,quarry stone crusher,crushing plant manufacturers - Kefid Shanghai Machinery</title>
+	<meta name="keywords" content="Mineral crusher machine,quarry stone crusher,crushing plant manufacturers" />
+	<meta name="description" content="As a professional and experienced manufacturer of mobile crusher,jaw crusher,cone crusher,impact crusher,ball mill,super fine mill and vertical mill,Kefid not only provide outstanding quality machine,but also offer complete business solution to you." />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<link rel="stylesheet" href="/css/pintuer.css">
+	<link rel="stylesheet" href="/css/font.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/case_index.css">
+	<link rel="stylesheet" type="text/css" href="/css/case_list.css">
+	<link rel="stylesheet" href="/css/p-contact.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/pintuer.js"></script>
+    <script src="/js/respond.js"></script>
+   <script src="/js/footer.js"></script>
+    
+</head>
+<body id="ca">
+	{include file="/common/_header_about" /}
+	<div class="nb-d ">
+		<div class="container">
+			<p>
+				<a href="/">Home </a>> <a href="">Case</a>
+			</p>
+		</div>
+	</div>
+	<article class="">
+		<section class="container">
+			<h1 class="case_index_title">Case</h1>
+			<hr>
+		</section>
+		<nav class="container doc-naver case_index_h">
+			<div class="line">
+				<div class="xs1 xm1 xb1 doc-logo">
+					<button class="button icon-navicon margin-top float-right" data-target="#doc-header-pintuer">
+					</button>	
+					<a href="">
+						Regions:
+					</a>
+				</div>
+				<div class="xs11 xm11 xb11 doc-nav">
+					<ul class="case_index_nav nav nav-inline padding-small-top nav-navicon case_index_nav bg-white doc-nav" id="doc-header-pintuer" name="{$tpid}">
+						<li><a href="/Case/">All</a> </li>
+						{volist name="casetype" id="type"}
+						<li><a href="/Case{$type.typedir}">{$type.typename}</a> </li>
+					    {/volist}
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<section class="container">
+			<div class="line-big case_index_plist">
+			{volist name="caselt" id="case"}
+				<div class="xl12 xs4 xm3">
+					<a href="/Case{$type.typedir}/{if empty($case.filename)}{$case.id}{else}{$case.filename}{/if}.html"><img src="{$case.litpic}" >
+					</a>
+					<a href="/index/caselist/case_article.html?id={$case.id}"><p>{$case.title}</p></a>
+				</div>
+			{/volist}
+			</div>
+			<div class="page">
+				<ul class="pagination"> 
+					{$caselt|raw}
+				</ul>
+			</div>
+		</section>	
+
+		{include file="/common/_form" /}
+	</article>
+	
+	{include file="/common/_k_footer" /}
+			
+</body>
+<script type="text/javascript">
+	window.onload=function(){
+
+		ww = $(window).width();
+
+		list = $('.case_index_plist div');
+		len = list.length;
+		if(ww >= 1000){
+			for(var i= 1; i<len; i++){
+				n = 4*i;
+				list.eq(n-1).after('<div class="clearfix"></div>');
+			}
+		}else if(ww > 760){
+			for(var i= 1; i<len; i++){
+				n = 3*i;
+				list.eq(n-1).after('<div class="clearfix"></div>');
+			}
+		}
+		if(ww >= 760){
+			num = $('.case_index_nav').attr('name')-24;
+		$('.case_index_nav li').eq(num).children('a').addClass('ts');
+		}else{
+			num = $('.case_index_nav').attr('name')-24;
+		$('.case_index_nav li').eq(num).children('a').css('color','red');
+		}
+		
+
+	}
+
+</script>
+</html>

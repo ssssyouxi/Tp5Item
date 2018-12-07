@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>{$res.title} - Kefid Shanghai Machinery</title>
+	<meta name="keywords" content="{$res.keywords}" />
+	<meta name="description" content="{$res.description}" />
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<link rel="stylesheet" href="/css/pintuer.css">
+	<link rel="stylesheet" href="/css/font.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/news.css">
+	<link rel="stylesheet" href="/css/p-contact.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/pintuer.js"></script>
+    <script src="/js/respond.js"></script>
+    <script src="/js/news.js"></script>
+     <script src="/js/footer.js"></script>
+     <script src="/js/contact.js"></script>
+   
+</head>
+<body id="ne">
+		{include file="/common/_header_about" /}
+	<div class="nb-d ">
+		<div class="container">
+			<p><a href="/">Home</a>><a href="/News/">News</a>>{$artnew.typename}</p>
+		</div>
+	</div>
+	<div class="container service_mar">
+	<p class="news_top">&nbsp;</p>
+	<div class="line-big">
+		<article class="xs9 xm9 xb9">
+			<h1 id="news_h1" style="height:auto !important">{$res.title}</h1>
+			<div class="img-res2">
+				<section class="news_sec border-bottom " style="line-height: 1.8em;padding-bottom: 10px">
+				<p class="news_lit"><i>Posted: {$artnew.senddate|date="Y m d" }      Source: <a href="/v3/contact.html" target="_blank">Kefid Shanghai Machinery</a>         Views: {$artnew.click}</i></p>
+				<!-- <script type="text/javascript" src="//www.kefid.com/Outside/email-en.js"></script> -->
+
+				{$artnew.body|raw}
+				</section>
+			</div>
+			<div class="news_cha">
+				<p class="float-left"><i><a href="/News{$resa.typedir}/{if empty($resa.filename)}{$resa.id}{else}{$resa.filename}{/if}.html">Previous: {$resa.title}</a></i></p>
+				<p class="float-right"><i><a href="/News{$resb.typedir}/{if empty($resb.filename)}{$resb.id}{else}{$resb.filename}{/if}.html">Next: {$resb.title}</a></i></p>
+			<div class="clearfix"></div>
+			</div>
+		</article>
+		<aside class="xs3 xm3 xb3 border-left">
+			<a href="/Case/Africa/a_safrica.html"><img src="/uploads/case/Africa/3.jpg" height="270" width="253"  class="news_img_aside img-responsive"></a>
+			
+			<p></p>
+			<div>
+				<p class="news_aside_p1"><strong>RECOMMENDED PRODUCTS</strong></p>
+				<div class="news_aside">
+					<a href="/v3/Crushing-Plant/Cone-Crushers/CS-Cone-Crusher.html"><span class="news_aside_2">CS Cone Crusher</span></a>
+					<div class="clearfix"></div>
+					<a href="/v3/Crushing-Plant/Impact-Crushers/Primary-Impact-Crusher.html"><span class="news_aside_3">Primary Impact Crusher</span></a>
+					<div class="clearfix"></div>
+					<a href="/v3/Mobile-Crusher/"><span class="news_aside_2">Primary mobile crushing plant</span></a>
+					<div class="clearfix"></div>
+					<!-- <a href=""><span class="news_aside_3">Independent Operating Combined</span></a> -->
+				</div>
+			</div>
+			<div>
+				<p class="news_faq"><strong>FAQ</strong></p>
+				<div>
+					{volist name="faq" id="faqlist"}
+						<p class="news_asked"><a href="/index/news/news_article.html?id={$faqlist.id}">{$faqlist.title} ...</a></p>
+						<p class="news_que"><i>{$faqlist.senddate|date="Y m d"}</i></p>
+					{/volist}
+				</div>
+				<p class="float-right news_more"><a href="/knowledge/">MORE</a></p>
+				<div class="clearfix"></div>
+			</div>
+		</aside>
+	</div>
+</div>
+{include file="/common/_form" /}
+{include file="/common/_k_footer" /}
+{include file="/common/_left-pop-en" /}
+</body>
+<script type="text/javascript">
+	function test(){
+		document.msgForm.reset(); 
+	}
+</script>
+</html>

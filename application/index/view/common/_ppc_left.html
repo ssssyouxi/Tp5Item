@@ -1,0 +1,17 @@
+				<div class="m_l_dh">
+					<h2>Products List</h2>
+					<dl>
+                     <dt><a href="/v3/Mobile-Crusher/">Hot Products</a></dt>
+                      {volist:arclist name='ppc_list' id='pcl'}  
+	                 	<li><dd><a href='/v3/products/article/{if empty($pcl.filename)}{$pcl.id}{else}{$pcl.filename}{/if}.html'>{$pcl.title}</a></dd></li>
+                	   {/volist}
+                     <dt><a href="/v3/Mobile-Crusher/">Mobile Crushing Plant</a></dt>
+					 <dt><a href="/v3/Crushing-Plant/">Stationary Crushing Plant</a></dt>
+					 <dt><a href="/v3/Grinding-Mill/">Grinding Mill</a></dt>
+					 <dt><a href="/v3/Aggregate-Production-Line/">Aggregate Production Line</a></dt>
+					 <dt><a href="/v3/Screening-Washing/">Screening & Washing</a></dt>
+					 <dt><a href="/v3/Feeding-Conveying/">Feeding & Conveying</a></dt>
+					</dl>
+				</div>
+
+					

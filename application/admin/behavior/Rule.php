@@ -17,7 +17,7 @@ class Rule extends Controller{
 
                 // password_verify(cookie('date').cookie('user').Config::get('token'),cache(cookie('id')));
                 $res = Admin::alias('a')
-                    ->field('a.userid,a.pwd,a.usertype')
+                    ->field('a.id,a.userid,a.pwd,a.usertype')
                     ->join(Config::get('database.prefix')."admintype s",'a.usertype=s.rank')
                     ->field('s.typename')
                     ->where(['a.userid'=>cookie('user')])

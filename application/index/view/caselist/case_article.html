@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>{$caseart.title},{$caseart.typename} - Kefid Shanghai Machinery</title>
+	<meta name="keywords" content="{$caseart.keywords}" />
+	<meta name="description" content="{$caseart.description}" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<link rel="stylesheet" href="/css/pintuer.css">
+	<link rel="stylesheet" href="/css/font.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/case_article.css">
+	<link rel="stylesheet" href="/css/p-contact.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/pintuer.js"></script>
+    <script src="/js/respond.js"></script>
+    <script src="/js/footer.js"></script>
+    <script src="/js/contact.js"></script>
+     
+</head>
+<body id="ca">
+	{include file="/common/_header_about" /}
+	<div class="nb-d ">
+		<div class="container">
+
+			<p><a href="/">Home </a>> <a href="/Case/">Case</a></p>
+		</div>
+	</div>
+	<article class="container">
+		<h2 class="case_article_title case_article_tcolor_b">{$caseart.title}</h2>
+		<div class="line-big case_article_pic">
+			<div class="xl12 xs6 del_link">
+				<img src='{$caseart.bigpic}' />
+			</div>
+			<div class="xl12 xs6">
+				{$caseart.body|raw}
+				<div class="case_article_message">
+
+		<a href="javascript:void(0)" class="button bg-red radius-rounded float-left" onclick="openZoosUrl('chatwin')">Chat  online </a>
+					<a href="#bd" class="button bg-red radius-rounded">Leave a Message</a>
+				</div>
+			</div>
+		</div>
+		{$caseart.introduction|raw}
+		<dl class="case_article_dess">
+			<dt>Necessary Equipment</dt>
+			<dd class="line case_article_nec">
+				{$caseart.equip|raw}
+			</dd>
+			<dt class="">Related Case</dt>
+
+			<dd class="line-big case_article_related banner" data-pointer="1" data-interval="5"  data-small="2" data-middle="3" data-big="4">
+				<div class="carousel">
+					{volist name="list" id="alist"}
+					<div class="item xs3">
+					<a href="/index/caselist/case_article.html?id={$alist.id}"><img src="{$alist.litpic}" class="img-responsive"></a>
+					<a href="/index/caselist/case_article.html?id={$alist.id}"><p>{$alist.title}</p></a>
+					
+					</div>
+			       {/volist}
+				</div>
+			
+
+			</dd>
+		</dl>
+	</article>
+{include file="/common/_form" /}
+{include file="/common/_k_footer" /}
+		
+</body>
+<script type="text/javascript">
+	w  = $(window).width();
+
+		$('.banner').mouseenter(function(){
+		h = $('.banner img').eq(1).height();
+
+		$('.banner .pager-prev').css('top',(h/2+10)+"px");
+		$('.banner .pager-prev').css('margin-top',"0px");
+		$('.banner .pager-next').css('top',(h/2+10)+"px");
+		$('.banner .pager-next').css('margin-top',"0px");
+	});
+		if(w < 684){
+				$('.banner').mouseenter(function(){
+		h = $('.banner img').eq(1).height();
+		$('.banner .pager-prev').css('top',"45%");
+		$('.banner .pager-next').css('top',"45%");
+	});
+		}
+	document.getElementById("url").value=window.location.href;
+	$('.del_link>li>a:nth-of-type(1)').removeAttr('href');
+
+</script>
+</html>

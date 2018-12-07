@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>About Kefid - Kefid Shanghai Machinery</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<link rel="stylesheet" href="/css/pintuer.css">
+	<link rel="stylesheet" href="/css/font.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/about.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/pintuer.js"></script>
+    <script src="/js/respond.js"></script>
+    <!-- <link rel="prefetch" href="预加载的图片" /> -->
+</head>
+<body id="ab">
+
+	{include file="/common/_header_about" /}
+	<div class="nb-d ">
+		<div class="container">
+			<p><a href="/">Home </a>> <a href="/about_index.html">About Kefid</a></p>
+		</div>
+	</div>
+	<article>
+		<section class="profile">
+			<div class="container text-white">
+				<h1 class="text-center">About Kefid</h1>
+				<p><span class="new_new">Kefid Machinery Co., Ltd. is a leading and pioneering enterprise with the most advanced international level in R&D, manufacturing and selling of large-scale crushing & screening plants and industrial milling equipments.</span></p>
+
+				<p>Kefid machiney located in a historic city and transportation hub in central China-Shanghai, covering 140 thousand square meters, Kefid has Shangjie and High-tech zone two production bases. Shangjie Zone which covers 80,000 square meters has three heavy-duty and modern integrated assembling workshops-- occupying 50,000 square meters; High-tech zone has 22 floors R&D Management laboratory building with 26,000 square meters, comprehensive equipments exhibition hall with 5,100 square meters, heavy-duty and modern integrated assembling workshop with 10,000 square meters, and also has the industry's most advanced machining workshop 20,000 square meters, and hundred sets of advanced large-scale vertical lathe, fixed lathe, planner, boring lathe, grinder and milling machines.</p>
+			</div>
+		</section>
+		<section class="container about_b">
+			<h2>Honor</h2>
+			<p class="p_a">
+				Combining with the domestic and foreign market demand and the development trend, Kefid introduces the advanced international technology, adapting and applying to products manufacturing. We've gotten ISO 9001:2000 quality certificates and four national patent certificates, and there are three patents have beening reported to national IPO.
+			</p>
+			<div class="line-big about_zs">
+				<div class="xm4 xs6 xl12 text-center">
+					<img src="/uploads/about/10550RJ2-0.jpg" class="dialogs" data-toggle="click" data-target="#mydialog" data-mask="1" data-width="50%">
+				</div>
+				<div class="xm4 xs6 xl12 text-center">
+					<img src="/uploads/about/10550TP9-1.jpg" class="dialogs" data-toggle="click" data-target="#mydialog" data-mask="1" data-width="50%">
+				</div>
+				<div class="xm4 xs6 xl12 text-center">
+					<img src="/uploads/about/10550WP3-2.jpg" class="dialogs" data-toggle="click" data-target="#mydialog" data-mask="1" data-width="50%">
+				</div>
+				<div class="xm4 xs6 xl12 text-center">
+					<img src="/uploads/about/10550R4O-3.jpg" class="dialogs" data-toggle="click" data-target="#mydialog" data-mask="1" data-width="50%">
+				</div>
+				<div class="xm4 xs6 xl12 text-center">
+					<img src="/uploads/about/10550RG9-4.jpg" class="dialogs" data-toggle="click" data-target="#mydialog" data-mask="1" data-width="50%">
+				</div>
+				<div class="xm4 xs6 xl12 text-center">
+					<img src="/uploads/about/10550U0Z-5.jpg" class="dialogs" data-toggle="click" data-target="#mydialog" data-mask="1" data-width="50%">
+				</div>
+				<div class="xm4 xs6 xl12 text-center">
+					<img src="/uploads/about/10550V359-6.jpg" class="dialogs" data-toggle="click" data-target="#mydialog" data-mask="1" data-width="50%">
+				</div>
+				<div class="xm4 xs6 xl12 text-center">
+					<img src="/uploads/about/10550S4V-7.jpg" class="dialogs" data-toggle="click" data-target="#mydialog" data-mask="1" data-width="50%">
+				</div>
+				
+			</div>
+		</section>
+	</article>
+	<div id="mydialog">
+			<div class="dialog">
+		<div class="dialog-head">
+			<span class="close rotate-hover"></span>
+		</div>
+		<div class="dialog-body text-center">
+			
+			<img src="">
+		</div>
+		
+	    </div>
+	</div>
+	{include file="/common/_k_footer" /}
+			
+</body>
+<script type="text/javascript">
+	w = $(window).width();
+
+	if(w < 1000){
+		$('.about_zs img').each(function(){
+			$(this).attr('data-width','70%');
+		});
+	}
+		if(w<= 760){
+		$('.about_zs img').each(function(){
+			$(this).attr('data-width','100%');
+		});
+	}
+
+	$('.about_zs img').each(function(){
+		$(this).click(function(){
+			src = $(this).attr('src');
+			$('.dialog-body img').attr('src',src);
+		});
+		
+		
+	})
+</script>
+</html>

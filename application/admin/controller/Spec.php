@@ -43,7 +43,7 @@ class Spec extends Base
                         ->where('a.arcrank','neq','-2')
                         ->where(['delete_time'=>null])
                         ->order("senddate","desc")
-                        ->paginate(10);
+                        ->paginate(15);
         }
         $keywords = isset($keywords) ? $keywords:'';
         $this->assign("kw",$keywords);
@@ -127,7 +127,8 @@ class Spec extends Base
                     return ['code'=>0,'msg'=>'图片不存在，修改失败'];
                 }
             }else{
-                $path='';
+
+                $path=$value;
             }
             $data[$key] = $path;
         }
@@ -139,6 +140,7 @@ class Spec extends Base
         $res = Archives::where('id',input('post.id'))
                         ->strict(false)
                         ->update($data);
+
         $res1 = Db::name('addonspec')->where('aid',input('post.id'))
                             ->strict(false)
                             ->data(input("post."))
@@ -248,5 +250,21 @@ class Spec extends Base
         }else{
             return ['code'=>0,'msg'=>' '];
         }
+    }
+
+
+    //搜索模板文件
+    public function modellist(){
+        $arr = glob("../application/index/view/spec/*");
+        $res = [];
+        foreach($arr as $k =>$v){
+            if(strrpos(substr($v,-5),".htm")!==false){
+                $path =substr($v,strrpos($v,"spec/"));
+                $res[$path]['size']=substr((filesize($v)/1024),0,5)."KB";
+                $res[$path]['time']=filectime($v);
+            }    
+        }
+        $this->assign("res",$res);
+        return $this->fetch(); 
     }
 }

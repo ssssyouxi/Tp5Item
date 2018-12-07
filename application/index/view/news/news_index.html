@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>News - Kefid Shanghai Machinery</title>
+	<meta name="keywords" content="News" />
+	<meta name="description" content="As a professional and experienced manufacturer of mobile crusher,jaw crusher,cone crusher,impact crusher,ball mill,super fine mill and vertical mill,Kefid not only provide outstanding quality machine,but also offer complete business solution to you." />
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<link rel="stylesheet" href="/css/pintuer.css">
+	<link rel="stylesheet" href="/css/font.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/news.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/pintuer.js"></script>
+    <script src="/js/respond.js"></script>
+    <script src="/js/news.js"></script>
+    
+    <!-- <link rel="prefetch" href="预加载的图片" /> -->
+</head>
+<body id="ne">
+	{include file="/common/_header_about" /}
+	<div class="nb-d ">
+		<div class="container">
+			<p><a href="/">Home</a>>News</p>
+		</div>
+	</div>
+<div class="container service_mar">
+	<p class="news_top">&nbsp;</p>
+	<div class="line-big">
+		<article class="xs9 xm9 xb9 ">
+			<a href="/News/company/"><h1>Company News</h1></a>
+			
+			<div>
+				<section class="border-bottom">
+					<div class="line-big">
+					{volist name="companypic" id="compic"}
+					<div class="xm12 xb6">
+							<a href="/News/company/{if empty($compic.filename)}{$compic.id}{else}{$compic.filename}{/if}.html" target="_blank"><img src="{$compic.litpic}"  class="block news_img img-responsive" alt="{$compic.title}" /></a>
+						</div>
+						
+						<div class="xm12 xb6  news_title">
+							<p class="news_tit1"><a href="/News/company/{if empty($compic.filename)}{$compic.id}{else}{$compic.filename}{/if}.html" target="_blank">{$compic.title}</a></p>
+							<p class="news_tit2"><i>{$compic.senddate|date="Y m d"} Click:{$compic.click}</i></p>
+							<p class="news_tit3">{$compic.description}...</p>
+						</div>
+					{/volist}
+					</div>
+					<div class="clearfix"></div>
+					<div class="news_hid">
+					{volist name="company" id="cmlist"}	
+						<div>
+							<p class="news_tit4"><b><a href="/News/company/{if empty($cmlist.filename)}{$cmlist.id}{else}{$cmlist.filename}{/if}.html">{$cmlist.title}</a></b></p>
+							<p class="news_tit5"><i>{$cmlist.senddate|date="Y m d"} Click:{$cmlist.click}</i></p>
+							<p class="news_tit6">{$cmlist.description}...</p>
+						</div>
+					{/volist}
+						<p class="float-right news_more"><a href="/News/company" id="more">MORE</a></p>
+						<div class="clearfix"></div>
+					</div>
+				</section>
+				<section class="border-bottom">
+				<a href="/News/industry/"><h1>Industry News</h1></a>
+					
+					<div class="line-big">
+							{volist name="industrypic" id="indpic"}
+							<div class="xm12 xb6">
+									<a href="/News/industry/{if empty($indpic.filename)}{$indpic.id}{else}{$indpic.filename}{/if}.html"><img src="{$indpic.litpic}"  class="block news_img img-responsive" alt="{$indpic.title}" /></a>
+								</div>
+								
+								<div class="xm12 xb6  news_title">
+									<p class="news_tit1"><a href="/News/industry/{if empty($indpic.filename)}{$indpic.id}{else}{$indpic.filename}{/if}.html">{$indpic.title}</a></p>
+									<p class="news_tit2"><i>{$indpic.senddate|date="Y m d"} Click:{$indpic.click}</i></p>
+									<p class="news_tit3">{$indpic.description}...</p>
+								</div>
+							{/volist}
+					</div>
+					<div class="clearfix"></div>
+					<div class="news_hid">
+							{volist name="industry" id="inlist"}	
+							<div>
+								<p class="news_tit4"><b><a href="/News/industry/{if empty($inlist.filename)}{$inlist.id}{else}{$inlist.filename}{/if}.html">{$inlist.title}</a></b></p>
+								<p class="news_tit5"><i>{$inlist.senddate|date="Y m d"} Click:{$inlist.click}</i></p>
+								<p class="news_tit6">{$inlist.description}...</p>
+							</div>
+						{/volist}
+						<p class="float-right news_more"><a href="/News/industry/">MORE</a></p>
+						<div class="clearfix"></div>
+					</div>
+				</section>
+
+
+				<section class="border-bottom">
+					<a href="/special/"><h1>Focus</h1></a>
+						<div class="line-big">
+								    <div class="xm12 xb6">											
+										<a href="/special/{$focuspic.templet}.html"><img src="{$focuspic.litpic}"  class="block news_img img-responsive" alt="{$focuspic.title}" /></a>
+									</div>
+									<div class="xm12 xb6  news_title">
+										<p class="news_tit1"><a href="/special/{$focuspic.templet}.html">{$focuspic.title}</a></p>
+										<p class="news_tit2"><i>{$focuspic.senddate|date="Y m d"} Click:{$focuspic.click}</i></p>
+										<p class="news_tit3">{$focuspic.description}...</p>
+									</div>
+						</div>
+					</section>
+
+
+
+					<section class="border-bottom">
+				<a href="/News/knowledge/"><h1>Product Knowledge</h1></a>
+					
+					<div class="line-big">
+							{volist name="Knowledgepic" id="knopic"}
+							<div class="xm12 xb6">
+									<a href="/News/knowledge/{if empty($knopic.filename)}{$knopic.id}{else}{$knopic.filename}{/if}.html"><img src="{$knopic.litpic}"  class="block news_img img-responsive" alt="{$knopic.title}" /></a>
+								</div>
+								
+								<div class="xm12 xb6  news_title">
+									<p class="news_tit1"><a href="/News/knowledge/{if empty($knopic.filename)}{$knopic.id}{else}{$knopic.filename}{/if}.html">{$knopic.title}</a></p>
+									<p class="news_tit2"><i>{$knopic.senddate|date="Y m d"} Click:{$knopic.click}</i></p>
+									<p class="news_tit3">{$knopic.description}...</p>
+								</div>
+							{/volist}
+					</div>
+					<div class="clearfix"></div>
+					<div class="news_hid">
+							{volist name="Knowledge" id="knolist"}	
+							<div>
+								<p class="news_tit4"><b><a href="/News/knowledge/{if empty($knolist.filename)}{$knolist.id}{else}{$knolist.filename}{/if}.html">{$knolist.title}</a></b></p>
+								<p class="news_tit5"><i>{$knolist.senddate|date="Y m d"} Click:{$knolist.click}</i></p>
+								<p class="news_tit6">{$knolist.description}...</p>
+							</div>
+						{/volist}
+						<p class="float-right news_more"><a href="/News/knowledge/">MORE</a></p>
+						<div class="clearfix"></div>
+					</div>
+				</section>
+			</div>
+		</article>
+		<aside class="xs3 xm3 xb3 border-left">
+			<a href="/Case/Africa/a_safrica.html"><img src="/uploads/case/Africa/3.jpg" height="270" width="253" class="news_img_aside img-responsive"></a>
+			
+			<p></p>
+			<div>
+				<p class="news_aside_p1"><strong>RECOMMENDED PRODUCTS</strong></p>
+				<div class="news_aside">
+					<a href="/v3/Crushing-Plant/Cone-Crushers/CS-Cone-Crusher.html"><span class="news_aside_2">CS Cone Crusher</span></a>
+					<div class="clearfix"></div>
+					<a href="/v3/Crushing-Plant/Impact-Crushers/Primary-Impact-Crusher.html"><span class="news_aside_3">Primary Impact Crusher</span></a>
+					<div class="clearfix"></div>
+					<a href="/v3/Mobile-Crusher/"><span class="news_aside_2">Primary mobile crushing plant</span></a>
+					<div class="clearfix"></div>
+					<!-- <a href=""><span class="news_aside_3">Independent Operating Combined</span></a> -->
+				</div>
+			</div>
+			<div>
+				<p class="news_faq"><strong>FAQ</strong></p>
+				<div>
+				{volist name="faq" id="faqlist"}
+					<p class="news_asked"><a href="/News/knowledge/{if empty($faqlist.filename)}{$faqlist.id}{else}{$faqlist.filename}{/if}.html">{$faqlist.title} ...</a></p>
+					<p class="news_que"><i>{$faqlist.senddate|date="Y m d"}</i></p>
+				{/volist}
+				</div>
+				<p class="float-right news_more"><a href="/News/knowledge/">MORE</a></p>
+				<div class="clearfix"></div>
+			</div>
+		</aside>
+	</div>
+</div>
+
+{include file="/common/_k_footer" /}
+		{include file="/common/_left-pop-en" /}
+</body>
+</html>

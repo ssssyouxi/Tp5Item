@@ -1,0 +1,13 @@
+$(document).ready(function(){
+
+$("#h_m_product").hoverIntent(function (){$("#h_m_product").addClass("on");$("#sub_menu").slideDown(200);},function(){if($("#h_m_product").hasClass("on")){$("#h_m_product").removeClass("on")}$("#sub_menu").hide(0);});
+$("#h_m_solutions").hoverIntent(function (){$("#h_m_solutions").addClass("on");$("#solutions_list").slideDown(200);},function(){if($("#h_m_solutions").hasClass("on")){$("#h_m_solutions").removeClass("on")}$("#solutions_list").hide(0);});
+$("#h_m_case").hoverIntent(function (){$("#h_m_case").addClass("on");$("#case_list").slideDown(200);},function(){if($("#h_m_case").hasClass("on")){$("#h_m_case").removeClass("on")}$("#case_list").hide(0);});
+$("#language").hoverIntent(function (){$("#sbu_language").slideDown(200);},function(){$("#sbu_language").hide(0);});
+
+});
+
+(function($){$.fn.hoverIntent=function(f,g){var cfg={sensitivity:7,interval:100,timeout:0};cfg=$.extend(cfg,g?{over:f,out:g}:f);var cX,cY,pX,pY;var track=function(ev){cX=ev.pageX;cY=ev.pageY;};var compare=function(ev,ob){ob.hoverIntent_t=clearTimeout(ob.hoverIntent_t);if((Math.abs(pX-cX)+Math.abs(pY-cY))<cfg.sensitivity){$(ob).unbind("mousemove",track);ob.hoverIntent_s=1;return cfg.over.apply(ob,[ev]);}else{pX=cX;pY=cY;ob.hoverIntent_t=setTimeout(function(){compare(ev,ob);},cfg.interval);}};var delay=function(ev,ob){ob.hoverIntent_t=clearTimeout(ob.hoverIntent_t);ob.hoverIntent_s=0;return cfg.out.apply(ob,[ev]);};var handleHover=function(e){var p=(e.type=="mouseover"?e.fromElement:e.toElement)||e.relatedTarget;while(p&&p!=this){try{p=p.parentNode;}catch(e){p=this;}}if(p==this){return false;}var ev=jQuery.extend({},e);var ob=this;if(ob.hoverIntent_t){ob.hoverIntent_t=clearTimeout(ob.hoverIntent_t);}if(e.type=="mouseover"){pX=ev.pageX;pY=ev.pageY;$(ob).bind("mousemove",track);if(ob.hoverIntent_s!=1){ob.hoverIntent_t=setTimeout(function(){compare(ev,ob);},cfg.interval);}}else{$(ob).unbind("mousemove",track);if(ob.hoverIntent_s==1){ob.hoverIntent_t=setTimeout(function(){delay(ev,ob);},cfg.timeout);}}};return this.mouseover(handleHover).mouseout(handleHover);};})(jQuery);
+
+
+//if(document.documentElement.clientWidth>900){document.write('<div style="width:980px;margin:auto;text-align:left;padding-bottom:8px;"><div style="position:fixed;top:0px;_position:absolute;_top:0px;"><a href="http://www.kefidchina.com/christmas/" target="_blank"><img src="/christmas/2013.gif" border="0" with="980"></a></div></div>');}

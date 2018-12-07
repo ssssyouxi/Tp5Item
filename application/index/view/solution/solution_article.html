@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>{$artpro.title} - Kefid Shanghai Machinery</title>
+	<meta name="keywords" content="{$artpro.keywords}" />
+	<meta name="description" content="{$artpro.description}" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<link rel="stylesheet" href="/css/pintuer.css">
+	<link rel="stylesheet" href="/css/font.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/solution_article.css">
+	<link rel="stylesheet" href="/css/p-contact.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/pintuer.js"></script>
+    <script src="/js/respond.js"></script>
+     <script src="/js/contact.js"></script>
+
+</head>
+<body id="so">
+	
+		{include file="/common/_header_about" /}
+	<div class="nb-d ">
+		<div class="container">
+			<p><a href="/">Home</a>>Solution > {$artpro.title}</p>
+		</div>
+	</div>
+	<article class="container">
+		<div class="line-big">
+			<!--锚点起点-->
+			<section class="sec_1">
+				<h1 class="xl12 xs12 xm5"><b>{$artpro.title}</b></h1>
+				<div class="xl12 xs12 xm7 sma">
+					<ul class="solution_mao">
+					<li><p><a href="#">Intro</a></p></li>
+					<li><p><a href="#">Crushing Processing Flow </a></p></li>
+					<li><p><a href="#">Necessary Equipments</a></p></li>
+					<li><p><a href="#">Application</a></p></li>
+					</ul>
+				</div>
+				
+				<div class="clearfix"></div>
+			</section>
+			</div></article>
+			
+			<div class="solution_intro">
+			<article class="container bg1 ">
+		<div class="line-big">
+			<!--intro-->
+			<section class=" sec_2" id="intro">
+					{$artpro.intro|raw}
+				<div class="clearfix"></div>
+			</section></div></article></div>
+	<article class="container">
+		<div class="line-big">
+			<!--crushing-->
+			<section class="sec_3" id="crushing">
+				<div class=""><h2>Crushing Processing Flow</h2></div>
+				{$artpro.crushing|raw}
+				<div class="clearfix"></div>
+			</section>
+			<!--equip-->
+			<section class="sec_5" id="necessary">
+				<div class="">
+					<h2>Necessary Equipments</h2>
+				</div>
+				{$artpro.equip|raw}
+				<div class="clearfix"></div>
+			</section>
+			<!--appli-->
+			<section class="sec_4" id="app">
+				<div class=""><h2>Application</h2></div>
+				<div class="line-big">
+					{$artpro.appli|raw}
+				</div>
+				
+				<div class="clearfix"></div>
+			</section>
+		</div>
+		{include file="/common/_form" /}
+	
+	</article>
+	{include file="/common/_k_footer" /}
+	{include file="/common/_left-pop-en" /}
+</body>
+<script>
+		$(".sma ul li").click(function(){
+			var far=$(this).index()+1;
+			$("body").animate({scrollTop: $(".line-big section").eq(far).position().top-50}, 1000);
+		})
+		$('#intro h2').html('');
+</script>
+</html>

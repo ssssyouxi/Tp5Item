@@ -6,7 +6,7 @@
 <meta name="keywords" content="H-ui.admin v3.0,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
 <meta name="description" content="H-ui.admin v3.0，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 <script type="text/javascript" src="/lib/ueditor/1.4.3/ueditor.config.js"></script>
-<script type="text/javascript" src="/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<script type="text/javascript" src="/lib/ueditor/1.4.3/ueditor.all.js"> </script>
 <script type="text/javascript" src="/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
 </head>
 
@@ -102,7 +102,108 @@
 			</div>
 			<input type="hidden" id="editValue" name="body" value="{$news.body}"/>
 		</div> -->
-			{$res|raw}
+
+			{foreach $res as $k => $v}
+				{php} $a = isset($news[$v['field']]) ? $news[$v['field']] : '';{/php}
+				{switch $v['type']}
+					{case htmltext}
+						<div class='row cl'>
+							<label class='form-label col-xs-4 col-sm-2'>{$v['itemname']}：</label>
+							<div class='formControls col-xs-8 col-sm-9'> 
+								<script id='editor_{$v.field}' type='text/plain' name='{$v.field}'  style='width:100%;height:400px;'></script> 
+						</div>
+						<input type='hidden' id='{$v.field}'  value='{$a}'/>
+						</div>
+						<script>
+							var ue_{$v.field} = UE.getEditor('editor_{$v.field}');
+							ue_{$v.field}.addListener('ready',function () {  
+								ue_{$v.field}.setContent($('#{$v.field}').val());
+							});
+						</script>
+					{/case}
+					{case text|int|softlinks|number}
+						<div class='row cl'>
+							<label class='form-label col-xs-4 col-sm-2'>{$v['itemname']}：</label>
+							<div class='formControls col-xs-8 col-sm-9'>
+								<input type='text' class='input-text' value='{$a}' placeholder='' id='' name='{$v.field}'>
+							</div>
+						</div>
+					{/case}
+					{case imgfile}
+						<div class='row cl'>
+							<label class='form-label col-xs-4 col-sm-2'>{$v['itemname']}：</label>
+							<div class='formControls col-xs-8 col-sm-9'>
+								<div class='uploader-thum-container'>
+									<div id='' class='uploader-list'>
+										
+										<img src='{$a}' alt='' >
+										
+										<input type='file' name='{$v.field}' class='singleimg' id='{$v.field}' style='display:none' />
+										<div class='btn btn-primary radius' type='button' value='上传图片' onclick=document.getElementById('{$v.field}').click()  ></div>
+										
+									</div>
+								</div>
+							</div>
+						</div>
+					{/case}
+					{case img}
+						{if $a}
+							{php} $z = stristr($a,'dede:');{/php}
+							{if $z }
+								{php}
+									preg_match_all("/{[^}]*}([^{]*){\/[^}]*}/",$a,$r);
+									$c = '';	
+								{/php}
+								{foreach $r['1'] as $key => $value}
+									{php}
+										$c.="<img src='".$value."' class='many' data-id=".$v['field']." data-src='".$value."' onclick='removeimg($(this))' style='width: 20%;max-width: 150px'/>";
+									{/php}
+								{/foreach}
+							{else/}
+								{php}
+									$c = '';
+									$arr = explode(",",$a);
+								{/php}
+								{foreach $arr as $key => $value}
+									{php}
+										$c.="<img src='".$value."' class='many' data-id=".$v['field']." data-src='".$value."' onclick='removeimg($(this))' style='width: 20%;max-width: 150px'/>";
+									{/php}
+								{/foreach}
+							{/if}
+						{else/}
+							{php}$c = $a;{/php}
+						{/if}
+						<div class='row cl'>
+							<label class='form-label col-xs-4 col-sm-2'>{$v['itemname']}(一张或多张)：</label>
+							<div class='formControls col-xs-8 col-sm-9'>
+
+								{$c|raw}
+								<input type='file' name='{$v.field}[]' class='manyimg' id='{$v.field}' style='display:none' />
+								<div type='button' class='btn btn-primary radius' onclick=document.getElementById('{$v.field}').click() >点击上传</div>
+								
+							</div>
+						</div>
+					{/case}
+					{case addon}
+						<div class='row cl'>
+							<label class='form-label col-xs-4 col-sm-2'>{$v['itemname']}：</label>
+							<div class='formControls col-xs-8 col-sm-9'>
+								<input type='text' class='input-text' value='{$a}' placeholder='' id='' name='{$v.field}'>
+							</div>
+						</div>
+					{/case}
+					{case multitext}
+					<div class='row cl'>
+						<label class='form-label col-xs-4 col-sm-2'>{$v['itemname']}：</label>
+						<div class='formControls col-xs-8 col-sm-9'>
+							<textarea  class='textarea' placeholder='说点什么...最少输入10个字符'  placeholder='' id='' name='{$v.field}'>{$a}</textarea>
+						</div>
+					</div>
+					{/case}
+					{default /}
+					{$v['itemname']}
+				{/switch}
+			{/foreach}
 			<div class="row cl">
 				<label class="form-label col-xs-4 col-sm-2">自定义文件名：</label>
 				<div class="formControls col-sm-4">

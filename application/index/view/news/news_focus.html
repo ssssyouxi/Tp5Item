@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Focus - Kefid Shanghai Machinery</title>
+	<meta name="keywords" content="Focus" />
+	<meta name="description" content="As a professional and experienced manufacturer of mobile crusher,jaw crusher,cone crusher,impact crusher,ball mill,super fine mill and vertical mill,Kefid not only provide outstanding quality machine,but also offer complete business solution to you" />
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<link rel="stylesheet" href="/css/pintuer.css">
+	<link rel="stylesheet" href="/css/font.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/news.css">
+	<link rel="stylesheet" href="/css/hl.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/pintuer.js"></script>
+    <script src="/js/respond.js"></script>
+    <script src="/js/news.js"></script>
+     <script src="/js/footer.js"></script>
+     <style>
+		.xs4 p{
+			border-bottom: 2px solid #aaa;
+			color: #aaa;
+			line-height: 26px;
+		}
+		.xs4:hover p{
+			color: #de2b00;
+			border-bottom-color: #de2b00;
+		}
+		@media(max-width: 759px){
+			.disn{
+				display: none;
+			}
+			.img-max{
+				width: 100%;
+			}
+		}
+     </style>
+   
+</head>
+<body id="ne">
+	{include file="/common/_header_about" /}
+	<div class="nb-d ">
+		<div class="container">
+			<p><a href="/">Home</a>><a href="/News/">News</a>>{$newid.typename}</p>
+		</div>
+	</div>
+	<div class="container service_mar">
+	<p class="news_top">&nbsp;</p>
+	<div class="line-big">
+		<article class="xs9 xm9 xb9 ">
+			<h1><a href="/focus/">{$newid.typename}</a> </h1>
+			
+				<section>
+					<div class="line-big disn">						
+					    <div class="xm12 xb6">
+							<a href="/special/{$spec.templet}.html"><img src="{$spec.litpic}"  class="block news_img img-responsive" alt="{$spec.title}" /></a>
+						</div>
+						<div class="xm12 xb6  news_title">
+							<p class="news_tit1"><a href="/special/{$spec.templet}.html">{$spec.title}</a></p>
+							<p class="news_tit5"><i>{$spec.senddate|date="Y m d"} Click:{$spec.click}</i></p>
+							<p class="news_tit3">{$spec.description}...</p>
+							<p class="focus1"><a href="/special/{$spec.templet}.html" style="color:#da3003">&gt;&gt;LEARN MORE</a></p>
+						</div>
+					</div>
+					<p class="disn">&nbsp;</p>
+					<div class="line-big">
+					{volist name="hui" id="focus"}
+						<a href="/special/{$focus.templet}.html">
+						<div class="xs4">
+							<img src="{$focus.litpic}" class="img-responsive img-max" alt="{$focus.title}">
+							<p >{$focus.shorttitle}...</p>
+						</div></a>
+						{/volist}
+					</div>
+					<ul class="pagination">
+						{$page|raw}					
+					</ul>
+				</section>
+		</article>
+		<aside class="xs3 xm3 xb3 border-left">
+			<a href="/Case/Africa/a_safrica.html"><img src="/uploads/case/Africa/3.jpg" height="270" width="253" class="news_img_aside img-responsive"></a>
+			
+			<p></p>
+			<div>
+				<p class="news_aside_p1">RECOMMENDED PRODUCTS</p>
+				<div class="news_aside">
+					<a href="/v3/Crushing-Plant/Cone-Crushers/CS-Cone-Crusher.html"><span class="news_aside_2">CS Cone Crusher</span></a>
+					<div class="clearfix"></div>
+					<a href="/v3/Crushing-Plant/Impact-Crushers/Primary-Impact-Crusher.html"><span class="news_aside_3">Primary Impact Crusher</span></a>
+					<div class="clearfix"></div>
+					<a href="/v3/Mobile-Crusher/"><span class="news_aside_2">Primary mobile crushing plant</span></a>
+					<div class="clearfix"></div>
+					<!-- <a href=""><span class="news_aside_3">Independent Operating Combined</span></a> -->
+				</div>
+			</div>
+			<div>
+				<p class="news_faq"><strong>FAQ</strong></p>
+				<div>
+						{volist name="faq" id="faqlist"}
+						<p class="news_asked"><a href="/knowledge/{if empty($faqlist.filename)}{$faqlist.id}{else}{$faqlist.filename}{/if}.html">{$faqlist.title} ...</a></p>
+						<p class="news_que"><i>{$faqlist.senddate|date="Y m d"}</i></p>
+					{/volist}
+				</div>
+				<p class="float-right news_more"><a href="/knowledge/">MORE</a></p>
+				<div class="clearfix"></div>
+			</div>
+		</aside>
+	</div>
+</div>
+{include file="/common/_k_footer" /}
+		{include file="/common/_left-pop-en" /}
+</body>
+</html>

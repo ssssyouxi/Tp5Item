@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Crushing Solutions Bring Success to Business - Kefid Shanghai Machinery</title>
+	<meta name="keywords" content="Crushing Solutions,iron ore beneficition line,dolomite processing line" />
+	<meta name="description" content="Crushing Solutions Bring Success to Business,Crushing Solutions,iron ore beneficition line,dolomite processing line" />
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<link rel="stylesheet" href="/css/pintuer.css">
+	<link rel="stylesheet" href="/css/font.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/solution.css">
+	<link rel="stylesheet" href="/css/p-contact.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/pintuer.js"></script>
+    <script src="/js/respond.js"></script>
+    <script src="/js/solution.js"></script>
+    <script src="/js/contact.js"></script>
+  
+    <!-- <link rel="prefetch" href="预加载的图片" /> -->
+</head>
+<body id="so">
+	{include file="/common/_header_about" /}
+	<div class="nb-d ">
+		<div class="container">
+			<p><a href="/">Home</a>>Solution</p>
+		</div>
+	</div>
+	<article class="container">
+		<section>
+			<h1 class="text-center">KEFID’s  Crushing Solutions Bring Success to Business</h1>
+			<p class="text-center solution_sma">Kefid recommends you the most suitable production line to meet the customers' different requirements to the full. </p>
+			<p class="text-center solution_sma">We can give you stone crushing production line, sand making production line and grinding production line.</p>
+			<div class="line-big">
+			{volist name="solutionlist" id="list"}
+			<div class="xl6 xs4 xm4 xb3 solution_div">
+					<a href="/solutions/{if empty($list.filename)}{$list.id}{else}{$list.filename}{/if}.html" title="{$list.title}" target="_blank">
+					<img src="{$list.litpic}" alt="{$list.title}" width="170" height="100"  class="img-responsive"/>
+					<div class="solution_flo">
+						<p class="text-center">{$list.title}</p>
+					</div>
+					</a>
+			</div>
+		 	{/volist}
+			</div>
+		</section>
+						<!-- 表单 -->
+	{include file="/common/_form" /}
+	</article>
+	{include file="/common/_k_footer" /}
+			{include file="/common/_left-pop-en" /}
+</body>
+<script type="text/javascript">
+	function test(){
+		document.msgForm.reset(); 
+	}
+</script>
+</html>
