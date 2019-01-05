@@ -17,6 +17,9 @@ class Caselist extends Base
         ->paginate(16);
         foreach($caselt as $typedir => $value);
         $page = $caselt->render();
+        // $page = str_replace("?page=","/list_24_",$page);
+        dump($page);
+        exit;
         $this->assign("caselt",$caselt);
         $this->assign("page",$page);
         $this->casetype();

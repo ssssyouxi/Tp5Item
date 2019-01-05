@@ -31,7 +31,7 @@ Class login extends Controller{
 
         // dump(input("post."));
         $res = Admin::alias('a')
-                    ->field('a.id,a.userid,a.pwd,a.usertype')
+                    ->field('a.id,a.userid,a.pwd,a.usertype,a.uname')
                     ->join(Config::get('database.prefix')."admintype s",'a.usertype=s.rank')
                     ->field('s.typename')
                     ->where(
@@ -75,6 +75,7 @@ Class login extends Controller{
             session('userid',$user);
             session('usertype',$res['usertype']);
             session('typename',$res['typename']);
+            session('uname',$res['uname']);
             $this->success('登陆成功，即将进入管理首页', '/admin/index');
         }else{
             $this->error('账号/密码错误，请重新登录');

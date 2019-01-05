@@ -26,9 +26,7 @@ class News extends Base
 
     //列表页
     public function listall(){
-        if(input('?get.kw')){
-            $keywords = input('get.kw');
-            $artlist = Db::name("archives")
+        $artlist = Db::name("archives")
                             ->alias('a')
                             ->field('a.id,title,typeid,writer,senddate,click')
                             ->join(Config::get('database.prefix').'arctype t',' t.id = a.typeid')
@@ -36,20 +34,19 @@ class News extends Base
                             ->order('a.id','desc')
                             ->where(['delete_time'=>null])
                             ->where('a.arcrank','neq','-2')
-                            ->where('a.channel','neq',"-1")
+                            ->where('a.channel','neq',"-1");
+        if(session("usertype")<10 ){
+            $uname = Db::name('admin')->field('uname')->where('id',cookie('id'))->find();
+            $artlist = $artlist->where('a.writer',$uname['uname']);
+        };
+        if(input('?get.kw')){
+            $keywords = input('get.kw');
+            $artlist = $artlist
                             ->where('a.title','like',"%$keywords%")
                             ->paginate(10,false,['query'=>['kw'=>input("get.kw")]]);
                             
         }else{
-            $artlist = Db::name("archives")
-                            ->alias('a')
-                            ->field('a.id,title,typeid,writer,senddate,click')
-                            ->join(Config::get('database.prefix').'arctype t',' t.id = a.typeid')
-                            ->field('typename')
-                            ->order('a.id','desc')
-                            ->where('a.channel','neq',"-1")
-                            ->where(['delete_time'=>null])
-                            ->where('a.arcrank','neq','-2')
+            $artlist = $artlist
                             ->paginate(10);
         }
         $keywords = isset($keywords) ? $keywords:'';
@@ -83,8 +80,13 @@ class News extends Base
                         ->order('s.id','desc')
                         ->where('a.typeid',input('get.id'))
                         ->where('delete_time',null)
-                        ->where('s.arcrank','neq','-2')
-                        ->paginate(10,false,['query'=>['id'=>input("get.id")]]);
+                        ->where('s.arcrank','neq','-2');
+        if(session('usertype')<10){
+            $uname = Db::name('admin')->field('uname')->where('id',cookie('id'))->find();
+            $artlist = $artlist->where('s.writer',$uname['uname']);
+        };
+        
+        $artlist = $artlist->paginate(10,false,['query'=>['id'=>input("get.id")]]);
         $this->assign("arctype",input("get.id"));
         $this->assign("typename",$channeltype['typename']);
         $count = $artlist->total();
@@ -97,6 +99,7 @@ class News extends Base
 
     //增加新闻-新文档
     public function add($typeid,$channel=-2){
+        dump(cookie('id'));
         $weight = (Archives::max('weight'))+1;
         $arcatt = Arcatt::select();
         if($channel==-2){

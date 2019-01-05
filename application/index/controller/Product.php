@@ -122,6 +122,34 @@ class Product extends Base
         return $this->menu();
         return $this->fetch();   
     }
+
+
+    //测试
+    public function sta_type(Request $request){
+        $type = str_replace("-"," ",input("type"));
+        $typeid = [
+            "Jaw Crushers"=> "3",
+            "Impact Crushers"=>"4",
+            "Cone Crushers"=>"5",
+            "VSI Crushers"=>"6"
+        ];
+        
+        $res = Db::view('sh_addonimages18','*')
+        ->view('sh_archives','*','sh_addonimages18.aid=sh_archives.id')
+        ->view('sh_arctype','typename,typedir','sh_addonimages18.typeid = sh_arctype.id')
+        ->where(['sh_addonimages18.typeid'=>$typeid[$type],'arcrank'=>0])
+        ->select(); 
+        if(!$res){
+            abort(404, '页面异常');
+            // return view(Env::get('app_path') . 'index/404.html',404);
+        }
+        $this->assign("res",$res);
+        $this->casetype(); 
+        $this->menu();
+        return $this->fetch();   
+    }
+
+
     public function grindingmill_list(){
         $this->casetype(); 
         $this->newstype(); 

@@ -162,18 +162,21 @@ class News extends Base
           ->find();
           $id=$res['id'];
         }
-
+        dump($id);
         // $resa = Db::name('archives')
         // ->where('id', $id-1)
         // ->find();
         // $resb = Db::name('archives')
         // ->where('id', $id+1)
         // ->find();
+        
         $artnew = Db::view('sh_addonarticle','*')
         ->view('sh_archives','*','sh_addonarticle.aid=sh_archives.id')
         ->view('sh_arctype','typename','sh_addonarticle.typeid = sh_arctype.id')
         ->where('sh_addonarticle.aid',$id)
         ->find(); 
+
+        
         if(!$artnew['title']){
             abort(404, '页面异常');
             // return view(Env::get('app_path') . 'index/404.html',404);
